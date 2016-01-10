@@ -58,7 +58,7 @@
 #define fmax(a,b) ( (a) > (b) ? (a) : (b) )
 #define fmin(a,b) ( (a) < (b) ? (a) : (b) )
 
-typedef int    bool;
+typedef int    bool_;
 #define false  0
 #define true   1
 
@@ -77,7 +77,7 @@ typedef int    bool;
 #define fmax(a,b) ( (a) > (b) ? (a) : (b) )
 #define fmin(a,b) ( (a) < (b) ? (a) : (b) )
 
-typedef int    bool;
+typedef int    bool_;
 #define false  0
 #define true   1
  

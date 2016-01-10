@@ -262,7 +262,7 @@ int PMR_comm_eigvals(MPI_Comm comm, int *nz, int *ifirst, double *W);
 /* LAPACK and BLAS function prototypes
  * Note: type specifier 'extern' does not matter in declaration
  * so here used to mark routines from LAPACK and BLAS libraries */
-extern void pmrrr_dscal(int*, double*, double*, int*);
+extern void odscl_(int*, double*, double*, int*);
 
 extern double odnst_(char*, int*, double*, double*);
 extern void   odrrr_(int*, double*, double*, int*);

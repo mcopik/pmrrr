@@ -1,5 +1,5 @@
-CC  = mpicc
-LD  = mpicc
+CC  = mpiicpc
+LD  = mpiicpc
 
 CFLAGS   = -Wall -g -pthread
 LDFLAGS  = -D_THREAD_SAFE=1 -pthread
@@ -12,8 +12,9 @@ LDFLAGS  = -D_THREAD_SAFE=1 -pthread
 MPIFLAGS =
 
 INCPATH = ../../INCLUDE
-LIBPATH = ../../LIB $(HOME)/libs/lapack-3.2.2
-LIBS = pmrrr lapack_gnu_LINUX blas_gnu_LINUX gfortran m pthread rt
+LIBPATH = ../../LIB 
+LIBS = pmrrr gfortran m pthread rt
+
 
 ######################## do not edit below ###########################
 

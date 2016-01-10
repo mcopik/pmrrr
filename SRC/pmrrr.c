@@ -588,6 +588,7 @@ void invscale_eigenvalues(val_t *Wstruct, double scale,
     *vu *= invscale;
     odscl_(&size, &invscale, W, &IONE);
   }
+
 }
 
 
