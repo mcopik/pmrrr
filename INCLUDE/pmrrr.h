@@ -291,7 +291,7 @@ extern void   odrrf_(int*, double*, double*, double*, int*, int*,
 		      double*, int*);
 extern void   odr1v_(int*, int*, int*, double*, double*, double*, 
 		      double*, double*, double*, double*, double*, 
-		      bool*, int*, double*, double*, int*, int*, 
+		      int*, int*, double*, double*, int*, int*, 
 		      double*, double*, double*, double*);
 extern void   odrrj_(int*, double*, double*, int*, int*, double*, 
 		      int*, double*, double*, double*, int*, double*, 

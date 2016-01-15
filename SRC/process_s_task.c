@@ -92,7 +92,7 @@ int PMR_process_s_task(singleton_t *sng, int tid, proc_t *procinfo,
   double           tol, lambda, left, right;
   int              i_local, zind;
   double           gap, lgap, rgap, gaptol, savedgap, tmp;
-  bool             usedBS, usedRQ, needBS, wantNC, step2II;
+  int             usedBS, usedRQ, needBS, wantNC, step2II;
   int              r, offset;
   double           twoeps = 2*DBL_EPSILON, RQtol = 2*DBL_EPSILON;
   double           residual, bstres, bstw; 
