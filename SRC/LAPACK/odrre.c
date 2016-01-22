@@ -6,7 +6,7 @@
 #include <math.h>
 #include <float.h>
 #include <assert.h>
-
+#include "pmrrr.h"
 /* Table of constant values */
 static int c__1 = 1;
 static int c__2 = 2;
@@ -50,8 +50,8 @@ int odrre_(char *range, int *n, double *vl,
     double avgap, sigma;
     extern int olsame_(char *, char *);
     int iinfo;
-    extern /* Subroutine */ int odcpy_(int *, double *, int *, 
-	    double *, int *);
+//    extern /* Subroutine */ int odcpy_(int *, double *, int *, 
+//	    double *, int *);
     long double norep;
     extern /* Subroutine */ int odsq2_(int *, double *, int *);
     // extern double odmch_(char *);

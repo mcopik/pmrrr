@@ -6,6 +6,7 @@
 #include <math.h>
 #include <float.h>
 #include <assert.h>
+#include "pmrrr.h"
 
 #define imax(a,b) ( (a) > (b) ? (a) : (b) )
 #define imin(a,b) ( (a) < (b) ? (a) : (b) )
@@ -47,8 +48,8 @@ static int c__2 = 2;
     int wend, iter;
     double bstw;
     int itmp1;
-    extern /* Subroutine */ int odscl_(int *, double *, double *, 
-	    int *);
+//    extern /* Subroutine */ int odscl_(int *, double *, double *, 
+//	    int *);
     int indld;
     double fudge;
     int idone;
@@ -57,8 +58,8 @@ static int c__2 = 2;
     double resid;
     int eskip;
     double right;
-    extern /* Subroutine */ int odcpy_(int *, double *, int *, 
-	    double *, int *);
+//    extern /* Subroutine */ int odcpy_(int *, double *, int *, 
+//	    double *, int *);
     int nclus, zfrom;
     double rqtol;
     int iindc1, iindc2;

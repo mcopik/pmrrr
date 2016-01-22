@@ -6,6 +6,7 @@
 #include <math.h>
 #include <float.h>
 #include <assert.h>
+#include "pmrrr.h"
 
 /* Table of constant values */
 #define TRUE_ (1)
@@ -35,8 +36,8 @@ int odrrf_(int *n, double *d__, double *l,
     int ktry;
     double fail2, avgap, ldmax, rdmax;
     int shift;
-    extern /* Subroutine */ int odcpy_(int *, double *, int *, 
-	    double *, int *);
+//    extern /* Subroutine */ int odcpy_(int *, double *, int *, 
+//	    double *, int *);
     int dorrr1;
     // extern double odmch_(char *);
     double ldelta;

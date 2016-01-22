@@ -8,8 +8,9 @@
 #include <assert.h>
 
 /* Subroutine */ 
-int odcpy_(int *n, double *dx, int *incx, 
-	double *dy, int *incy)
+template<typename pmrrr_datatype>
+int odcpy_(int *n, pmrrr_datatype *dx, int *incx, 
+	pmrrr_datatype *dy, int *incy)
 {
     /* System generated locals */
     int i__1;
@@ -100,3 +101,10 @@ L40:
     }
     return 0;
 } /* odcpy_ */
+
+
+template int odcpy_(int *n, double *dx, int *incx, 
+	double *dy, int *incy);
+
+template int odcpy_(int *n, float *dx, int *incx, 
+	float *dy, int *incy);

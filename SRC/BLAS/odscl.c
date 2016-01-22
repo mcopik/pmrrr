@@ -8,7 +8,8 @@
 #include <assert.h>
 
 /* Subroutine */ 
-int odscl_(int *n, double *da, double *dx, 
+template<typename pmrrr_datatype>
+int odscl_(int *n, pmrrr_datatype *da, pmrrr_datatype *dx, 
 	int *incx)
 {
     /* System generated locals */
@@ -89,3 +90,9 @@ L40:
     }
     return 0;
 } /* odscl_ */
+
+// Instanstiate template functions for double and float
+template int odscl_<>(int *n, float *da, float *dx, 
+	int *incx);
+template int odscl_<>(int *n, double *da, double *dx, 
+	int *incx);

@@ -6,6 +6,7 @@
 #include <math.h>
 #include <float.h>
 #include <assert.h>
+#include "pmrrr.h"
 
 /* Table of constant values */
 static int c__1 = 1;
@@ -14,6 +15,9 @@ static double c_b18 = .001;
 #define FALSE_ (0)
 #define iabs(a) ( (a) > (0) ? (a) : (-a) )
 
+//template<typename pmrrr_datatype>
+//    int odcpy_(int *, pmrrr_datatype *, int *, 
+//        double *, int *);
 
 /* Subroutine */ 
 int odstmr_(char *jobz, char *range, int *n, double *d__, 
@@ -46,29 +50,30 @@ int odstmr_(char *jobz, char *range, int *n, double *d__,
 	    *, double *, double *);
     int inde2, itmp2;
     double rtol1, rtol2;
-    extern /* Subroutine */ int odscl_(int *, double *, double *, 
-	    int *);
+//    extern /* Subroutine */ int odscl_(int *, double *, double *, 
+//	    int *);
     double scale;
     int indgp;
     extern int olsame_(char *, char *);
     int iinfo, iindw, ilast;
-    extern /* Subroutine */ int odcpy_(int *, double *, int *, 
-	    double *, int *), odswap_(int *, double *, int 
-	    *, double *, int *);
+     /* Subroutine */ 
+//    extern int odswap_(int *, double *, int 
+//	    *, double *, int *);
     int lwmin;
     int wantz;
     extern /* Subroutine */ int odev2_(double *, double *, 
 	    double *, double *, double *, double *, 
 	    double *);
-    // extern double odmch_(char *);
+     extern double odmch_(char *);
     int alleig;
     int ibegin;
     int indeig;
     int iindbl;
     int valeig;
-    extern /* Subroutine */ int odrrc_(char *, int *, double *, 
-	    double *, double *, double *, double *, int *, 
-	     int *, int *, int *), odrre_(char *, 
+//    extern /* Subroutine */ int odrrc_(char *, int *, double *, 
+//	    double *, double *, double *, double *, int *, 
+//	     int *, int *, int *);
+    extern /* Subroutine */ int odrre_(char *, 
 	    int *, double *, double *, int *, int *, 
 	    double *, double *, double *, double *, 
 	    double *, double *, int *, int *, int *, 
@@ -76,20 +81,23 @@ int odstmr_(char *jobz, char *range, int *n, double *d__,
 	    double *, double *, double *, int *, int *);
     int wbegin;
     double safmin;
-    extern /* Subroutine */ int odrrj_(int *, double *, double *, 
-	     int *, int *, double *, int *, double *, 
-	    double *, double *, int *, double *, double *, 
-	     int *), oerbla_(char *, int *);
+//    extern /* Subroutine */ int odrrj_(int *, double *, double *, 
+//	     int *, int *, double *, int *, double *, 
+//	    double *, double *, int *, double *, double *, 
+//	     int *);
+    extern /* Subroutine */ int oerbla_(char *, int *);
     double bignum;
     int inderr, iindwk, indgrs, offset;
     extern double odnst_(char *, int *, double *, double *);
-    extern /* Subroutine */ int odrrr_(int *, double *, double *, 
-	     int *), odrrv_(int *, double *, double *, 
+//    extern /* Subroutine */ int odrrr_(int *, double *, double *, 
+//	     int *);
+    extern /* Subroutine */ int odrrv_(int *, double *, double *, 
 	    double *, double *, double *, int *, int *, 
 	    int *, int *, double *, double *, double *, 
 	    double *, double *, double *, int *, int *, 
 	    double *, double *, int *, int *, double *, 
-	    int *, int *), odsrt_(char *, int *, double *, 
+	    int *, int *);
+    extern /* Subroutine */ int odsrt_(char *, int *, double *, 
 	    int *);
     double thresh;
     int iinspl, ifirst, indwrk, liwmin, nzcmin;

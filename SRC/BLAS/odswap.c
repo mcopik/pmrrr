@@ -8,15 +8,16 @@
 #include <assert.h>
 
 /* Subroutine */ 
-int odswap_(int *n, double *dx, int *incx, 
-	double *dy, int *incy)
+template<typename pmrrr_datatype>
+int odswap_(int *n, pmrrr_datatype *dx, int *incx, 
+	pmrrr_datatype *dy, int *incy)
 {
     /* System generated locals */
     int i__1;
 
     /* Local variables */
     int i__, m, ix, iy, mp1;
-    double dtemp;
+    pmrrr_datatype dtemp;
 
 /*     .. Scalar Arguments .. */
 /*     .. */
@@ -107,3 +108,6 @@ L40:
     }
     return 0;
 } /* dswap_ */
+
+template int odswap_(int *n, double *dx, int *incx, 
+	double *dy, int *incy);
