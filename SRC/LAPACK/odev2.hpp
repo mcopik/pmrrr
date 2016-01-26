@@ -1,28 +1,30 @@
 /**
-	C++ template version of LAPACK routine dlae2.
+	C++ template version of LAPACK routine dlaev2.
 	Based on C code translated by f2c (version 20061008).
 */
 
-#include <cstdlib>
-#include <cstdio>
-#include <cstring>
-#include <cmath>
-#include <cfloat>
-#include <cassert>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <float.h>
+#include <assert.h>
 
-/* Subroutine */
+/* Subroutine */ 
 template<typename FloatingType>
-int ode2(FloatingType *a, FloatingType *b, FloatingType *c__, 
-	FloatingType *rt1, FloatingType *rt2)
+int odev2_(FloatingType *a, FloatingType *b, FloatingType *c__, 
+	FloatingType *rt1, FloatingType *rt2, FloatingType *cs1, FloatingType *sn1)
 {
     /* System generated locals */
     FloatingType d__1;
 
     /* Builtin functions */
-    // double sqrt(double);
+    // FloatingType sqrt(FloatingType);
 
     /* Local variables */
-    FloatingType ab, df, tb, sm, rt, adf, acmn, acmx;
+    FloatingType ab, df, cs, ct, tb, sm, tn, rt, adf, acs;
+    int sgn1, sgn2;
+    FloatingType acmn, acmx;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -35,11 +37,15 @@ int ode2(FloatingType *a, FloatingType *b, FloatingType *c__,
 /*  Purpose */
 /*  ======= */
 
-/*  ODE2  computes the eigenvalues of a 2-by-2 symmetric matrix */
+/*  ODEV2 computes the eigendecomposition of a 2-by-2 symmetric matrix */
 /*     [  A   B  ] */
 /*     [  B   C  ]. */
-/*  On return, RT1 is the eigenvalue of larger absolute value, and RT2 */
-/*  is the eigenvalue of smaller absolute value. */
+/*  On return, RT1 is the eigenvalue of larger absolute value, RT2 is the */
+/*  eigenvalue of smaller absolute value, and (CS1,SN1) is the unit right */
+/*  eigenvector for RT1, giving the decomposition */
+
+/*     [ CS1  SN1 ] [  A   B  ] [ CS1 -SN1 ]  =  [ RT1  0  ] */
+/*     [-SN1  CS1 ] [  B   C  ] [ SN1  CS1 ]     [  0  RT2 ]. */
 
 /*  Arguments */
 /*  ========= */
@@ -48,7 +54,8 @@ int ode2(FloatingType *a, FloatingType *b, FloatingType *c__,
 /*          The (1,1) element of the 2-by-2 matrix. */
 
 /*  B       (input) DOUBLE PRECISION */
-/*          The (1,2) and (2,1) elements of the 2-by-2 matrix. */
+/*          The (1,2) element and the conjugate of the (2,1) element of */
+/*          the 2-by-2 matrix. */
 
 /*  C       (input) DOUBLE PRECISION */
 /*          The (2,2) element of the 2-by-2 matrix. */
@@ -59,6 +66,10 @@ int ode2(FloatingType *a, FloatingType *b, FloatingType *c__,
 /*  RT2     (output) DOUBLE PRECISION */
 /*          The eigenvalue of smaller absolute value. */
 
+/*  CS1     (output) DOUBLE PRECISION */
+/*  SN1     (output) DOUBLE PRECISION */
+/*          The vector (CS1, SN1) is a unit right eigenvector for RT1. */
+
 /*  Further Details */
 /*  =============== */
 
@@ -68,6 +79,8 @@ int ode2(FloatingType *a, FloatingType *b, FloatingType *c__,
 /*  determinant A*C-B*B; higher precision or correctly rounded or */
 /*  correctly truncated arithmetic would be needed to compute RT2 */
 /*  accurately in all cases. */
+
+/*  CS1 and SN1 are accurate to a few ulps barring over/underflow. */
 
 /*  Overflow is possible only if RT1 is within a factor of 5 of overflow. */
 /*  Underflow is harmless if the input data is 0 or exceeds */
@@ -113,6 +126,7 @@ int ode2(FloatingType *a, FloatingType *b, FloatingType *c__,
     }
     if (sm < 0.) {
 	*rt1 = (sm - rt) * .5;
+	sgn1 = -1;
 
 /*        Order of execution important. */
 /*        To get fully accurate smaller eigenvalue, */
@@ -121,6 +135,7 @@ int ode2(FloatingType *a, FloatingType *b, FloatingType *c__,
 	*rt2 = acmx / *rt1 * acmn - *b / *rt1 * *b;
     } else if (sm > 0.) {
 	*rt1 = (sm + rt) * .5;
+	sgn1 = 1;
 
 /*        Order of execution important. */
 /*        To get fully accurate smaller eigenvalue, */
@@ -133,9 +148,40 @@ int ode2(FloatingType *a, FloatingType *b, FloatingType *c__,
 
 	*rt1 = rt * .5;
 	*rt2 = rt * -.5;
+	sgn1 = 1;
+    }
+
+/*     Compute the eigenvector */
+
+    if (df >= 0.) {
+	cs = df + rt;
+	sgn2 = 1;
+    } else {
+	cs = df - rt;
+	sgn2 = -1;
+    }
+    acs = fabs(cs);
+    if (acs > ab) {
+	ct = -tb / cs;
+	*sn1 = 1. / sqrt(ct * ct + 1.);
+	*cs1 = ct * *sn1;
+    } else {
+	if (ab == 0.) {
+	    *cs1 = 1.;
+	    *sn1 = 0.;
+	} else {
+	    tn = -cs / tb;
+	    *cs1 = 1. / sqrt(tn * tn + 1.);
+	    *sn1 = tn * *cs1;
+	}
+    }
+    if (sgn1 == sgn2) {
+	tn = *cs1;
+	*cs1 = -(*sn1);
+	*sn1 = tn;
     }
     return 0;
 
-/*     End of ODE2 */
+/*     End of ODEV2 */
 
-} /* ode2_ */
+} /* odev2_ */
