@@ -1,5 +1,5 @@
-CC  = mpiicpc
-LD  = mpiicpc
+CC  = mpicxx
+LD  = mpicxx
 
 CFLAGS   = -Wall -g -pthread
 LDFLAGS  = -D_THREAD_SAFE=1 -pthread
@@ -19,7 +19,7 @@ LIBS = pmrrr gfortran m pthread rt
 ######################## do not edit below ###########################
 
 
-CFLAGS  += $(MPIFLAGS) -I$(INCPATH)
+CFLAGS  += $(MPIFLAGS) -I$(INCPATH) -I../../SRC
 LDFLAGS += $(MPIFLAGS) -I$(INCPATH)
 
 .PHONY: all
