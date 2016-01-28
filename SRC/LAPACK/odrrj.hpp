@@ -2,7 +2,8 @@
 	C++ template version of LAPACK routine dlarrj.
 	Based on C code translated by f2c (version 20061008).
 */
-
+#ifndef ODRRJ_HPP
+#define ODRRJ_HPP
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -335,3 +336,4 @@ L100:
 /*     End of ODRRJ */
 
 } /* odrrj_ */
+#endif

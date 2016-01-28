@@ -2,6 +2,8 @@
 	C++ template version of LAPACK routine dlanst.
 	Based on C code translated by f2c (version 20061008).
 */
+#ifndef ODNST_HPP
+#define ODNST_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,12 +12,16 @@
 #include <float.h>
 #include <assert.h>
 
-/* Table of constant values */
-static int c__1 = 1;
+#include "olsame.hpp"
+#include "odssq.hpp"
+
 
 template<typename FloatingType>
 FloatingType odnst_(char *norm, int *n, FloatingType *d__, FloatingType *e)
 {
+    /* Table of constant values */
+    static int c__1 = 1;
+
     /* System generated locals */
     int i__1;
     FloatingType ret_val, d__1, d__2, d__3, d__4, d__5;
@@ -26,10 +32,10 @@ FloatingType odnst_(char *norm, int *n, FloatingType *d__, FloatingType *e)
     /* Local variables */
     int i__;
     FloatingType sum, scale;
-    extern int olsame_(char *, char *);
+//    extern int olsame_(char *, char *);
     FloatingType anorm;
-    extern /* Subroutine */ int odssq_(int *, FloatingType *, int *, 
-	    FloatingType *, FloatingType *);
+//    extern /* Subroutine */ int odssq_(int *, FloatingType *, int *, 
+//	    FloatingType *, FloatingType *);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -161,3 +167,4 @@ FloatingType odnst_(char *norm, int *n, FloatingType *d__, FloatingType *e)
 /*     End of ODNST */
 
 } /* odnst_ */
+#endif

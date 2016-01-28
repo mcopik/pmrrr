@@ -2,13 +2,19 @@
 	C++ template version of LAPACK routine dlasq3.
 	Based on C code translated by f2c (version 20061008).
 */
-
+#ifndef ODSQ3_HPP
+#define ODSQ3_HPP
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
 #include <float.h>
 #include <assert.h>
+
+#include "odsq4.hpp"
+#include "odsq5.hpp"
+#include "odsq6.hpp"
+#include "odnan.hpp"
 
 /* Subroutine */ 
 template<typename FloatingType>
@@ -32,17 +38,17 @@ int odsq3_(int *i0, int *n0, FloatingType *z__,
     FloatingType eps, tol;
     int n0in, ipn4;
     FloatingType tol2, temp;
-    extern /* Subroutine */ int odsq4_(int *, int *, FloatingType *, 
-	    int *, int *, FloatingType *, FloatingType *, FloatingType *, 
-	    FloatingType *, FloatingType *, FloatingType *, FloatingType *, int *, 
-	     FloatingType *), odsq5_(int *, int *, FloatingType *, 
-	    int *, FloatingType *, FloatingType *, FloatingType *, FloatingType *, 
-	     FloatingType *, FloatingType *, FloatingType *, int *), odsq6_(
-	    int *, int *, FloatingType *, int *, FloatingType *, 
-	    FloatingType *, FloatingType *, FloatingType *, FloatingType *, 
-	    FloatingType *);
-    // extern FloatingType odmch_(char *);
-    extern int odnan_(FloatingType *);
+//    extern /* Subroutine */ int odsq4_(int *, int *, FloatingType *, 
+//	    int *, int *, FloatingType *, FloatingType *, FloatingType *, 
+//	    FloatingType *, FloatingType *, FloatingType *, FloatingType *, int *, 
+//	     FloatingType *), odsq5_(int *, int *, FloatingType *, 
+//	    int *, FloatingType *, FloatingType *, FloatingType *, FloatingType *, 
+//	     FloatingType *, FloatingType *, FloatingType *, int *), odsq6_(
+//	    int *, int *, FloatingType *, int *, FloatingType *, 
+//	    FloatingType *, FloatingType *, FloatingType *, FloatingType *, 
+//	    FloatingType *);
+//    // extern FloatingType odmch_(char *);
+//    extern int odnan_(FloatingType *);
 
 
 /*  -- LAPACK routine (version 3.2)                                    -- */
@@ -347,3 +353,4 @@ L90:
 /*     End of ODSQ3 */
 
 } /* odsq3_ */
+#endif

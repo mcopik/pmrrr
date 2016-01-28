@@ -2,14 +2,15 @@
 	C++ template version of LAPACK routine dlarnv.
 	Based on C code translated by f2c (version 20061008).
 */
-
+#ifndef ODRNV_HPP
+#define ODRNV_HPP
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
 #include <float.h>
 #include <assert.h>
-
+#include "odruv.hpp"
 #define imin(a,b) ( (a) < (b) ? (a) : (b) )
 
 /* Subroutine */ 
@@ -27,7 +28,7 @@ int odrnv_(int *idist, int *iseed, int *n,
     int i__;
     FloatingType u[128];
     int il, iv, il2;
-    extern int odruv_(int *, int *, FloatingType *);
+//    extern int odruv_(int *, int *, FloatingType *);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -145,3 +146,4 @@ int odrnv_(int *idist, int *iseed, int *n,
 /*     End of ODRNV */
 
 } /* odrnv_ */
+#endif

@@ -3,6 +3,9 @@
 	Based on C code translated by f2c (version 20061008).
 */
 
+#ifndef ODRRC_HPP
+#define ODRRC_HPP
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -181,3 +184,4 @@ int odrrc_(char *jobt, int *n, FloatingType *vl,
 /*     end of ODRRC */
 
 } /* odrrc_ */
+#endif

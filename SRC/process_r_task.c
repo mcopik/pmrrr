@@ -53,6 +53,8 @@
 #include "tasks.h"
 #include "process_task.h"
 
+#include "LAPACK/odrrb.hpp"
+#include "LAPACK/odrrf.hpp"
 
 int PMR_process_r_task(refine_t *rf, proc_t *procinfo, val_t *Wstruct,
 		       tol_t *tolstruct, double *work, int *iwork);

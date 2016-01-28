@@ -2,6 +2,8 @@
 	C++ template version of LAPACK routine dlaebz.
 	Based on C code translated by f2c (version 20061008).
 */
+#ifndef ODEBZ_HPP
+#define ODEBZ_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -624,3 +626,4 @@ L140:
 /*     End of ODEBZ */
 
 } /* odebz_ */
+#endif

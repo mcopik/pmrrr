@@ -2,6 +2,8 @@
 	C++ template version of LAPACK routine odr1v.
 	Based on C code translated by f2c (version 20061008).
 */
+#ifndef ODR1V_HPP
+#define ODR1V_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -9,7 +11,7 @@
 #include <math.h>
 #include <float.h>
 #include <assert.h>
-
+#include "odnan.hpp"
 #define TRUE_ (1)
 #define FALSE_ (0)
 
@@ -36,8 +38,8 @@ int odr1v_(int *n, int *b1, int *bn, FloatingType
     FloatingType eps, tmp;
     int neg1, neg2, indp, inds;
     FloatingType dplus;
-    // extern FloatingType odmch_(char *);
-    extern int odnan_(FloatingType *);
+    
+//    extern int odnan_(FloatingType *);
     int indlpl, indumn;
     FloatingType dminus;
     int sawnan1, sawnan2;
@@ -441,3 +443,4 @@ L280:
 /*     End of ODR1V */
 
 } /* odr1v_ */
+#endif

@@ -2,7 +2,8 @@
 	C++ template version of LAPACK routine dlasq6.
 	Based on C code translated by f2c (version 20061008).
 */
-
+#ifndef ODSQ6_HPP
+#define ODSQ6_HPP
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -209,3 +210,4 @@ int odsq6_(int *i0, int *n0, FloatingType *z__,
 /*     End of ODSQ6 */
 
 } /* odsq6_ */
+#endif

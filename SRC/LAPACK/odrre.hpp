@@ -2,7 +2,8 @@
 	C++ template version of LAPACK routine dlarre.
 	Based on C code translated by f2c (version 20061008).
 */
-
+#ifndef ODRRE_HPP
+#define ODRRE_HPP
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -10,9 +11,17 @@
 #include <float.h>
 #include <assert.h>
 #include "pmrrr.h"
-/* Table of constant values */
-static int c__1 = 1;
-static int c__2 = 2;
+
+#include "../BLAS/odcpy.hpp"
+
+#include "odsq2.hpp"
+#include "odrra.hpp"
+#include "odrrb.hpp"
+#include "odrrc.hpp"
+#include "odrrd.hpp"
+#include "odrrk.hpp"
+#include "odrnv.hpp"
+
 #define TRUE_ (1)
 #define FALSE_ (0)
 
@@ -26,6 +35,10 @@ int odrre_(char *range, int *n, FloatingType *vl,
 	FloatingType *gers, FloatingType *pivmin, FloatingType *work, int *
 	iwork, int *info)
 {
+    /* Table of constant values */
+    static int c__1 = 1;
+    static int c__2 = 2;
+
     /* System generated locals */
     int i__1, i__2;
     FloatingType d__1, d__2, d__3;
@@ -52,40 +65,16 @@ int odrre_(char *range, int *n, FloatingType *vl,
     FloatingType rtol;
     int iseed[4];
     FloatingType avgap, sigma;
-    extern int olsame_(char *, char *);
     int iinfo;
-//    extern /* Subroutine */ int odcpy_(int *, FloatingType *, int *, 
-//	    FloatingType *, int *);
-    long FloatingType norep;
-    extern /* Subroutine */ int odsq2_(int *, FloatingType *, int *);
-    // extern FloatingType odmch_(char *);
+    FloatingType norep; //long FloatingType norep;
     int ibegin;
-    long FloatingType forceb;
+    FloatingType forceb; //long FloatingType forceb;
     int irange;
     FloatingType sgndef;
-    extern /* Subroutine */ int odrra_(int *, FloatingType *, FloatingType *, 
-	     FloatingType *, FloatingType *, FloatingType *, int *, int *, 
-	    int *), odrrb_(int *, FloatingType *, FloatingType *, 
-	    int *, int *, FloatingType *, FloatingType *, int *, 
-	    FloatingType *, FloatingType *, FloatingType *, FloatingType *, int *, 
-	     FloatingType *, FloatingType *, int *, int *), odrrc_(char *
-, int *, FloatingType *, FloatingType *, FloatingType *, FloatingType 
-	    *, FloatingType *, int *, int *, int *, int *);
     int wbegin;
-    extern /* Subroutine */ int odrrd_(char *, char *, int *, FloatingType 
-	    *, FloatingType *, int *, int *, FloatingType *, FloatingType *, 
-	     FloatingType *, FloatingType *, FloatingType *, FloatingType *, int *
-, int *, int *, FloatingType *, FloatingType *, FloatingType *, 
-	    FloatingType *, int *, int *, FloatingType *, int *, 
-	    int *);
     FloatingType safmin, spdiam;
-    extern /* Subroutine */ int odrrk_(int *, int *, FloatingType *, 
-	    FloatingType *, FloatingType *, FloatingType *, FloatingType *, 
-	    FloatingType *, FloatingType *, FloatingType *, int *);
-    long FloatingType usedqd;
+    FloatingType usedqd; //long FloatingType usedqd;
     FloatingType clwdth, isleft;
-    extern /* Subroutine */ int odrnv_(int *, int *, int *, 
-	    FloatingType *);
     FloatingType isrght, bsrtol, dpivot;
 
 
@@ -860,3 +849,4 @@ L170:
 /*     end of ODRRE */
 
 } /* odrre_ */
+#endif

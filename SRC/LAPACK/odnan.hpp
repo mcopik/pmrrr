@@ -2,7 +2,8 @@
 	C++ template version of LAPACK routine disnan.
 	Based on C code translated by f2c (version 20061008).
 */
-
+#ifndef ODNAN_HPP
+#define ODNAN_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,6 +11,7 @@
 #include <math.h>
 #include <float.h>
 #include <assert.h>
+#include "odsnan.hpp"
 
 template<typename FloatingType>
 int odnan_(FloatingType *din)
@@ -18,7 +20,6 @@ int odnan_(FloatingType *din)
     int ret_val;
 
     /* Local variables */
-    extern int odsnan_(FloatingType *, FloatingType *);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -49,3 +50,4 @@ int odnan_(FloatingType *din)
     ret_val = odsnan_(din, din);
     return ret_val;
 } /* odnan_ */
+#endif

@@ -55,6 +55,14 @@
 #include "global.h"
 #include "structs.h" 
 
+#include "LAPACK/odrra.hpp"
+#include "LAPACK/odebz.hpp"
+#include "LAPACK/odrrd.hpp"
+#include "LAPACK/odrnv.hpp"
+#include "LAPACK/odrrk.hpp"
+#include "LAPACK/odrrc.hpp"
+#include "LAPACK/odrrb.hpp"
+#include "LAPACK/odrrd.hpp"
 
 #define ONE                1.0
 #define HUNDRED          100.0

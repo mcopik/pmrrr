@@ -2,7 +2,8 @@
 	C++ template version of LAPACK routine dlaisnan.
 	Based on C code translated by f2c (version 20061008).
 */
-
+#ifndef ODSNAN_HPP
+#define ODSNAN_HPP
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -53,4 +54,4 @@ int odsnan_(FloatingType *din1, FloatingType *din2)
     ret_val = *din1 != *din2;
     return ret_val;
 } /* odsnan_ */
-
+#endif

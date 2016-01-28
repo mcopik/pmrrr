@@ -10,7 +10,8 @@ ifeq ($(SPINLOCK_SUPPORT),0)
 endif
 
 # Source files
-HEADERS := $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.h))
+HEADERS = $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.h))
+#HEADERS += $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.hpp))
 
 #CPPSRCS   := $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.cpp))
 #CPPOBJS = $(CPPSRCS:.cpp=.o)

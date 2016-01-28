@@ -58,6 +58,11 @@
 #include "plarrv.h"
 #include "structs.h"
 
+#include "LAPACK/odrrr.hpp"
+#include "LAPACK/odstmr.hpp"
+#include "LAPACK/odnst.hpp"
+#include "LAPACK/odrrj.hpp"
+#include "BLAS/odscl.hpp"
 
 static int handle_small_cases(char*, char*, int*, double*, double*,
 			      double*, double*, int*, int*, int*,

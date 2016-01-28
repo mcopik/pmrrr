@@ -2,6 +2,8 @@
 	C++ template version of LAPACK routine dlaneg.
 	Based on C code translated by f2c (version 20061008).
 */
+#ifndef ODNEQ_HPP
+#define ODNEQ_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -9,6 +11,7 @@
 #include <math.h>
 #include <float.h>
 #include <assert.h>
+#include "odnan.hpp"
 
 #define imax(a,b) ( (a) > (b) ? (a) : (b) )
 #define imin(a,b) ( (a) < (b) ? (a) : (b) )
@@ -27,7 +30,7 @@ int odneg_(int *n, FloatingType *d__, FloatingType *lld, FloatingType *
     FloatingType tmp;
     int neg1, neg2;
     FloatingType bsav, gamma, dplus;
-    extern int odnan_(FloatingType *);
+//    extern int odnan_(FloatingType *);
     int negcnt;
     int sawnan;
     FloatingType dminus;
@@ -217,3 +220,4 @@ int odneg_(int *n, FloatingType *d__, FloatingType *lld, FloatingType *
     ret_val = negcnt;
     return ret_val;
 } /* odneg_ */
+#endif

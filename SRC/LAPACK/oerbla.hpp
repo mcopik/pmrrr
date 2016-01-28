@@ -2,6 +2,8 @@
 	C++ template version of LAPACK routine xerbla.
 	Based on C code translated by f2c (version 20061008).
 */
+#ifndef OERBLA_HPP
+#define OERBLA_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,13 +12,13 @@
 #include <float.h>
 #include <assert.h>
 
-/* Table of constant values */
-static int c__1 = 1;
 
 /* Subroutine */ 
 int oerbla_(char *srname, int *info)
 {
-    
+    /* Table of constant values */
+    static int c__1 = 1;
+
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
 /*     Univ. of Tennessee, Univ. of California Berkeley and NAG Ltd.. */
@@ -59,3 +61,4 @@ int oerbla_(char *srname, int *info)
 
     return 0;
 } /* oerbla_ */
+#endif

@@ -2,6 +2,8 @@
 	C++ template version of LAPACK routine dlaev2.
 	Based on C code translated by f2c (version 20061008).
 */
+#ifndef ODEV2_HPP
+#define ODEV2_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -185,3 +187,4 @@ int odev2_(FloatingType *a, FloatingType *b, FloatingType *c__,
 /*     End of ODEV2 */
 
 } /* odev2_ */
+#endif

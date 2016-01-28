@@ -2,6 +2,8 @@
 	C++ template version of LAPACK routine dlaset.
 	Based on C code translated by f2c (version 20061008).
 */
+#ifndef ODSET_HPP
+#define ODSET_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -11,6 +13,8 @@
 #include <assert.h>
 
 #define imin(a,b) ( (a) < (b) ? (a) : (b) )
+
+#include "olsame.hpp"
 
 /* Subroutine */ 
 template<typename FloatingType>
@@ -151,3 +155,4 @@ FloatingType *beta, FloatingType *a, int *lda)
 /*     End of ODSET */
 
 } /* odset_ */
+#endif

@@ -2,6 +2,8 @@
 	C++ template version of LAPACK routine dlarrd.
 	Based on C code translated by f2c (version 20061008).
 */
+#ifndef ODRRD_HPP
+#define ODRRD_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -15,12 +17,6 @@
 #define TRUE_ (1)
 #define FALSE_ (0)
 
-/* Table of constant values */
-static int c__1 = 1;
-static int c_n1 = -1;
-static int c__3 = 3;
-static int c__2 = 2;
-static int c__0 = 0;
 
 /* Subroutine */ 
 template<typename FloatingType>
@@ -32,6 +28,13 @@ int odrrd_(char *range, char *order, int *n, FloatingType *vl,
 	int *iblock, int *indexw, FloatingType *work, int *iwork, 
 	int *info)
 {
+    /* Table of constant values */
+    static int c__1 = 1;
+    static int c_n1 = -1;
+    static int c__3 = 3;
+    static int c__2 = 2;
+    static int c__0 = 0;
+
     /* System generated locals */
     int i__1, i__2, i__3;
     FloatingType d__1, d__2;
@@ -794,3 +797,5 @@ L70:
 /*     End of ODRRD */
 
 } /* odrrd_ */
+
+#endif

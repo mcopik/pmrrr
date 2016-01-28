@@ -263,53 +263,53 @@ int PMR_comm_eigvals(MPI_Comm comm, int *nz, int *ifirst, double *W);
  * Note: type specifier 'extern' does not matter in declaration
  * so here used to mark routines from LAPACK and BLAS libraries */
 //extern void odscl_(int*, double*, double*, int*);
-template<typename pmrrr_datatype>
-int odscl_(int *n, pmrrr_datatype *da, pmrrr_datatype *dx, 
-	int *incx);
-
-double odnst_(char*, int*, double*, double*);
-void   odrrr_(int*, double*, double*, int*);
- void   odrra_(int*, double*, double*, double*, double*, 
-		      double*, int*, int*, int*);
- void   odrrc_(char*, int*, double*, double*, double*, double*,
-		      double*, int*, int*, int*, int*);
- void   odrrd_(char*, char*, int*, double*, double*, int*, 
-		      int*, double*, double*, double*, double*, 
-		      double*, double*, int*, int*, int*, double*, 
-		      double*, double*, double*, int*, int*, double*, 
-		      int*, int*);
- void   odrrb_(int*, double*, double*, int*, int*, double*,
-		      double*, int*, double*, double*, double*, double*,
-		      int*, double*, double*, int*, int*);
- void   odrrk_(int*, int*, double*, double*, double*, double*,
-		      double*, double*, double*, double*, int*);
- void   odebz_(int*, int*, int*, int*, int*, int*, double*, 
-		      double*, double*, double*, double*, double*,
-		      int*, double*, double*, int*, int*, double*,
-		      int*, int*);
- void   odrnv_(int*, int*, int*, double*);
- int   odrrf_(int*, double*, double*, double*, int*, int*, 
-		      double*, double*, double*, double*, double*, 
-		      double*, double*, double*, double*, double*, 
-		      double*, int*);
- void   odr1v_(int*, int*, int*, double*, double*, double*, 
-		      double*, double*, double*, double*, double*, 
-		      int*, int*, double*, double*, int*, int*, 
-		      double*, double*, double*, double*);
- void   odrrj_(int*, double*, double*, int*, int*, double*, 
-		      int*, double*, double*, double*, int*, double*, 
-		      double*, int*);
- int   odstmr_(char*, char*, int*, double*, double*, double*, 
-		      double*, int*, int*, int*, double*, double*, 
-		      int*, int*, int*, int*, double*, int*, int*, 
-		      int*, int*);
- 
-template<typename pmrrr_datatype>
-int odcpy_(int *n, pmrrr_datatype *dx, int *incx, 
-	pmrrr_datatype *dy, int *incy);
-
-template<typename pmrrr_datatype>
-int odswap_(int *n, pmrrr_datatype *dx, int *incx, 
-	pmrrr_datatype *dy, int *incy);
+//template<typename pmrrr_datatype>
+//int odscl_(int *n, pmrrr_datatype *da, pmrrr_datatype *dx, 
+//	int *incx);
+//
+//double odnst_(char*, int*, double*, double*);
+//void   odrrr_(int*, double*, double*, int*);
+// void   odrra_(int*, double*, double*, double*, double*, 
+//		      double*, int*, int*, int*);
+// void   odrrc_(char*, int*, double*, double*, double*, double*,
+//		      double*, int*, int*, int*, int*);
+// void   odrrd_(char*, char*, int*, double*, double*, int*, 
+//		      int*, double*, double*, double*, double*, 
+//		      double*, double*, int*, int*, int*, double*, 
+//		      double*, double*, double*, int*, int*, double*, 
+//		      int*, int*);
+// void   odrrb_(int*, double*, double*, int*, int*, double*,
+//		      double*, int*, double*, double*, double*, double*,
+//		      int*, double*, double*, int*, int*);
+// void   odrrk_(int*, int*, double*, double*, double*, double*,
+//		      double*, double*, double*, double*, int*);
+// void   odebz_(int*, int*, int*, int*, int*, int*, double*, 
+//		      double*, double*, double*, double*, double*,
+//		      int*, double*, double*, int*, int*, double*,
+//		      int*, int*);
+// void   odrnv_(int*, int*, int*, double*);
+// int   odrrf_(int*, double*, double*, double*, int*, int*, 
+//		      double*, double*, double*, double*, double*, 
+//		      double*, double*, double*, double*, double*, 
+//		      double*, int*);
+// void   odr1v_(int*, int*, int*, double*, double*, double*, 
+//		      double*, double*, double*, double*, double*, 
+//		      int*, int*, double*, double*, int*, int*, 
+//		      double*, double*, double*, double*);
+// void   odrrj_(int*, double*, double*, int*, int*, double*, 
+//		      int*, double*, double*, double*, int*, double*, 
+//		      double*, int*);
+// int   odstmr_(char*, char*, int*, double*, double*, double*, 
+//		      double*, int*, int*, int*, double*, double*, 
+//		      int*, int*, int*, int*, double*, int*, int*, 
+//		      int*, int*);
+// 
+//template<typename pmrrr_datatype>
+//int odcpy_(int *n, pmrrr_datatype *dx, int *incx, 
+//	pmrrr_datatype *dy, int *incy);
+//
+//template<typename pmrrr_datatype>
+//int odswap_(int *n, pmrrr_datatype *dx, int *incx, 
+//	pmrrr_datatype *dy, int *incy);
 
 #endif /* End of header file */

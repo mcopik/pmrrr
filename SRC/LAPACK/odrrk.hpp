@@ -2,6 +2,8 @@
 	C++ template version of LAPACK routine dlarrk.
 	Based on C code translated by f2c (version 20061008).
 */
+#ifndef ODRRK_HPP
+#define ODRRK_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -190,3 +192,4 @@ L30:
 /*     End of ODRRK */
 
 } /* odrrk_ */
+#endif
