@@ -1,38 +1,40 @@
-include ./make.inc
+#include ./make.inc
 
-DIRS = ./INCLUDE ./SRC ./SRC/LAPACK ./SRC/BLAS
+#DIRS = ./INCLUDE ./SRC ./SRC/LAPACK ./SRC/BLAS
 
-CFLAGS += -I./INCLUDE
-CPPFLAGS += $(CFLAGS)
+CPPFLAGS += -I./INCLUDE
 
 ifeq ($(SPINLOCK_SUPPORT),0)
- CFLAGS += -DNOSPINLOCKS
+	CPPFLAGS += -DNOSPINLOCKS
 endif
 
 # Source files
 HEADERS = $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.h))
-#HEADERS += $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.hpp))
+HEADERS += $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.hpp))
 
 #CPPSRCS   := $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.cpp))
-#CPPOBJS = $(CPPSRCS:.cpp=.o)
+CPPSRCS   := $(foreach DIR,SRC,$(wildcard $(DIR)/*.cpp))
+CPPOBJS = $(CPPSRCS:.cpp=.o)
 
-CSRCS   := $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.c))
-COBJS = $(CSRCS:.c=.o)
+#echo "temp"
+
+#CSRCS   := $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.c))
+#COBJS = $(CSRCS:.c=.o)
 
 
-FSRCS  := $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.f))
-FOBJS = $(FSRCS:.f=.o)
+#FSRCS  := $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.f))
+#FOBJS = $(FSRCS:.f=.o)
 
 
 # Build target #
 #libpmrrr.a: $(COBJS) $(CPPOBJS) $(FOBJS) $(HEADERS)
 #	    $(AR) $(ARFLAGS) ./LIB/libpmrrr.a $(COBJS) $(CPPOBJS) $(FOBJS)
-libpmrrr.a: $(COBJS) $(FOBJS) $(HEADERS)
-	    $(AR) $(ARFLAGS) ./LIB/libpmrrr.a $(COBJS) $(FOBJS)
+libpmrrr.a: $(CPPOBJS)  $(HEADERS)
+	    $(AR) $(ARFLAGS) ./LIB/libpmrrr.a $(CPPOBJS)
 
-$(COBJS): $(HEADERS)
-#$(CPPOBJS): $(HEADERS)
-$(FOBJS):
+#$(COBJS): $(HEADERS)
+$(CPPOBJS): $(HEADERS)
+#$(FOBJS):
 
 .PHONY: clean
 clean:
