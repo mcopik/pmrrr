@@ -1,6 +1,6 @@
-#include ./make.inc
+include ./make.inc
 
-#DIRS = ./INCLUDE ./SRC ./SRC/LAPACK ./SRC/BLAS
+DIRS = ./INCLUDE ./SRC ./SRC/LAPACK ./SRC/BLAS
 
 CPPFLAGS += -I./INCLUDE
 
