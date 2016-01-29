@@ -92,9 +92,42 @@ static int refine_to_highrac(proc_t*, char*, FloatingType*, FloatingType*,
 
 namespace pmrrr {
 
-namespace {
+namespace detail{
 	template<typename FloatingType>
 	FloatingType scale_matrix(in_t *Dstruct, val_t *Wstruct, bool valeig);
+
+	template<typename FloatingType>
+	int handle_small_cases(char *jobz, char *range, int *np, FloatingType  *D,
+		       FloatingType *E, FloatingType *vlp, FloatingType *vup, int *ilp,
+		       int *iup, int *tryracp, MPI_Comm comm, int *nzp,
+		       int *myfirstp, FloatingType *W, FloatingType *Z, int *ldzp,
+		       int *Zsupp);
+
+	template<typename FloatingType>
+	int cmp(const FloatingType * a1, const FloatingType * a2);
+
+	template<>
+	int cmp(const sort_struct_t *a1, const sort_struct_t *a2);
+
+	template<typename FloatingType>
+	void clean_up(MPI_Comm comm, FloatingType *Werr, FloatingType *Wgap,
+	      FloatingType *gersch, int *iblock, int *iproc,
+	      int *Windex, int *isplit, int *Zindex,
+	      proc_t *procinfo, in_t *Dstruct,
+	      val_t *Wstruct, vec_t *Zstruct,
+	      tol_t *tolstruct);
+
+	template<typename FloatingType>
+	int sort_eigenpairs(proc_t *procinfo, val_t *Wstruct, vec_t *Zstruct);
+
+	template<typename FloatingType>
+	int refine_to_highrac(proc_t *procinfo, char *jobz, FloatingType *D,
+				  FloatingType *E2, in_t *Dstruct, int *nzp,
+				  val_t *Wstruct, tol_t *tolstruct);
+
+	template<typename FloatingType>
+	void invscale_eigenvalues(val_t *Wstruct, FloatingType scale,
+				  int size);
 }
 
 template<typename FloatingType>
@@ -207,7 +240,7 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
 
   /* Check if computation should be done by multiple processes */
   if (n < DSTEMR_IF_SMALLER) {
-    info = handle_small_cases(jobz, range, np, D, E, vl, vu, il,
+    info = detail::handle_small_cases(jobz, range, np, D, E, vl, vu, il,
 			      iu, tryracp, comm, nzp, offsetp, W,
 			      Z, ldz, Zsupp);
     MPI_Comm_free(&comm_dup);
@@ -274,7 +307,7 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
   Zstruct->Zindex          = Zindex;
 
   /* Scale matrix to allowable range, returns 1.0 if not scaled */
-  scale = scale_matrix(Dstruct, Wstruct, valeig);
+  scale = detail::scale_matrix<FloatingType>(Dstruct, Wstruct, valeig);
 
   /*  Test if matrix warrants more expensive computations which
    *  guarantees high relative accuracy */
@@ -318,7 +351,7 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
 
   /* If just number of local eigenvectors are queried */
   if (cntval & valeig) {    
-    clean_up(comm_dup, Werr, Wgap, gersch, iblock, iproc, Windex,
+    detail::clean_up(comm_dup, Werr, Wgap, gersch, iblock, iproc, Windex,
 	     isplit, Zindex, procinfo, Dstruct, Wstruct, Zstruct,
 	     tolstruct);
     return(0);
@@ -329,13 +362,13 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
 
     /* Refine to high relative with respect to input T */
     if (*tryracp) {
-      info = refine_to_highrac(procinfo, jobz, Dcopy, E2copy, 
+      info = detail::refine_to_highrac(procinfo, jobz, Dcopy, E2copy, 
 			                        Dstruct, nzp, Wstruct, tolstruct);
       assert(info == 0);
     }
 
     /* Sort eigenvalues */
-    qsort(W, n, sizeof(FloatingType), cmp);
+    qsort(W, n, sizeof(FloatingType), detail::cmp);
 
     /* Only keep subset ifirst:ilast */
     iil = *il;
@@ -364,9 +397,9 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
     }
 
     /* If matrix was scaled, rescale eigenvalues */
-    invscale_eigenvalues(Wstruct, scale, *nzp);
+    detail::invscale_eigenvalues(Wstruct, scale, *nzp);
 
-    clean_up(comm_dup, Werr, Wgap, gersch, iblock, iproc, Windex,
+    detail::clean_up(comm_dup, Werr, Wgap, gersch, iblock, iproc, Windex,
 	     isplit, Zindex, procinfo, Dstruct, Wstruct, Zstruct,
 	     tolstruct);
 
@@ -380,18 +413,18 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
 
   /* Refine to high relative with respect to input matrix */
   if (*tryracp) {
-    info = refine_to_highrac(procinfo, jobz, Dcopy, E2copy, 
+    info = detail::refine_to_highrac(procinfo, jobz, Dcopy, E2copy, 
 			     Dstruct, nzp, Wstruct, tolstruct);
     assert(info == 0);
   }
 
   /* If matrix was scaled, rescale eigenvalues */
-  invscale_eigenvalues(Wstruct, scale, n);
+  detail::invscale_eigenvalues(Wstruct, scale, n);
 
   /* Sort eigenvalues and eigenvectors of process */
-  sort_eigenpairs(procinfo, Wstruct, Zstruct);
+  detail::sort_eigenpairs<FloatingType>(procinfo, Wstruct, Zstruct);
 
-  clean_up(comm_dup, Werr, Wgap, gersch, iblock, iproc, Windex,
+  detail::clean_up(comm_dup, Werr, Wgap, gersch, iblock, iproc, Windex,
 	   isplit, Zindex, procinfo, Dstruct, Wstruct, Zstruct,
 	   tolstruct);
   if (*tryracp) {
@@ -407,7 +440,7 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
 	Helper methods
  **/
 
-namespace {
+namespace detail{
 
 /*
  * Free's on allocated memory of pmrrr routine
@@ -758,7 +791,7 @@ int sort_eigenpairs_global(proc_t *procinfo, int m, val_t *Wstruct,
     }
 
     /* sort local again */
-    sort_eigenpairs_local(procinfo, m, Wstruct, Zstruct);
+    sort_eigenpairs_local<FloatingType>(procinfo, m, Wstruct, Zstruct);
     
     /* check again if globally sorted */
     if (m == 0) {
@@ -832,7 +865,7 @@ int sort_eigenpairs(proc_t *procinfo, val_t *Wstruct, vec_t *Zstruct)
   }
 
   /* Sort according to Zindex */
-  qsort(sort_array, im, sizeof(sort_struct_t), cmpb);
+  qsort(sort_array, im, sizeof(sort_struct_t), cmp);
 
   for (j=0; j<im; j++) {
     W[j]      = sort_array[j].lambda; 
@@ -842,13 +875,13 @@ int sort_eigenpairs(proc_t *procinfo, val_t *Wstruct, vec_t *Zstruct)
   /* Make sure eigenpairs are sorted locally; this is a very 
    * inefficient way sorting, but in general no or very little 
    * swapping of eigenpairs is expected here */
-  sort_eigenpairs_local(procinfo, im, Wstruct, Zstruct);
+  sort_eigenpairs_local<FloatingType>(procinfo, im, Wstruct, Zstruct);
 
   /* Make sure eigenpairs are sorted globally; this is a very 
    * inefficient way sorting, but in general no or very little 
    * swapping of eigenpairs is expected here */
   if (ASSERT_SORTED_EIGENPAIRS == true)
-    sort_eigenpairs_global(procinfo, im, Wstruct, Zstruct);
+    sort_eigenpairs_global<FloatingType>(procinfo, im, Wstruct, Zstruct);
 
   free(sort_array);
 
@@ -933,8 +966,11 @@ int refine_to_highrac(proc_t *procinfo, char *jobz, FloatingType *D,
  * of FloatingTypes
  */
 template<typename FloatingType>
-int cmp(const FloatingType * a1, const FloatingType * a2)
+int cmp(const void *a1, const void *a2)
 {
+  FloatingType arg1 = *(FloatingType *)a1;
+  FloatingType arg2 = *(FloatingType *)a2;
+
   if (*arg1 < *arg2)
     return(-1);
   else
@@ -953,7 +989,7 @@ int cmp(const sort_struct_t *a1, const sort_struct_t *a2)
   sort_struct_t *arg1, *arg2;
 
   arg1 = (sort_struct_t *) a1;
-  arg2 = (sort_struct_t *) a2;
+	  arg2 = (sort_struct_t *) a2;
 
   /* Within block local index decides */
   if (arg1->ind < arg2->ind) 
