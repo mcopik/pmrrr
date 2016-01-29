@@ -2,8 +2,6 @@
 	C++ template version of LAPACK routine dlae2.
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODE2_HPP
-#define ODE2_HPP
 
 #include <cstdlib>
 #include <cstdio>
@@ -14,7 +12,7 @@
 
 /* Subroutine */
 template<typename FloatingType>
-int ode2_(FloatingType *a, FloatingType *b, FloatingType *c__, 
+int ode2(FloatingType *a, FloatingType *b, FloatingType *c__, 
 	FloatingType *rt1, FloatingType *rt2)
 {
     /* System generated locals */
@@ -81,7 +79,7 @@ int ode2_(FloatingType *a, FloatingType *b, FloatingType *c__,
 /*     .. */
 /*     .. Local Scalars .. */
 /*     .. */
-/*     .. In7trinsic Functions .. */
+/*     .. Intrinsic Functions .. */
 /*     .. */
 /*     .. Executable Statements .. */
 
@@ -141,4 +139,3 @@ int ode2_(FloatingType *a, FloatingType *b, FloatingType *c__,
 /*     End of ODE2 */
 
 } /* ode2_ */
-#endif

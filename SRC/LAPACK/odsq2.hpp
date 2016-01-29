@@ -2,8 +2,7 @@
 	C++ template version of LAPACK routine dlasq2.
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODSQ2_HPP
-#define ODSQ2_HPP
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -11,22 +10,18 @@
 #include <float.h>
 #include <assert.h>
 
-#include "odsq3.hpp"
-#include "oerbla.hpp"
-#include "odsrt.hpp"
+/* Table of constant values */
+static int c__1 = 1;
+static int c__2 = 2;
+static int c__10 = 10;
+static int c__3 = 3;
+static int c__4 = 4;
+static int c__11 = 11;
 
 /* Subroutine */ 
 template<typename FloatingType>
 int odsq2_(int *n, FloatingType *z__, int *info)
 {
-    /* Table of constant values */
-    static int c__1 = 1;
-    static int c__2 = 2;
-    static int c__10 = 10;
-    static int c__3 = 3;
-    static int c__4 = 4;
-    static int c__11 = 11;
-
     /* System generated locals */
     int i__1, i__2, i__3;
     FloatingType d__1, d__2;
@@ -54,20 +49,20 @@ int odsq2_(int *n, FloatingType *z__, int *info)
     int nfail;
     FloatingType desig, trace, sigma;
     int iinfo, ttype;
-//    extern /* Subroutine */ int odsq3_(int *, int *, FloatingType *, 
-//	    int *, FloatingType *, FloatingType *, FloatingType *, FloatingType *, 
-//	     int *, int *, int *, int *, int *, 
-//	    FloatingType *, FloatingType *, FloatingType *, FloatingType *, 
-//	    FloatingType *, FloatingType *, FloatingType *);
+    extern /* Subroutine */ int odsq3_(int *, int *, FloatingType *, 
+	    int *, FloatingType *, FloatingType *, FloatingType *, FloatingType *, 
+	     int *, int *, int *, int *, int *, 
+	    FloatingType *, FloatingType *, FloatingType *, FloatingType *, 
+	    FloatingType *, FloatingType *, FloatingType *);
     // extern FloatingType odmch_(char *);
     FloatingType deemin;
     int iwhila, iwhilb;
     FloatingType oldemn, safmin;
-//    extern /* Subroutine */ int oerbla_(char *, int *);
-//    /* extern int oienv_(int *, char *, char *, int *, int *,  */
-//    /* 	    int *, int *); */
-//    extern /* Subroutine */ int odsrt_(char *, int *, FloatingType *, 
-//	    int *);
+    extern /* Subroutine */ int oerbla_(char *, int *);
+    /* extern int oienv_(int *, char *, char *, int *, int *,  */
+    /* 	    int *, int *); */
+    extern /* Subroutine */ int odsrt_(char *, int *, FloatingType *, 
+	    int *);
 
 
 /*  -- LAPACK routine (version 3.2)                                    -- */
@@ -600,4 +595,3 @@ L170:
 /*     End of ODSQ2 */
 
 } /* odsq2_ */
-#endif

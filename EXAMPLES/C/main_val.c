@@ -11,6 +11,8 @@
 #include "mpi.h"
 #include "pmrrr.h"
 
+#include <pmrrr.hpp>
+
 static int  read_tri_mat(char*, double**, double**);
 static void print_vector(char*, double*, char*, int);
 static void print_matrix(char*, double*, int, int, int);
@@ -61,15 +63,15 @@ int main(int argc, char **argv)
   W     = (double *) malloc( n    * sizeof(double) );
   Zsupp = (int *)    malloc( 2*n  * sizeof(int)    );
 
-  info = pmrrr("Count", "Value", &n, D, E, &vl, &vu, &il, &iu,
+  info = pmrrr::pmrrr("Count", "Value", &n, D, E, &vl, &vu, &il, &iu,
 	       &tryRAC, MPI_COMM_WORLD, &nz, &offset, W,
-	       NULL, &ldz, Zsupp);
+	       /*NULL*/ (double*)NULL, &ldz, Zsupp);
   assert(info == 0);
   
   Z     = (double *) malloc((size_t) n*nz * sizeof(double) );
 
   /* Use MRRR to compute eigenvalues and -vectors */
-  info = pmrrr("Vectors", "Value", &n, D, E, &vl, &vu, &il,
+  info = pmrrr::pmrrr("Vectors", "Value", &n, D, E, &vl, &vu, &il,
 	       &iu, &tryRAC, MPI_COMM_WORLD, &nz, &offset, 
 	       W, Z, &ldz, Zsupp);
   assert(info == 0);

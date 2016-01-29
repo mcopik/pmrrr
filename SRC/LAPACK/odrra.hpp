@@ -2,8 +2,6 @@
 	C++ template version of LAPACK routine dlarra.
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODRRA_HPP
-#define ODRRA_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -155,4 +153,3 @@ int odrra_(int *n, FloatingType *d__, FloatingType *e,
 /*     End of ODRRA */
 
 } /* odrra_ */
-#endif

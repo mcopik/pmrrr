@@ -2,8 +2,7 @@
 	C++ template version of LAPACK routine dlasq4.
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODSQ4_HPP
-#define ODSQ4_HPP
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -401,4 +400,3 @@ L80:
 /*     End of ODSQ4 */
 
 } /* odsq4_ */
-#endif

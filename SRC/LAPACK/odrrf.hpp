@@ -2,8 +2,6 @@
 	C++ template version of LAPACK routine dlarrf.
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODRRF_HPP
-#define ODRRF_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,8 +10,6 @@
 #include <float.h>
 #include <assert.h>
 #include "pmrrr.h"
-
-#include "../BLAS/odcpy.hpp"
 
 /* Table of constant values */
 #define TRUE_ (1)
@@ -426,4 +422,3 @@ L100:
 /*     End of ODRRF */
 
 } /* odrrf_ */
-#endif

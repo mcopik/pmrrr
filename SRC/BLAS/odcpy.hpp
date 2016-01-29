@@ -1,6 +1,4 @@
 /* odcpy.f -- translated by f2c (version 20061008) */
-#ifndef ODCPY_HPP
-#define ODCPY_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -103,4 +101,10 @@ L40:
     }
     return 0;
 } /* odcpy_ */
-#endif
+
+
+template int odcpy_(int *n, double *dx, int *incx, 
+	double *dy, int *incy);
+
+template int odcpy_(int *n, float *dx, int *incx, 
+	float *dy, int *incy);

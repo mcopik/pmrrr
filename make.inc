@@ -2,7 +2,7 @@
 #  CC = mpiicc
 #CC = mpiicpc
 #CXX = mpiicpc
-CC=mpicxx
+CC=mpicc
 CXX=mpicxx
 
 # Compiler flags

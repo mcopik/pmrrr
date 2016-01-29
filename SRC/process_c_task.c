@@ -54,9 +54,9 @@
 #include "rrr.h"
 #include "structs.h"
 #include "process_task.h"
-
+/*
 #include "LAPACK/odrrb.hpp"
-#include "LAPACK/odrrf.hpp"
+#include "LAPACK/odrrf.hpp"*/
 
 #define THREE            3.0
 #define FOUR             4.0

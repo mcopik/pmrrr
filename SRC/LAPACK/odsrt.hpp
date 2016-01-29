@@ -2,8 +2,6 @@
 	C++ template version of LAPACK routine dlasrt.
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODSRT_HPP
-#define ODSRT_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -11,9 +9,6 @@
 #include <math.h>
 #include <float.h>
 #include <assert.h>
-
-#include "olsame.hpp"
-#include "oerbla.hpp"
 
 /* Subroutine */ 
 template<typename FloatingType>
@@ -29,11 +24,11 @@ int odsrt_(char *id, int *n, FloatingType *d__, int *
     int dir;
     FloatingType tmp;
     int endd;
-//    extern int olsame_(char *, char *);
+    extern int olsame_(char *, char *);
     int stack[64]	/* was [2][32] */;
     FloatingType dmnmx;
     int start;
-//    extern /* Subroutine */ int oerbla_(char *, int *);
+    extern /* Subroutine */ int oerbla_(char *, int *);
     int stkpnt;
 
 
@@ -288,4 +283,3 @@ L110:
 /*     End of ODSRT */
 
 } /* odsrt_ */
-#endif

@@ -2,8 +2,6 @@
 	C++ template version of LAPACK routine dlarrr.
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODRRR_HPP
-#define ODRRR_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -178,4 +176,3 @@ L11:
 /*     END OF ODRRR */
 
 } /* odrrr_ */
-#endif

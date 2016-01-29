@@ -1,6 +1,4 @@
 /* dswap.f -- translated by f2c (version 20061008) */
-#ifndef ODSWAP_HPP
-#define ODSWAP_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -110,4 +108,6 @@ L40:
     }
     return 0;
 } /* dswap_ */
-#endif
+
+template int odswap_(int *n, double *dx, int *incx, 
+	double *dy, int *incy);

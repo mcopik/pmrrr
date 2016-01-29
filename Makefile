@@ -32,9 +32,9 @@ FOBJS = $(FSRCS:.f=.o)
 libpmrrr.a: $(CPPOBJS)  $(HEADERS) $(FOBJS) $(COBJS)
 	    $(AR) $(ARFLAGS) ./LIB/libpmrrr.a $(CPPOBJS) $(COBJS) $(FOBJS)
 
-#$(COBJS): $(HEADERS)
+$(COBJS): $(HEADERS)
 $(CPPOBJS): $(HEADERS)
-#$(FOBJS):
+$(FOBJS):
 
 .PHONY: clean
 clean:

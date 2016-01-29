@@ -2,8 +2,6 @@
 	C++ template version of LAPACK routine dstemr.
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODSTMR_HPP
-#define ODSTMR_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -13,22 +11,9 @@
 #include <assert.h>
 #include "pmrrr.h"
 
-#include "ode2.hpp"
-#include "olsame.hpp"
-#include "odev2.hpp"
-#include "odrrc.hpp"
-#include "odrre.hpp"
-#include "odrrj.hpp"
-#include "odrre.hpp"
-#include "oerbla.hpp"
-#include "odnst.hpp"
-#include "odrrr.hpp"
-#include "odrrv.hpp"
-#include "odsrt.hpp"
-
-#include "../BLAS/odscl.hpp"
-#include "../BLAS/odswap.hpp"
-
+/* Table of constant values */
+static int c__1 = 1;
+static FloatingType c_b18 = .001;
 #define TRUE_ (1)
 #define FALSE_ (0)
 #define iabs(a) ( (a) > (0) ? (a) : (-a) )
@@ -41,10 +26,6 @@ int odstmr_(char *jobz, char *range, int *n, FloatingType *d__,
 	 int *nzc, int *isuppz, int *tryrac, FloatingType *work, 
 	int *lwork, int *iwork, int *liwork, int *info)
 {
-    /* Table of constant values */
-    static int c__1 = 1;
-    static FloatingType c_b18 = .001;
-
     /* System generated locals */
     int z_dim1, z_offset, i__1, i__2;
     FloatingType d__1, d__2;
@@ -65,8 +46,8 @@ int odstmr_(char *jobz, char *range, int *n, FloatingType *d__,
     FloatingType rmin, rmax;
     int itmp;
     FloatingType tnrm;
-//    extern /* Subroutine */ int ode2_(FloatingType *, FloatingType *, FloatingType 
-//	    *, FloatingType *, FloatingType *);
+    extern /* Subroutine */ int ode2_(FloatingType *, FloatingType *, FloatingType 
+	    *, FloatingType *, FloatingType *);
     int inde2, itmp2;
     FloatingType rtol1, rtol2;
 //    extern /* Subroutine */ int odscl_(int *, FloatingType *, FloatingType *, 
@@ -80,10 +61,10 @@ int odstmr_(char *jobz, char *range, int *n, FloatingType *d__,
 //	    *, FloatingType *, int *);
     int lwmin;
     int wantz;
-//    extern /* Subroutine */ int odev2_(FloatingType *, FloatingType *, 
-//	    FloatingType *, FloatingType *, FloatingType *, FloatingType *, 
-//	    FloatingType *);
-//     extern FloatingType odmch_(char *);
+    extern /* Subroutine */ int odev2_(FloatingType *, FloatingType *, 
+	    FloatingType *, FloatingType *, FloatingType *, FloatingType *, 
+	    FloatingType *);
+     extern FloatingType odmch_(char *);
     int alleig;
     int ibegin;
     int indeig;
@@ -92,32 +73,32 @@ int odstmr_(char *jobz, char *range, int *n, FloatingType *d__,
 //    extern /* Subroutine */ int odrrc_(char *, int *, FloatingType *, 
 //	    FloatingType *, FloatingType *, FloatingType *, FloatingType *, int *, 
 //	     int *, int *, int *);
-//    extern /* Subroutine */ int odrre_(char *, 
-//	    int *, FloatingType *, FloatingType *, int *, int *, 
-//	    FloatingType *, FloatingType *, FloatingType *, FloatingType *, 
-//	    FloatingType *, FloatingType *, int *, int *, int *, 
-//	    FloatingType *, FloatingType *, FloatingType *, int *, int *, 
-//	    FloatingType *, FloatingType *, FloatingType *, int *, int *);
+    extern /* Subroutine */ int odrre_(char *, 
+	    int *, FloatingType *, FloatingType *, int *, int *, 
+	    FloatingType *, FloatingType *, FloatingType *, FloatingType *, 
+	    FloatingType *, FloatingType *, int *, int *, int *, 
+	    FloatingType *, FloatingType *, FloatingType *, int *, int *, 
+	    FloatingType *, FloatingType *, FloatingType *, int *, int *);
     int wbegin;
     FloatingType safmin;
 //    extern /* Subroutine */ int odrrj_(int *, FloatingType *, FloatingType *, 
 //	     int *, int *, FloatingType *, int *, FloatingType *, 
 //	    FloatingType *, FloatingType *, int *, FloatingType *, FloatingType *, 
 //	     int *);
-//    extern /* Subroutine */ int oerbla_(char *, int *);
+    extern /* Subroutine */ int oerbla_(char *, int *);
     FloatingType bignum;
     int inderr, iindwk, indgrs, offset;
-//    extern FloatingType odnst_(char *, int *, FloatingType *, FloatingType *);
+    extern FloatingType odnst_(char *, int *, FloatingType *, FloatingType *);
 //    extern /* Subroutine */ int odrrr_(int *, FloatingType *, FloatingType *, 
 //	     int *);
-//    extern /* Subroutine */ int odrrv_(int *, FloatingType *, FloatingType *, 
-//	    FloatingType *, FloatingType *, FloatingType *, int *, int *, 
-//	    int *, int *, FloatingType *, FloatingType *, FloatingType *, 
-//	    FloatingType *, FloatingType *, FloatingType *, int *, int *, 
-//	    FloatingType *, FloatingType *, int *, int *, FloatingType *, 
-//	    int *, int *);
-//    extern /* Subroutine */ int odsrt_(char *, int *, FloatingType *, 
-//	    int *);
+    extern /* Subroutine */ int odrrv_(int *, FloatingType *, FloatingType *, 
+	    FloatingType *, FloatingType *, FloatingType *, int *, int *, 
+	    int *, int *, FloatingType *, FloatingType *, FloatingType *, 
+	    FloatingType *, FloatingType *, FloatingType *, int *, int *, 
+	    FloatingType *, FloatingType *, int *, int *, FloatingType *, 
+	    int *, int *);
+    extern /* Subroutine */ int odsrt_(char *, int *, FloatingType *, 
+	    int *);
     FloatingType thresh;
     int iinspl, ifirst, indwrk, liwmin, nzcmin;
     FloatingType pivmin;
@@ -751,4 +732,3 @@ L39:
 /*     End of ODSTMR */
 
 } /* odstmr_ */
-#endif

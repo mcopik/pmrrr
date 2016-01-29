@@ -2,8 +2,6 @@
 	C++ template version of LAPACK routine dlaruv.
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODRUV_HPP
-#define ODRUV_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -194,4 +192,3 @@ L20:
 /*     End of ODRUV */
 
 } /* odruv_ */
-#endif

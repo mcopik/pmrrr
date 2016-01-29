@@ -3,9 +3,6 @@
 
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODSCL_HPP
-#define ODSCL_HPP
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -97,4 +94,8 @@ L40:
     return 0;
 } /* odscl_ */
 
-#endif
+// Instanstiate template functions for double and float
+template int odscl_<>(int *n, float *da, float *dx, 
+	int *incx);
+template int odscl_<>(int *n, double *da, double *dx, 
+	int *incx);

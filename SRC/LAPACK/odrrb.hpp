@@ -2,8 +2,6 @@
 	C++ template version of LAPACK routine dlarrb.
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODRRB_HPP
-#define ODRRB_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -11,7 +9,7 @@
 #include <math.h>
 #include <float.h>
 #include <assert.h>
-#include "odneg.hpp"
+
 /* Subroutine */ 
 template<typename FloatingType>
 int odrrb_(int *n, FloatingType *d__, FloatingType *lld, 
@@ -32,8 +30,8 @@ int odrrb_(int *n, FloatingType *d__, FloatingType *lld,
     FloatingType gap, mid, tmp, back, lgap, rgap, left;
     int iter, nint, prev, next;
     FloatingType cvrgd, right, width;
-//    extern int odneg_(int *, FloatingType *, FloatingType *, FloatingType *
-//, FloatingType *, int *);
+    extern int odneg_(int *, FloatingType *, FloatingType *, FloatingType *
+, FloatingType *, int *);
     int negcnt;
     FloatingType mnwdth;
     int olnint, maxitr;
@@ -348,4 +346,3 @@ L100:
 /*     End of ODRRB */
 
 } /* odrrb_ */
-#endif

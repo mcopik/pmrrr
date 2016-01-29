@@ -58,12 +58,13 @@
 #include "plarrv.h"
 #include "structs.h"
 
+/*
 #include "LAPACK/odrrr.hpp"
 #include "LAPACK/odstmr.hpp"
 #include "LAPACK/odnst.hpp"
 #include "LAPACK/odrrj.hpp"
 #include "BLAS/odscl.hpp"
-
+*/
 
 /*static int handle_small_cases(char*, char*, int*, FloatingType*, FloatingType*,
 			      FloatingType*, FloatingType*, int*, int*, int*,
@@ -103,10 +104,7 @@ namespace detail{
 		       int *myfirstp, FloatingType *W, FloatingType *Z, int *ldzp,
 		       int *Zsupp);
 
-	template<typename FloatingType>
-	int cmp(const FloatingType * a1, const FloatingType * a2);
-
-	template<>
+	int cmp(const void * a1, const void * a2);
 	int cmp(const sort_struct_t *a1, const sort_struct_t *a2);
 
 	template<typename FloatingType>
@@ -965,13 +963,13 @@ int refine_to_highrac(proc_t *procinfo, char *jobz, FloatingType *D,
  * Compare function for using qsort() on an array
  * of FloatingTypes
  */
-template<typename FloatingType>
+//template<typename FloatingType>
 int cmp(const void *a1, const void *a2)
 {
-  FloatingType arg1 = *(FloatingType *)a1;
-  FloatingType arg2 = *(FloatingType *)a2;
+  double arg1 = *(double *)a1;
+  double arg2 = *(double *)a2;
 
-  if (*arg1 < *arg2)
+  if (arg1 < arg2)
     return(-1);
   else
     return(1);
@@ -983,13 +981,13 @@ int cmp(const void *a1, const void *a2)
  * Compare function for using qsort() on an array of 
  * sort_structs
  */
-template<>
+//template<>
 int cmp(const sort_struct_t *a1, const sort_struct_t *a2)
 {
   sort_struct_t *arg1, *arg2;
 
   arg1 = (sort_struct_t *) a1;
-	  arg2 = (sort_struct_t *) a2;
+  arg2 = (sort_struct_t *) a2;
 
   /* Within block local index decides */
   if (arg1->ind < arg2->ind) 

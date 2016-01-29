@@ -264,41 +264,41 @@ int PMR_comm_eigvals(MPI_Comm comm, int *nz, int *ifirst, double *W);
  * so here used to mark routines from LAPACK and BLAS libraries */
 //extern void odscl_(int*, double*, double*, int*);
 //template<typename pmrrr_datatype>
-int odscl_(int *n, double *da, double *dx, 
+extern "C" int odscl_(int *n, double *da, double *dx, 
 	int *incx);
-double odnst_(char*, int*, double*, double*);
-void   odrrr_(int*, double*, double*, int*);
-void   odrra_(int*, double*, double*, double*, double*, 
+extern "C" double odnst_(char*, int*, double*, double*);
+extern "C" void   odrrr_(int*, double*, double*, int*);
+extern "C" void   odrra_(int*, double*, double*, double*, double*, 
 		      double*, int*, int*, int*);
-void   odrrc_(char*, int*, double*, double*, double*, double*,
+extern "C" void   odrrc_(char*, int*, double*, double*, double*, double*,
 		      double*, int*, int*, int*, int*);
-void   odrrd_(char*, char*, int*, double*, double*, int*, 
+extern "C" void   odrrd_(char*, char*, int*, double*, double*, int*, 
 		      int*, double*, double*, double*, double*, 
 		      double*, double*, int*, int*, int*, double*, 
 		      double*, double*, double*, int*, int*, double*, 
 		      int*, int*);
-void   odrrb_(int*, double*, double*, int*, int*, double*,
+extern "C" void   odrrb_(int*, double*, double*, int*, int*, double*,
 		      double*, int*, double*, double*, double*, double*,
 		      int*, double*, double*, int*, int*);
-void   odrrk_(int*, int*, double*, double*, double*, double*,
+extern "C" void   odrrk_(int*, int*, double*, double*, double*, double*,
 		      double*, double*, double*, double*, int*);
-void   odebz_(int*, int*, int*, int*, int*, int*, double*, 
+extern "C" void   odebz_(int*, int*, int*, int*, int*, int*, double*, 
 		      double*, double*, double*, double*, double*,
 		      int*, double*, double*, int*, int*, double*,
 		      int*, int*);
-void   odrnv_(int*, int*, int*, double*);
-int   odrrf_(int*, double*, double*, double*, int*, int*, 
+extern "C" void   odrnv_(int*, int*, int*, double*);
+extern "C" int   odrrf_(int*, double*, double*, double*, int*, int*, 
 		      double*, double*, double*, double*, double*, 
 		      double*, double*, double*, double*, double*, 
 		      double*, int*);
-void   odr1v_(int*, int*, int*, double*, double*, double*, 
+extern "C" void   odr1v_(int*, int*, int*, double*, double*, double*, 
 		      double*, double*, double*, double*, double*, 
 		      int*, int*, double*, double*, int*, int*, 
 		      double*, double*, double*, double*);
-void   odrrj_(int*, double*, double*, int*, int*, double*, 
+extern "C" void   odrrj_(int*, double*, double*, int*, int*, double*, 
 		      int*, double*, double*, double*, int*, double*, 
 		      double*, int*);
-int   odstmr_(char*, char*, int*, double*, double*, double*, 
+extern "C" int   odstmr_(char*, char*, int*, double*, double*, double*, 
 		      double*, int*, int*, int*, double*, double*, 
 		      int*, int*, int*, int*, double*, int*, int*, 
 		      int*, int*);

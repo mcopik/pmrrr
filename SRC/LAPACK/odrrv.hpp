@@ -2,8 +2,6 @@
 	C++ template version of LAPACK routine dlarrv.
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODRRV_HPP
-#define ODRRV_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -18,13 +16,11 @@
 #define TRUE_ (1)
 #define FALSE_ (0)
 
-#include "../BLAS/odscl.hpp"
-#include "../BLAS/odcpy.hpp"
-
-#include "odr1v.hpp"
-#include "odrrb.hpp"
-#include "odrrf.hpp"
-#include "odset.hpp"
+/* Table of constant values */
+//TODO 
+static FloatingType c_b5 = 0.;
+static int c__1 = 1;
+static int c__2 = 2;
 
 /* Subroutine */ 
 template<typename FloatingType>
@@ -36,11 +32,6 @@ int odrrv_(int *n, FloatingType *vl, FloatingType *vu,
 	 FloatingType *z__, int *ldz, int *isuppz, FloatingType *work, 
 	int *iwork, int *info)
 {
-    /* Table of constant values */
-    static FloatingType c_b5 = 0.;
-    static int c__1 = 1;
-    static int c__2 = 2;
-
     /* System generated locals */
     int z_dim1, z_offset, i__1, i__2, i__3, i__4, i__5;
     FloatingType d__1, d__2;
@@ -1000,4 +991,3 @@ L170:
 /*     End of ODRRV */
 
 } /* odrrv_ */
-#endif

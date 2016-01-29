@@ -2,8 +2,6 @@
 	C++ template version of LAPACK routine dlassq.
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODSSQ_HPP
-#define ODSSQ_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -114,4 +112,3 @@ int odssq_(int *n, FloatingType *x, int *incx,
 /*     End of ODSSQ */
 
 } /* odssq_ */
-#endif

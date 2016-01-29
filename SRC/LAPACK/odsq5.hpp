@@ -2,8 +2,7 @@
 	C++ template version of LAPACK routine dlasq5.
 	Based on C code translated by f2c (version 20061008).
 */
-#ifndef ODSQ5_HPP
-#define ODSQ5_HPP
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -238,4 +237,3 @@ int odsq5_(int *i0, int *n0, FloatingType *z__,
 /*     End of ODSQ5 */
 
 } /* odsq5_ */
-#endif
