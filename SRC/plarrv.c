@@ -41,13 +41,14 @@
  *
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include <assert.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <cassert>
 #include <pthread.h>
 #include "mpi.h"
+
 #include "pmrrr.h"
 #include "plarrv.h"
 #include "process_task.h"

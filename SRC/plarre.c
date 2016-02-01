@@ -42,12 +42,12 @@
  *
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include <float.h>
-#include <assert.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <cfloat>
+#include <cassert>
 #include <pthread.h>
 #include "mpi.h"
 #include "pmrrr.h" 
@@ -55,6 +55,13 @@
 #include "global.h"
 #include "structs.h" 
 
+#include "LAPACK/odrra.hpp"
+#include "LAPACK/odrrb.hpp"
+#include "LAPACK/odrrc.hpp"
+#include "LAPACK/odrrd.hpp"
+#include "LAPACK/odrrk.hpp"
+#include "LAPACK/odebz.hpp"
+#include "LAPACK/odrnv.hpp"
 
 #define ONE                1.0
 #define HUNDRED          100.0

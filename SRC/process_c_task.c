@@ -38,12 +38,12 @@
  *
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include <float.h>
-#include <assert.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <cfloat>
+#include <cassert>
 #include <semaphore.h>
 #include "mpi.h"
 #include "pmrrr.h"
@@ -55,6 +55,8 @@
 #include "structs.h"
 #include "process_task.h"
 
+#include "LAPACK/odrrb.hpp"
+#include "LAPACK/odrrf.hpp"
 
 #define THREE            3.0
 #define FOUR             4.0

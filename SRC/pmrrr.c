@@ -44,12 +44,12 @@
  *
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <string.h>
-#include <assert.h>
-#include <float.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cmath>
+#include <cstring>
+#include <cassert>
+#include <cfloat>
 
 #include "mpi.h"
 #include "pmrrr.h"
@@ -58,6 +58,13 @@
 #include "plarrv.h"
 #include "structs.h"
 
+#include "BLAS/odscl.hpp"
+
+#include "LAPACK/odnst.hpp"
+#include "LAPACK/odrrr.hpp"
+#include "LAPACK/odrrj.hpp"
+#include "LAPACK/odstmr.hpp"
+#include "LAPACK/odrre.hpp"
 
 static int handle_small_cases(char*, char*, int*, double*, double*,
 			      double*, double*, int*, int*, int*,

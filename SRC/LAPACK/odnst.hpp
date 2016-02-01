@@ -2,15 +2,16 @@
 #ifndef ODNST_HPP
 #define ODNST_HPP
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include <float.h>
-#include <assert.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <cfloat>
+#include <cassert>
 
 #include "odssq.hpp"
 //#include "olsame.hpp"
+
 template<typename FloatingType>
 FloatingType odnst_(char *norm, int *n, FloatingType *d__, FloatingType *e)
 {

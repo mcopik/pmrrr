@@ -2,12 +2,12 @@
 #ifndef ODRRD_HPP
 #define ODRRD_HPP
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include <float.h>
-#include <assert.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <cfloat>
+#include <cassert>
 
 #include "odebz.hpp"
 //#include "olsame.hpp"

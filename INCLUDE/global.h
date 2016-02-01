@@ -54,10 +54,10 @@
 
 #define restrict /*nothing*/
 #define inline   /*nothing*/
-
+/*
 #define fmax(a,b) ( (a) > (b) ? (a) : (b) )
 #define fmin(a,b) ( (a) < (b) ? (a) : (b) )
-
+*/
 /* C++ provides a full support for booleans, but LAPACK->C interface accepts integers.
    For compatibility with previous code, provide an integer_boolean
 */ 

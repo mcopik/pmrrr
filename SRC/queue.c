@@ -38,10 +38,10 @@
  *
  */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <pthread.h>
-#include <assert.h>
+#include <cassert>
 #include "global.h"
 #include "queue.h"
 

@@ -38,12 +38,12 @@
  *
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include <float.h>
-#include <assert.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <cfloat>
+#include <cassert>
 #include "pmrrr.h"
 #include "global.h"
 #include "rrr.h"
@@ -52,6 +52,10 @@
 #include "tasks.h"
 #include "process_task.h"
 
+#include "BLAS/odscl.hpp"
+
+#include "LAPACK/odrrb.hpp"
+#include "LAPACK/odr1v.hpp"
 
 int PMR_process_s_task(singleton_t *sng, int tid, proc_t *procinfo,
 		       val_t *Wstruct, vec_t *Zstruct, 

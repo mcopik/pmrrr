@@ -38,9 +38,9 @@
  *
  */
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <pthread.h>
-#include <assert.h>
+#include <cassert>
 #include "global.h"
 #include "counter.h"
 

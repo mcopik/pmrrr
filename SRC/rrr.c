@@ -38,9 +38,9 @@
  *
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <assert.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cassert>
 #include "rrr.h"
 #include "global.h"
 

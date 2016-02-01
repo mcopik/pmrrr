@@ -1,13 +1,13 @@
 /*  -- translated by f2c (version 19940927) */
-//#ifndef OLSAME_HPP
-//#define OLSAME_HPP
+#ifndef OLSAME_HPP
+#define OLSAME_HPP
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include <float.h>
-#include <assert.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <cfloat>
+#include <cassert>
 
 int olsame_(char *ca, char *cb)
 {
@@ -111,4 +111,4 @@ e
 
     return ret_val;
 } /* olsame_ */
-//#endif
+#endif
