@@ -1,4 +1,6 @@
 /*  -- translated by f2c (version 19940927) */
+//#ifndef OLSAME_HPP
+//#define OLSAME_HPP
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -109,4 +111,4 @@ e
 
     return ret_val;
 } /* olsame_ */
-
+//#endif
