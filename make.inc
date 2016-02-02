@@ -1,10 +1,10 @@
 # Compiler for C and Fortran
 #  CC = mpiicc
-CC = mpiicpc
-CXX = mpiicpc
+CC = mpicxx
+CXX = mpicxx
 
 # Compiler flags
-CFLAGS = -pthread -O3 -restrict #-std=c++11
+CFLAGS = -pthread -O3
 
 # Archiver and flags used when building the archive
 AR = /usr/bin/ar 

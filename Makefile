@@ -11,6 +11,7 @@ endif
 
 # Source files
 HEADERS := $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.h))
+HEADERS += $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.hpp))
 
 #CPPSRCS   := $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.cpp))
 #CPPOBJS = $(CPPSRCS:.cpp=.o)
@@ -41,4 +42,4 @@ clean:
         $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*~)) \
         $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.mod.*)) \
         $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*__genmod*))
-        
+	rm -f ./LIB/libpmrrr.a
