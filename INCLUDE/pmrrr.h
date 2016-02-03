@@ -264,6 +264,7 @@ int PMR_comm_eigvals(MPI_Comm comm, int *nz, int *ifirst, double *W);
  * so here used to mark routines from LAPACK and BLAS libraries */
 //extern void odscl_(int*, double*, double*, int*);
 //template<typename pmrrr_datatype>
+#ifdef __cplusplus
 extern "C" int odscl_(int *n, double *da, double *dx, 
 	int *incx);
 extern "C" double odnst_(char*, int*, double*, double*);
@@ -304,11 +305,11 @@ extern "C" int   odstmr_(char*, char*, int*, double*, double*, double*,
 		      int*, int*);
  
 //template<typename pmrrr_datatype>
-int odcpy_(int *n, double *dx, int *incx, 
+extern "C" int odcpy_(int *n, double *dx, int *incx, 
 	double *dy, int *incy);
 //
 //template<typename pmrrr_datatype>
-int odswap_(int *n, double *dx, int *incx, 
+extern "C" int odswap_(int *n, double *dx, int *incx, 
 	double *dy, int *incy);
-
+#endif
 #endif /* End of header file */

@@ -62,10 +62,12 @@
 
 /* C++ provides a full support for booleans, but LAPACK->C interface accepts integers.
    For compatibility with previous code, provide an integer_boolean
-*/ 
-typedef int    bool_;
+*/
+#ifndef __cplusplus
+typedef int    bool;
 #define false  0
 #define true   1
+#endif
 
 #endif
 #else  /* __STDC__ not defined */
