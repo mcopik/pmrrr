@@ -54,18 +54,20 @@
 #include "mpi.h"
 #include "pmrrr.h"
 #include "plarrv.h"
-#include "process_task.h"
+//#include "process_task.h"
 #include "global.h"
 #include "rrr.h"
 #include "queue.h"
 #include "structs.h"
 #include "counter.h"
 
+#include "process_c_task.hpp"
+#include "process_s_task.hpp"
+#include "process_r_task.hpp"
+
 using std::sort;
 
-namespace pmrrr {
-
-namespace detail{
+namespace pmrrr { namespace detail{
 
 	namespace {
 
@@ -639,7 +641,7 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 		  while (PMR_get_counter_value(num_left) > 0) {
 
 			/* empty r-queue before processing other tasks */
-			PMR_process_r_queue(tid, procinfo, reinterpret_cast<val_t_*>(Wstruct), Zstruct, tolstruct,
+			PMR_process_r_queue(tid, procinfo, Wstruct, Zstruct, tolstruct,
 					workQ, num_left, work, iwork);
 
 			task = PMR_remove_task_at_front(workQ->s_queue);
@@ -647,7 +649,7 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 			  assert(task->flag == SINGLETON_TASK_FLAG);
 
 			  PMR_process_s_task((singleton_t *) task->data, tid, procinfo,
-					 reinterpret_cast<val_t_*>(Wstruct), Zstruct, tolstruct, num_left, 
+					 Wstruct, Zstruct, tolstruct, num_left, 
 					 work, iwork);
 			  free(task);
 			  continue;
@@ -658,7 +660,7 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 			  assert(task->flag == CLUSTER_TASK_FLAG);
 
 			  PMR_process_c_task((cluster_t *) task->data, tid, procinfo,
-					 reinterpret_cast<val_t_*>(Wstruct), Zstruct, tolstruct, workQ,
+					 Wstruct, Zstruct, tolstruct, workQ,
 					 num_left, work, iwork);
 			  free(task);
 			  continue;

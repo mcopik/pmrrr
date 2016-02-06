@@ -56,125 +56,115 @@
 #include "LAPACK/odrrb.hpp"
 #include "LAPACK/odrrf.hpp"*/
 
-namespace pmrrr {
+namespace pmrrr { namespace detail {
 
-namespace detail {
+	/*
+	 * Executes all tasks which are in the r-queue at the moment of the 
+	 * call. This routine is called to make sure that all tasks in the 
+	 * queue are dequeued before continueing with other tasks.
+	 */
+	template<typename FloatingType>
+	void PMR_process_r_queue(int tid, proc_t *procinfo, val_t<FloatingType> *Wstruct, 
+				 vec_t *Zstruct, tol_t *tolstruct, 
+				 workQ_t *workQ, counter_t *num_left, 
+				 FloatingType *work, int *iwork)
+	{
+	  int        thread_support = procinfo->thread_support;
+	  int        t, num_tasks;
+	  int        status;
+	  task_t     *task;
 
-template<typename FloatingType>
-int PMR_process_r_task(refine_t *rf, proc_t *procinfo, val_t *Wstruct,
-		       tol_t *tolstruct, FloatingType *work, int *iwork);
+	  num_tasks = PMR_get_num_tasks(workQ->r_queue);
 
+	  for (t=0; t<num_tasks; t++) {
+		
+		task = PMR_remove_task_at_front(workQ->r_queue);
 
-/*
- * Executes all tasks which are in the r-queue at the moment of the 
- * call. This routine is called to make sure that all tasks in the 
- * queue are dequeued before continueing with other tasks.
- */
-template<typename FloatingType>
-void PMR_process_r_queue(int tid, proc_t *procinfo, val_t *Wstruct, 
-			 vec_t *Zstruct, tol_t *tolstruct, 
-			 workQ_t *workQ, counter_t *num_left, 
-			 FloatingType *work, int *iwork)
-{
-  int        thread_support = procinfo->thread_support;
-  int        t, num_tasks;
-  int        status;
-  task_t     *task;
+		if ( task != NULL ) {
+		
+		  if (task->flag == CLUSTER_TASK_FLAG) {
 
-  num_tasks = PMR_get_num_tasks(workQ->r_queue);
+		if (thread_support != MPI_THREAD_FUNNELED || tid == 0) {
+		  /* if MPI_THREAD_FUNNELED only tid==0 should process 
+		       * these tasks, otherwise any thread can do it */
+		  status = PMR_process_c_task((cluster_t *) task->data,
+						  tid, procinfo, Wstruct,
+						  Zstruct, tolstruct, workQ,
+						  num_left, work, iwork);
+		  
+		  if (status == C_TASK_PROCESSED) {
+			free(task);
+		  } else {
+			PMR_insert_task_at_back(workQ->r_queue, task);
+		  }
+		} else {
+			PMR_insert_task_at_back(workQ->r_queue, task);
+		}
 
-  for (t=0; t<num_tasks; t++) {
-    
-    task = PMR_remove_task_at_front(workQ->r_queue);
+		  } /* end if cluster task */
 
-    if ( task != NULL ) {
-    
-      if (task->flag == CLUSTER_TASK_FLAG) {
+		  if (task->flag == REFINE_TASK_FLAG) {
+		PMR_process_r_task((refine_t *) task->data, procinfo,
+				   Wstruct, tolstruct, work, iwork);
+		free(task);
+		  }
+	 
+		} /* end if task removed */
+	  } /* end for t */
+	} /* end process_entire_r_queue */
+  
+	/*
+	 * Process the task of refining a subset of eigenvalues.
+	 */
+	template<typename FloatingType>
+	int PMR_process_r_task(refine_t *rf, proc_t *procinfo, 
+				   val_t<FloatingType> *Wstruct, tol_t *tolstruct, 
+				   FloatingType *work, int *iwork)
+	{
+	  /* From inputs */
+	  int              		 ts_begin  = rf->begin;
+	  FloatingType *restrict D         = rf->D;
+	  FloatingType *restrict DLL       = rf->DLL;
+	  int              		 p         = rf->p;
+	  int              		 q         = rf->q;
+	  int              		 bl_size   = rf->bl_size;
+	  FloatingType           bl_spdiam = rf->bl_spdiam;
+	  sem_t            		 *sem      = rf->sem;
 
-	if (thread_support != MPI_THREAD_FUNNELED || tid == 0) {
-	  /* if MPI_THREAD_FUNNELED only tid==0 should process 
-           * these tasks, otherwise any thread can do it */
-	  status = PMR_process_c_task((cluster_t *) task->data,
-				      tid, procinfo, Wstruct,
-				      Zstruct, tolstruct, workQ,
-				      num_left, work, iwork);
+	  FloatingType *restrict Werr      = Wstruct->Werr;
+	  FloatingType *restrict Wgap      = Wstruct->Wgap;
+	  int    *restrict 		 Windex    = Wstruct->Windex;
+	  FloatingType *restrict Wshifted  = Wstruct->Wshifted;
 	  
-	  if (status == C_TASK_PROCESSED) {
-	    free(task);
-	  } else {
-	    PMR_insert_task_at_back(workQ->r_queue, task);
-	  }
-	} else {
-	    PMR_insert_task_at_back(workQ->r_queue, task);
+	  FloatingType           rtol1     = tolstruct->rtol1;
+	  FloatingType           rtol2     = tolstruct->rtol2;
+	  FloatingType           pivmin    = tolstruct->pivmin;
+
+	  /* Others */
+	  int    	   info, offset;
+	  FloatingType savegap;
+
+	  offset = Windex[ts_begin] - 1;
+
+	  if (p == q) {
+		savegap = Wgap[ts_begin];
+		Wgap[ts_begin] = 0.0;
+	  }  
+
+	  odrrb_(&bl_size, D, DLL, &p, &q, &rtol1, &rtol2, &offset, 
+		  &Wshifted[ts_begin], &Wgap[ts_begin], &Werr[ts_begin],
+		  work, iwork, &pivmin, &bl_spdiam, &bl_size, &info);
+	  assert(info == 0);
+
+	  if (p == q) {
+		Wgap[ts_begin] = savegap;
+	  }  
+
+	  sem_post(sem);
+	  free(rf);
+
+	  return(0);
 	}
-
-      } /* end if cluster task */
-
-      if (task->flag == REFINE_TASK_FLAG) {
-	PMR_process_r_task((refine_t *) task->data, procinfo,
-			   Wstruct, tolstruct, work, iwork);
-	free(task);
-      }
- 
-    } /* end if task removed */
-  } /* end for t */
-} /* end process_entire_r_queue */
-  
-
-
-
-/*
- * Process the task of refining a subset of eigenvalues.
- */
-template<typename FloatingType>
-int PMR_process_r_task(refine_t *rf, proc_t *procinfo, 
-		       val_t *Wstruct, tol_t *tolstruct, 
-		       FloatingType *work, int *iwork)
-{
-  /* From inputs */
-  int              		 ts_begin  = rf->begin;
-  FloatingType *restrict D         = rf->D;
-  FloatingType *restrict DLL       = rf->DLL;
-  int              		 p         = rf->p;
-  int              		 q         = rf->q;
-  int              		 bl_size   = rf->bl_size;
-  FloatingType           bl_spdiam = rf->bl_spdiam;
-  sem_t            		 *sem      = rf->sem;
-
-  FloatingType *restrict Werr      = Wstruct->Werr;
-  FloatingType *restrict Wgap      = Wstruct->Wgap;
-  int    *restrict 		 Windex    = Wstruct->Windex;
-  FloatingType *restrict Wshifted  = Wstruct->Wshifted;
-  
-  FloatingType           rtol1     = tolstruct->rtol1;
-  FloatingType           rtol2     = tolstruct->rtol2;
-  FloatingType           pivmin    = tolstruct->pivmin;
-
-  /* Others */
-  int    	   info, offset;
-  FloatingType savegap;
-
-  offset = Windex[ts_begin] - 1;
-
-  if (p == q) {
-    savegap = Wgap[ts_begin];
-    Wgap[ts_begin] = 0.0;
-  }  
-
-  odrrb_(&bl_size, D, DLL, &p, &q, &rtol1, &rtol2, &offset, 
-	  &Wshifted[ts_begin], &Wgap[ts_begin], &Werr[ts_begin],
-	  work, iwork, &pivmin, &bl_spdiam, &bl_size, &info);
-  assert(info == 0);
-
-  if (p == q) {
-    Wgap[ts_begin] = savegap;
-  }  
-
-  sem_post(sem);
-  free(rf);
-
-  return(0);
-}
 
 } //namespace detail
 
