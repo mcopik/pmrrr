@@ -79,14 +79,14 @@ using std::sort;
 			      int*, int*);
 static int cmp(const void*, const void*);
 static int cmpb(const void*, const void*);
-static FloatingType scale_matrix(in_t*, val_t<FloatingType>*, bool);
+static FloatingType scale_matrix(in_t<FloatingType>*, val_t<FloatingType>*, bool);
 static void invscale_eigenvalues(val_t<FloatingType>*, FloatingType, int);
-static int sort_eigenpairs(proc_t*, val_t<FloatingType>*, vec_t*);
+static int sort_eigenpairs(proc_t*, val_t<FloatingType>*, vec_t<FloatingType>*);
 static void clean_up(MPI_Comm, FloatingType*, FloatingType*, FloatingType*, 
 		     int*, int*, int*, int*, int*, proc_t*, 
-		     in_t*, val_t<FloatingType>*, vec_t*, tol_t*);
+		     in_t<FloatingType>*, val_t<FloatingType>*, vec_t<FloatingType>*, tol_t<FloatingType>*);
 static int refine_to_highrac(proc_t*, char*, FloatingType*, FloatingType*,
-			     in_t*, int*, val_t<FloatingType>*, tol_t*);
+			     in_t<FloatingType>*, int*, val_t<FloatingType>*, tol_t<FloatingType>*);
 */
 
 
@@ -100,47 +100,47 @@ static int refine_to_highrac(proc_t*, char*, FloatingType*, FloatingType*,
 
 namespace pmrrr {
 
-namespace detail{
-	template<typename FloatingType>
-	FloatingType scale_matrix(in_t *Dstruct, val_t<FloatingType> *Wstruct, bool valeig);
+	namespace detail{
+		template<typename FloatingType>
+		FloatingType scale_matrix(in_t<FloatingType> *Dstruct, val_t<FloatingType> *Wstruct, bool valeig);
 
-	template<typename FloatingType>
-	int handle_small_cases(char *jobz, char *range, int *np, FloatingType  *D,
-		       FloatingType *E, FloatingType *vlp, FloatingType *vup, int *ilp,
-		       int *iup, int *tryracp, MPI_Comm comm, int *nzp,
-		       int *myfirstp, FloatingType *W, FloatingType *Z, int *ldzp,
-		       int *Zsupp);
+		template<typename FloatingType>
+		int handle_small_cases(char *jobz, char *range, int *np, FloatingType  *D,
+				   FloatingType *E, FloatingType *vlp, FloatingType *vup, int *ilp,
+				   int *iup, int *tryracp, MPI_Comm comm, int *nzp,
+				   int *myfirstp, FloatingType *W, FloatingType *Z, int *ldzp,
+				   int *Zsupp);
 
-	template<typename FloatingType>
-	bool cmp(const FloatingType & a1, const FloatingType & a2);
+		template<typename FloatingType>
+		bool cmp(const FloatingType & a1, const FloatingType & a2);
 
-	/*
-	 * Template template parameter required because of the sort function not catching overload properly.
-	 */
-	template<typename FloatingType>
-	bool cmp_sort_struct(const sort_struct_t<FloatingType> & a1, const sort_struct_t<FloatingType> & a2);
+		/*
+		 * Template template parameter required because of the sort function not catching overload properly.
+		 */
+		template<typename FloatingType>
+		bool cmp_sort_struct(const sort_struct_t<FloatingType> & a1, const sort_struct_t<FloatingType> & a2);
 
 
-	template<typename FloatingType>
-	void clean_up(MPI_Comm comm, FloatingType *Werr, FloatingType *Wgap,
-	      FloatingType *gersch, int *iblock, int *iproc,
-	      int *Windex, int *isplit, int *Zindex,
-	      proc_t *procinfo, in_t *Dstruct,
-	      val_t<FloatingType> *Wstruct, vec_t *Zstruct,
-	      tol_t *tolstruct);
+		template<typename FloatingType>
+		void clean_up(MPI_Comm comm, FloatingType *Werr, FloatingType *Wgap,
+			  FloatingType *gersch, int *iblock, int *iproc,
+			  int *Windex, int *isplit, int *Zindex,
+			  proc_t *procinfo, in_t<FloatingType> *Dstruct,
+			  val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct,
+			  tol_t<FloatingType> *tolstruct);
 
-	template<typename FloatingType>
-	int sort_eigenpairs(proc_t *procinfo, val_t<FloatingType> *Wstruct, vec_t *Zstruct);
+		template<typename FloatingType>
+		int sort_eigenpairs(proc_t *procinfo, val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct);
 
-	template<typename FloatingType>
-	int refine_to_highrac(proc_t *procinfo, char *jobz, FloatingType *D,
-				  FloatingType *E2, in_t *Dstruct, int *nzp,
-				  val_t<FloatingType> *Wstruct, tol_t *tolstruct);
+		template<typename FloatingType>
+		int refine_to_highrac(proc_t *procinfo, char *jobz, FloatingType *D,
+					  FloatingType *E2, in_t<FloatingType> *Dstruct, int *nzp,
+					  val_t<FloatingType> *Wstruct, tol_t<FloatingType> *tolstruct);
 
-	template<typename FloatingType>
-	void invscale_eigenvalues(val_t<FloatingType> *Wstruct, FloatingType scale,
-				  int size);
-}
+		template<typename FloatingType>
+		void invscale_eigenvalues(val_t<FloatingType> *Wstruct, FloatingType scale,
+					  int size);
+	}
 
 template<typename FloatingType>
 int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
@@ -163,11 +163,11 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
   int         *iblock, *iproc, *Windex, *Zindex, *isplit;
 
   /* Structures to store variables */
-  proc_t      *procinfo;
-  in_t        *Dstruct;  
-  val_t<FloatingType>       *Wstruct;
-  vec_t       *Zstruct;
-  tol_t       *tolstruct;
+  detail::proc_t      *procinfo;
+  detail::in_t<FloatingType>        *Dstruct;  
+  detail::val_t<FloatingType>       *Wstruct;
+  detail::vec_t<FloatingType>       *Zstruct;
+  detail::tol_t<FloatingType>       *tolstruct;
 
   /* Multiprocessing and multithreading */
   int         nproc, pid, nthreads;
@@ -276,15 +276,15 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
   assert(isplit != NULL);
   Zindex    = (int *)    malloc( n * sizeof(int) );
   assert(Zindex != NULL);
-  procinfo  = (proc_t *) malloc( sizeof(proc_t) );
+  procinfo  = (detail::proc_t *) malloc( sizeof(detail::proc_t) );
   assert(procinfo != NULL);
-  Dstruct   = (in_t *)   malloc( sizeof(in_t) );
+  Dstruct   = (detail::in_t<FloatingType> *)   malloc( sizeof(detail::in_t<FloatingType>) );
   assert(Dstruct != NULL);
-  Wstruct   = (val_t<FloatingType> *)  malloc( sizeof(val_t<FloatingType>) );
+  Wstruct   = (detail::val_t<FloatingType> *)  malloc( sizeof(detail::val_t<FloatingType>) );
   assert(Wstruct != NULL);
-  Zstruct   = (vec_t *)  malloc( sizeof(vec_t) );
+  Zstruct   = (detail::vec_t<FloatingType> *)  malloc( sizeof(detail::vec_t<FloatingType>) );
   assert(Zstruct != NULL);
-  tolstruct = (tol_t *)  malloc( sizeof(tol_t) );
+  tolstruct = (detail::tol_t<FloatingType> *)  malloc( sizeof(detail::tol_t<FloatingType>) );
   assert(tolstruct != NULL);
 
   /* Bundle variables into a structures */
@@ -462,9 +462,9 @@ template<typename FloatingType>
 void clean_up(MPI_Comm comm, FloatingType *Werr, FloatingType *Wgap,
 	      FloatingType *gersch, int *iblock, int *iproc,
 	      int *Windex, int *isplit, int *Zindex,
-	      proc_t *procinfo, in_t *Dstruct,
-	      val_t<FloatingType> *Wstruct, vec_t *Zstruct,
-	      tol_t *tolstruct)
+	      proc_t *procinfo, in_t<FloatingType> *Dstruct,
+	      val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct,
+	      tol_t<FloatingType> *tolstruct)
 {
   MPI_Comm_free(&comm);
   free(Werr);
@@ -589,7 +589,7 @@ int handle_small_cases(char *jobz, char *range, int *np, FloatingType  *D,
  * Scale matrix to allowable range, returns 1.0 if not scaled
  */
 template<typename FloatingType>
-FloatingType scale_matrix(in_t *Dstruct, val_t<FloatingType> *Wstruct, bool valeig)
+FloatingType scale_matrix(in_t<FloatingType> *Dstruct, val_t<FloatingType> *Wstruct, bool valeig)
 {
   int              n  = Dstruct->n;
   FloatingType *restrict D  = Dstruct->D;
@@ -659,7 +659,7 @@ void invscale_eigenvalues(val_t<FloatingType> *Wstruct, FloatingType scale,
 
 
 template<typename FloatingType>
-int sort_eigenpairs_local(proc_t *procinfo, int m, val_t<FloatingType> *Wstruct, vec_t *Zstruct)
+int sort_eigenpairs_local(proc_t *procinfo, int m, val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct)
 {
   int              pid        = procinfo->pid;
   int              n        = Wstruct->n;
@@ -709,7 +709,7 @@ int sort_eigenpairs_local(proc_t *procinfo, int m, val_t<FloatingType> *Wstruct,
 
 template<typename FloatingType>
 int sort_eigenpairs_global(proc_t *procinfo, int m, val_t<FloatingType> *Wstruct, 
-			   vec_t *Zstruct)
+			   vec_t<FloatingType> *Zstruct)
 {
   int              pid   = procinfo->pid;
   int              nproc = procinfo->nproc;
@@ -842,7 +842,7 @@ int sort_eigenpairs_global(proc_t *procinfo, int m, val_t<FloatingType> *Wstruct
 
 /* Routine to sort the eigenpairs */
 template<typename FloatingType>
-int sort_eigenpairs(proc_t *procinfo, val_t<FloatingType> *Wstruct, vec_t *Zstruct)
+int sort_eigenpairs(proc_t *procinfo, val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct)
 {
   /* From inputs */
   int              pid      = procinfo->pid;
@@ -915,8 +915,8 @@ int sort_eigenpairs(proc_t *procinfo, val_t<FloatingType> *Wstruct, vec_t *Zstru
  */
 template<typename FloatingType>
 int refine_to_highrac(proc_t *procinfo, char *jobz, FloatingType *D,
-		      FloatingType *E2, in_t *Dstruct, int *nzp,
-		      val_t<FloatingType> *Wstruct, tol_t *tolstruct)
+		      FloatingType *E2, in_t<FloatingType> *Dstruct, int *nzp,
+		      val_t<FloatingType> *Wstruct, tol_t<FloatingType> *tolstruct)
 {
   int              pid    = procinfo->pid;
   bool             wantZ  = (jobz[0]  == 'V' || jobz[0]  == 'v');

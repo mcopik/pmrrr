@@ -70,14 +70,14 @@ namespace pmrrr { namespace detail {
 
 		template<typename FloatingType>
 		rrr_t<FloatingType>* compute_new_rrr(cluster_t *cl, int tid, proc_t *procinfo,
-					   val_t<FloatingType> *Wstruct, vec_t *Zstruct,
-					   tol_t *tolstruct, FloatingType *work, int *iwork);
+					   val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct,
+					   tol_t<FloatingType> *tolstruct, FloatingType *work, int *iwork);
 
 		template<typename FloatingType>
 		inline int refine_eigvals(cluster_t *cl, int rf_begin, int rf_end,
 				   int tid, proc_t *procinfo,
-				   rrr_t<FloatingType> *RRR, val_t<FloatingType> *Wstruct, vec_t *Zstruct,
-				   tol_t *tolstruct, counter_t *num_left, 
+				   rrr_t<FloatingType> *RRR, val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct,
+				   tol_t<FloatingType> *tolstruct, counter_t *num_left, 
 				   workQ_t *workQ, FloatingType *work, 
 				   int *iwork);
 
@@ -90,7 +90,7 @@ namespace pmrrr { namespace detail {
 
 		template<typename FloatingType>
 		inline int create_subtasks(cluster_t *cl, int tid, proc_t *procinfo,
-					rrr_t<FloatingType> *RRR, val_t<FloatingType> *Wstruct, vec_t *Zstruct,
+					rrr_t<FloatingType> *RRR, val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct,
 					workQ_t *workQ,
 					counter_t *num_left);
 	
@@ -100,8 +100,8 @@ namespace pmrrr { namespace detail {
 
 	template<typename FloatingType>
 	int PMR_process_c_task(cluster_t *cl, int tid, proc_t *procinfo,
-				   val_t<FloatingType> *Wstruct, vec_t *Zstruct, 
-				   tol_t *tolstruct, workQ_t *workQ, 
+				   val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct, 
+				   tol_t<FloatingType> *tolstruct, workQ_t *workQ, 
 				   counter_t *num_left, FloatingType *work, int *iwork)
 	{
 	  /* From inputs */
@@ -175,8 +175,8 @@ namespace pmrrr { namespace detail {
 
 		template<typename FloatingType>
 		rrr_t<FloatingType>* compute_new_rrr(cluster_t *cl, int tid, proc_t *procinfo,
-					   val_t<FloatingType> *Wstruct, vec_t *Zstruct,
-					   tol_t *tolstruct, FloatingType *work, int *iwork)
+					   val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct,
+					   tol_t<FloatingType> *tolstruct, FloatingType *work, int *iwork)
 		{
 		  /* From inputs */
 		  int              cl_begin    = cl->begin;
@@ -316,8 +316,8 @@ namespace pmrrr { namespace detail {
 		template<typename FloatingType>
 		int refine_eigvals(cluster_t *cl, int rf_begin, int rf_end,
 				   int tid, proc_t *procinfo, rrr_t<FloatingType> *RRR, 
-				   val_t<FloatingType> *Wstruct, vec_t *Zstruct,
-				   tol_t *tolstruct, counter_t *num_left,
+				   val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct,
+				   tol_t<FloatingType> *tolstruct, counter_t *num_left,
 				   workQ_t *workQ, FloatingType *work,
 				   int *iwork)
 		{
@@ -676,7 +676,7 @@ namespace pmrrr { namespace detail {
 
 		template<typename FloatingType>
 		int create_subtasks(cluster_t *cl, int tid, proc_t *procinfo, 
-					rrr_t<FloatingType> *RRR, val_t<FloatingType> *Wstruct, vec_t *Zstruct,
+					rrr_t<FloatingType> *RRR, val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct,
 					workQ_t *workQ, counter_t *num_left)
 		{
 		  /* From inputs */

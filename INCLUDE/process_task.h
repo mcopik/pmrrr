@@ -72,24 +72,24 @@ namespace pmrrr { namespace detail {
 
 	template<typename FloatingType>
 	int PMR_process_c_task(cluster_t *cl, int tid, proc_t *procinfo,
-				   val_t<FloatingType> *Wstruct, vec_t *Zstruct, 
-				   tol_t *tolstruct, workQ_t *workQ, 
+				   val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct, 
+				   tol_t<FloatingType> *tolstruct, workQ_t *workQ, 
 				   counter_t *num_left, FloatingType *work, int *iwork);
 
 	template<typename FloatingType>
 	int PMR_process_s_task(singleton_t *sng, int tid, proc_t *procinfo,
-				   val_t<FloatingType> *Wstruct, vec_t *Zstruct, 
-				   tol_t *tolstruct, counter_t *num_left, 
+				   val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct, 
+				   tol_t<FloatingType> *tolstruct, counter_t *num_left, 
 				   FloatingType *work, int *iwork);
 
 	template<typename FloatingType>
 	int PMR_process_r_task(refine_t *rf, proc_t *procinfo, 
-					   val_t<FloatingType> *Wstruct, tol_t *tolstruct, 
+					   val_t<FloatingType> *Wstruct, tol_t<FloatingType> *tolstruct, 
 					   FloatingType *work, int *iwork);
 
 	template<typename FloatingType>
 	void PMR_process_r_queue(int tid, proc_t *procinfo, val_t<FloatingType> *Wstruct, 
-				 vec_t *Zstruct, tol_t *tolstruct, 
+				 vec_t<FloatingType> *Zstruct, tol_t<FloatingType> *tolstruct, 
 				 workQ_t *workQ, counter_t *num_left, 
 				 FloatingType *work, int *iwork);
 } }

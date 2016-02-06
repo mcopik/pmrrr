@@ -58,8 +58,8 @@ namespace pmrrr { namespace detail {
 
 	template<typename FloatingType>
 	int PMR_process_s_task(singleton_t *sng, int tid, proc_t *procinfo,
-				   val_t<FloatingType> *Wstruct, vec_t *Zstruct, 
-				   tol_t *tolstruct, counter_t *num_left, 
+				   val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct, 
+				   tol_t<FloatingType> *tolstruct, counter_t *num_left, 
 				   FloatingType *work, int *iwork)
 	{
 	  /* Inputs */

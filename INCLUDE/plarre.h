@@ -52,8 +52,8 @@
  * terms of performance and memory usage.
  */
 #ifdef __cplusplus
-extern "C" int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct, 
-	       val_t_ *Wstruct, tol_t *tolstruct, int *nzp, int *offsetp);
+//extern "C" int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct, 
+//	       val_t_ *Wstruct, tol_t *tolstruct, int *nzp, int *offsetp);
 #endif
 
 /* Perturb the initial root representation by "1 + eps*RAND_FACTOR*rand"; 

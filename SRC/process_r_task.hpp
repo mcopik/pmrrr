@@ -65,7 +65,7 @@ namespace pmrrr { namespace detail {
 	 */
 	template<typename FloatingType>
 	void PMR_process_r_queue(int tid, proc_t *procinfo, val_t<FloatingType> *Wstruct, 
-				 vec_t *Zstruct, tol_t *tolstruct, 
+				 vec_t<FloatingType> *Zstruct, tol_t<FloatingType> *tolstruct, 
 				 workQ_t *workQ, counter_t *num_left, 
 				 FloatingType *work, int *iwork)
 	{
@@ -118,7 +118,7 @@ namespace pmrrr { namespace detail {
 	 */
 	template<typename FloatingType>
 	int PMR_process_r_task(refine_t *rf, proc_t *procinfo, 
-				   val_t<FloatingType> *Wstruct, tol_t *tolstruct, 
+				   val_t<FloatingType> *Wstruct, tol_t<FloatingType> *tolstruct, 
 				   FloatingType *work, int *iwork)
 	{
 	  /* From inputs */

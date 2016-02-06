@@ -74,12 +74,12 @@ namespace pmrrr { namespace detail{
 	namespace {
 
 		template<typename FloatingType>
-		int assign_to_proc(proc_t *procinfo, in_t *Dstruct,
-					  val_t<FloatingType> *Wstruct, vec_t *Zstruct, int *nzp,
+		int assign_to_proc(proc_t *procinfo, in_t<FloatingType> *Dstruct,
+					  val_t<FloatingType> *Wstruct, vec_t<FloatingType> *Zstruct, int *nzp,
 					  int *myfirstp);
 
 		template<typename FloatingType>
-		int init_workQ(proc_t *procinfo, in_t *Dstruct,
+		int init_workQ(proc_t *procinfo, in_t<FloatingType> *Dstruct,
 					   val_t<FloatingType> *Wstruct, int *nzp,
 					   workQ_t *workQ);
 
@@ -91,12 +91,12 @@ namespace pmrrr { namespace detail{
 		static void destroy_workQ(workQ_t*);
 
 		template<typename FloatingType>
-		auxarg3_t<FloatingType> *create_auxarg3(int, proc_t*, val_t<FloatingType>*, vec_t*,
-						 tol_t*, workQ_t*, counter_t*);
+		auxarg3_t<FloatingType> *create_auxarg3(int, proc_t*, val_t<FloatingType>*, vec_t<FloatingType>*,
+						 tol_t<FloatingType>*, workQ_t*, counter_t*);
 
 		template<typename FloatingType>
 		void retrieve_auxarg3(auxarg3_t<FloatingType>*, int*, proc_t**, val_t<FloatingType>**,
-						 vec_t**, tol_t**, workQ_t**, 
+						 vec_t<FloatingType>**, tol_t<FloatingType>**, workQ_t**, 
 						 counter_t**);
 
 		template<typename FloatingType> 
@@ -109,8 +109,8 @@ namespace pmrrr { namespace detail{
  * Computation of eigenvectors of a symmetric tridiagonal
  */
 template<typename FloatingType>
-int plarrv(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
-	   vec_t *Zstruct, tol_t *tolstruct, int *nzp,
+int plarrv(proc_t *procinfo, in_t<FloatingType> *Dstruct, val_t<FloatingType> *Wstruct,
+	   vec_t<FloatingType> *Zstruct, tol_t<FloatingType> *tolstruct, int *nzp,
 	   int *myfirstp)
 {
   /* Input variables */
@@ -197,8 +197,8 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 		 * Assign the computation of eigenvectors to the processes
 		 */
 		template<typename FloatingType> 
-		int assign_to_proc(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
-				   vec_t *Zstruct, int *nzp, int *myfirstp)
+		int assign_to_proc(proc_t *procinfo, in_t<FloatingType> *Dstruct, val_t<FloatingType> *Wstruct,
+				   vec_t<FloatingType> *Zstruct, int *nzp, int *myfirstp)
 		{
 		  /* From inputs */
 		  int              pid     = procinfo->pid;
@@ -319,7 +319,7 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 		 * into the work queue.
 		 */
 		template<typename FloatingType>
-		int init_workQ(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
+		int init_workQ(proc_t *procinfo, in_t<FloatingType> *Dstruct, val_t<FloatingType> *Wstruct,
 				   int *nzp, workQ_t *workQ)
 		{
 		  /* Input arguments */
@@ -621,8 +621,8 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 		  int          tid;
 		  proc_t       *procinfo;
 		  val_t<FloatingType>        *Wstruct;
-		  vec_t        *Zstruct;
-		  tol_t        *tolstruct;
+		  vec_t<FloatingType>        *Zstruct;
+		  tol_t<FloatingType>        *tolstruct;
 		  workQ_t *workQ;
 		  counter_t    *num_left;
 		  int          n;
@@ -717,7 +717,7 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 		template<typename FloatingType>
 		auxarg3_t<FloatingType>*
 		create_auxarg3(int tid, proc_t *procinfo, val_t<FloatingType> *Wstruct,
-				   vec_t *Zstruct, tol_t *tolstruct,
+				   vec_t<FloatingType> *Zstruct, tol_t<FloatingType> *tolstruct,
 				   workQ_t *workQ, counter_t *num_left)
 		{
 		  auxarg3_t<FloatingType> *arg;
@@ -741,8 +741,8 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 		template<typename FloatingType>
 		void 
 		retrieve_auxarg3(auxarg3_t<FloatingType> *arg, int *tid, proc_t **procinfo,
-				 val_t<FloatingType> **Wstruct, vec_t **Zstruct,
-				 tol_t **tolstruct, workQ_t **workQ,
+				 val_t<FloatingType> **Wstruct, vec_t<FloatingType> **Zstruct,
+				 tol_t<FloatingType> **tolstruct, workQ_t **workQ,
 				 counter_t **num_left)
 		{
 		  *tid         = arg->tid;

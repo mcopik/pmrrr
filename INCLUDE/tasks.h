@@ -51,50 +51,6 @@
 #define CLUSTER_TASK_FLAG    1
 #define REFINE_TASK_FLAG     2
 
-typedef struct {
-  int        begin;
-  int        end;
-  int        depth;
-  int        bl_begin;
-  int        bl_end;
-  double     bl_spdiam;
-  double     lgap;
-  rrr_t<double>      *RRR;
-} singleton_t;
-
-typedef struct {
-  int        begin;
-  int        end;
-  int        depth;
-  int        bl_begin;   /* In priciple not needed since info */
-  int        bl_end;     /* also contained in iblock+isplit */
-  double     bl_spdiam;
-  double     lgap;
-  int        proc_W_begin;
-  int        proc_W_end;
-  int        left_pid;
-  int        right_pid;
-  rrr_t<double>      *RRR;
-  bool       wait_until_refined;
-  comm_t     *messages;
-} cluster_t;
-
-
-typedef struct {
-  int        begin;
-  int        end;
-  double     *D;
-  double     *DLL;
-  int        p;
-  int        q;
-  int        bl_size;
-  double     bl_spdiam;
-  int        producer_tid; // not longer needed
-  sem_t      *sem; /* since semt_t is a handle could also store it
-		      instead of pointer to it, but pointer is all
-                      that is needed */
-} refine_t;
-
 
 #ifdef __cplusplus
 /*extern "C" task_t *PMR_create_s_task(int first, int last, int depth,
@@ -111,6 +67,50 @@ extern "C" task_t *PMR_create_r_task(int begin, int end, double *D,
 			  double *DLL, int p, int q, int bl_size,
 			  double bl_spdiam, int tid, sem_t *sem);*/
 namespace pmrrr { namespace detail {
+
+	typedef struct {
+	  int        begin;
+	  int        end;
+	  int        depth;
+	  int        bl_begin;
+	  int        bl_end;
+	  double     bl_spdiam;
+	  double     lgap;
+	  rrr_t<double>      *RRR;
+	} singleton_t;
+
+	typedef struct {
+	  int        begin;
+	  int        end;
+	  int        depth;
+	  int        bl_begin;   /* In priciple not needed since info */
+	  int        bl_end;     /* also contained in iblock+isplit */
+	  double     bl_spdiam;
+	  double     lgap;
+	  int        proc_W_begin;
+	  int        proc_W_end;
+	  int        left_pid;
+	  int        right_pid;
+	  rrr_t<double>      *RRR;
+	  bool       wait_until_refined;
+	  comm_t     *messages;
+	} cluster_t;
+
+
+	typedef struct {
+	  int        begin;
+	  int        end;
+	  double     *D;
+	  double     *DLL;
+	  int        p;
+	  int        q;
+	  int        bl_size;
+	  double     bl_spdiam;
+	  int        producer_tid; // not longer needed
+	  sem_t      *sem; /* since semt_t is a handle could also store it
+				  instead of pointer to it, but pointer is all
+		                  that is needed */
+	} refine_t;
 	
 	template<typename FloatingType>
 	task_t *PMR_create_s_task(int first, int last, int depth,

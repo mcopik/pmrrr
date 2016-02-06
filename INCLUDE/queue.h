@@ -44,35 +44,36 @@
 #include <pthread.h>
 #include "global.h"
 
-typedef struct task_aux task_t;
-struct task_aux {
-  void       *data;       /* ptr to data, has to be casted */
-  int         flag;       /* flag specifying the task */
-  task_t     *next;       /* ptr to next  task; NULL if non-existing; */
-  task_t     *prev;       /* ptr to prev. task; NULL if non-existing; */
-};
+namespace pmrrr { namespace detail {
 
-typedef struct {
-  int                num_tasks;
-  task_t            *head;
-  task_t            *back;
-#ifdef NOSPINLOCKS
-  pthread_mutex_t    lock;
-#else
-  pthread_spinlock_t lock;
-#endif
-} queue_t;
+	typedef struct task_aux task_t;
+	struct task_aux {
+	  void       *data;       /* ptr to data, has to be casted */
+	  int         flag;       /* flag specifying the task */
+	  task_t     *next;       /* ptr to next  task; NULL if non-existing; */
+	  task_t     *prev;       /* ptr to prev. task; NULL if non-existing; */
+	};
 
+	typedef struct {
+	  int                num_tasks;
+	  task_t            *head;
+	  task_t            *back;
+	#ifdef NOSPINLOCKS
+	  pthread_mutex_t    lock;
+	#else
+	  pthread_spinlock_t lock;
+	#endif
+	} queue_t;
 
-/* functionality of the queue */
-#ifdef __cplusplus
-extern "C" queue_t *PMR_create_empty_queue  (void);
-extern "C" int     PMR_insert_task_at_front (queue_t *queue, task_t *task);
-extern "C" int     PMR_insert_task_at_back  (queue_t *queue, task_t *task);
-extern "C" task_t  *PMR_remove_task_at_front(queue_t *queue);
-extern "C" task_t  *PMR_remove_task_at_back (queue_t *queue);
-extern "C" int     PMR_get_num_tasks(queue_t *queue);
-extern "C" void    PMR_destroy_queue(queue_t *queue);
-#endif
+	/* functionality of the queue */
+	queue_t *PMR_create_empty_queue  (void);
+	int     PMR_insert_task_at_front (queue_t *queue, task_t *task);
+	int     PMR_insert_task_at_back  (queue_t *queue, task_t *task);
+	task_t  *PMR_remove_task_at_front(queue_t *queue);
+	task_t  *PMR_remove_task_at_back (queue_t *queue);
+	int     PMR_get_num_tasks(queue_t *queue);
+	void    PMR_destroy_queue(queue_t *queue);
+
+} }
 
 #endif

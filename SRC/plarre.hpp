@@ -90,41 +90,41 @@ namespace detail{
 		template<typename FloatingType>
 		int eigval_approx_proc(proc_t *procinfo, int ifirst, int ilast, 
 					   int n, FloatingType *D, FloatingType *E, FloatingType *E2,  
-					   int *Windex, int *iblock, FloatingType *gersch, tol_t *tolstruct, 
+					   int *Windex, int *iblock, FloatingType *gersch, tol_t<FloatingType> *tolstruct, 
 					   FloatingType *W, FloatingType *Werr, FloatingType *Wgap, FloatingType *work,
 					   int *iwork);
 
 		template<typename FloatingType>
 		int eigval_root_proc(proc_t *procinfo, int ifirst, int ilast, 
 					   int n, FloatingType *D, FloatingType *E, FloatingType *E2,  
-					   int *Windex, int *iblock, FloatingType *gersch, tol_t *tolstruct, 
+					   int *Windex, int *iblock, FloatingType *gersch, tol_t<FloatingType> *tolstruct, 
 					   FloatingType *W, FloatingType *Werr, FloatingType *Wgap, FloatingType *work,
 					 int *iwork);
 
 		template<typename FloatingType>
 		int eigval_refine_proc(proc_t *procinfo, int ifirst, int ilast, 
 					   int n, FloatingType *D, FloatingType *E, FloatingType *E2,  
-					   int *Windex, int *iblock, FloatingType *gersch, tol_t *tolstruct, 
+					   int *Windex, int *iblock, FloatingType *gersch, tol_t<FloatingType> *tolstruct, 
 					   FloatingType *W, FloatingType *Werr, FloatingType *Wgap, FloatingType *work,
 					   int *iwork);
 
 		template<typename FloatingType>
-		auxarg1_t *create_auxarg1(int, FloatingType*, FloatingType*, FloatingType*, int, int, 
+		auxarg1_t<FloatingType> *create_auxarg1(int, FloatingType*, FloatingType*, FloatingType*, int, int, 
 					  int, int, int, int*, FloatingType,  FloatingType,
 					  FloatingType*, FloatingType*, FloatingType*, int*, int*);
 
 		template<typename FloatingType> 
-		void retrieve_auxarg1(auxarg1_t*, int*, FloatingType**, FloatingType**, FloatingType**,
+		void retrieve_auxarg1(auxarg1_t<FloatingType>*, int*, FloatingType**, FloatingType**, FloatingType**,
 					  int*, int*, int*, int*, int*, int**, FloatingType*, 
 					  FloatingType*, FloatingType**, FloatingType**, FloatingType**, int**, 
 					  int**);
 
 		template<typename FloatingType>
-		auxarg2_t *create_auxarg2(int, FloatingType*, FloatingType*, int, int, FloatingType*,
+		auxarg2_t<FloatingType> *create_auxarg2(int, FloatingType*, FloatingType*, int, int, FloatingType*,
 						  FloatingType*,FloatingType*,int*,FloatingType, FloatingType, FloatingType, FloatingType);
 
 		template<typename FloatingType>
-		void retrieve_auxarg2(auxarg2_t*, int*, FloatingType**, FloatingType**, int*,
+		void retrieve_auxarg2(auxarg2_t<FloatingType>*, int*, FloatingType**, FloatingType**, int*,
 					  int*, FloatingType**, FloatingType**, FloatingType**, int**, FloatingType*, FloatingType*, FloatingType*,
 					  FloatingType*);
 
@@ -138,8 +138,8 @@ namespace detail{
 
 /* Routine to compute eigenvalues */
 template<typename FloatingType>
-int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct, 
-	       val_t<FloatingType> *Wstruct, tol_t *tolstruct, int *nzp, int *offsetp)
+int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruct, 
+	       val_t<FloatingType> *Wstruct, tol_t<FloatingType> *tolstruct, int *nzp, int *offsetp)
 {
   /* input variables */
   int              pid    = procinfo->pid;
@@ -434,7 +434,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct,
 		template<typename FloatingType> 
 		int eigval_approx_proc(proc_t *procinfo, int ifirst, int ilast, 
 					   int n, FloatingType *D, FloatingType *E, FloatingType *E2,  
-					   int *Windex, int *iblock, FloatingType *gersch, tol_t *tolstruct, 
+					   int *Windex, int *iblock, FloatingType *gersch, tol_t<FloatingType> *tolstruct, 
 					   FloatingType *W, FloatingType *Werr, FloatingType *Wgap, FloatingType *work,
 					   int *iwork)
 		{
@@ -455,7 +455,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct,
 		  int            iifirst, iilast, chunk;
 		  pthread_t      *threads;
 		  pthread_attr_t attr;
-		  auxarg1_t      *auxarg1;
+		  auxarg1_t<FloatingType>      *auxarg1;
 		  void           *status;
 
 		  /* Others */
@@ -569,7 +569,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct,
 		template<typename FloatingType> 
 		int eigval_root_proc(proc_t *procinfo, int ifirst, int ilast, 
 					   int n, FloatingType *D, FloatingType *E, FloatingType *E2,  
-					   int *Windex, int *iblock, FloatingType *gersch, tol_t *tolstruct, 
+					   int *Windex, int *iblock, FloatingType *gersch, tol_t<FloatingType> *tolstruct, 
 					   FloatingType *W, FloatingType *Werr, FloatingType *Wgap, FloatingType *work,
 					   int *iwork)
 		{
@@ -756,7 +756,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct,
 		template<typename FloatingType> 
 		int eigval_refine_proc(proc_t *procinfo, int ifirst, int ilast, 
 					   int n, FloatingType *D, FloatingType *E, FloatingType *E2,  
-					   int *Windex, int *iblock, FloatingType *gersch, tol_t *tolstruct, 
+					   int *Windex, int *iblock, FloatingType *gersch, tol_t<FloatingType> *tolstruct, 
 					   FloatingType *W, FloatingType *Werr, FloatingType *Wgap, FloatingType *work,
 					   int *iwork)
 		{
@@ -774,7 +774,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct,
 		  int            iifirst, iilast, chunk;
 		  pthread_t      *threads;
 		  pthread_attr_t attr;
-		  auxarg2_t      *auxarg2;
+		  auxarg2_t<FloatingType>      *auxarg2;
 		  void           *status;
 
 		  /* Others */
@@ -931,7 +931,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct,
 		  FloatingType *work;
 		  int    *iwork;
 		  
-		  retrieve_auxarg1((auxarg1_t *) argin, &n, &D, &E, &E2,
+		  retrieve_auxarg1((auxarg1_t<FloatingType> *) argin, &n, &D, &E, &E2,
 				   &il, &iu, &my_il, &my_iu, &nsplit,
 				   &isplit, &bsrtol, &pivmin, &gersch,
 				   &W, &Werr, &Windex, &iblock);
@@ -980,15 +980,15 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct,
 		}
 
 		template<typename FloatingType> 
-		auxarg1_t *create_auxarg1(int n, FloatingType *D, FloatingType *E, FloatingType *E2,
+		auxarg1_t<FloatingType> *create_auxarg1(int n, FloatingType *D, FloatingType *E, FloatingType *E2,
 					  int il, int iu, int my_il, int my_iu, 
 					  int nsplit, int *isplit, FloatingType bsrtol, 
 					  FloatingType pivmin, FloatingType *gersch, FloatingType *W, 
 					  FloatingType *Werr, int *Windex, int *iblock)
 		{
-		  auxarg1_t *arg;
+		  auxarg1_t<FloatingType> *arg;
 
-		  arg = (auxarg1_t *) malloc( sizeof(auxarg1_t) );
+		  arg = (auxarg1_t<FloatingType> *) malloc( sizeof(auxarg1_t<FloatingType>) );
 		  assert(arg != NULL);
 
 		  arg->n       = n;
@@ -1013,7 +1013,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct,
 		}
 
 		template<typename FloatingType>
-		void retrieve_auxarg1(auxarg1_t *arg, int *n, FloatingType **D, FloatingType **E,
+		void retrieve_auxarg1(auxarg1_t<FloatingType> *arg, int *n, FloatingType **D, FloatingType **E,
 					  FloatingType **E2, int *il, int *iu, int *my_il, 
 					  int *my_iu, int *nsplit, int **isplit, 
 					  FloatingType *bsrtol, FloatingType *pivmin, FloatingType **gersch, 
@@ -1058,7 +1058,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct,
 		  FloatingType       *work;
 		  int          *iwork;
 
-		  retrieve_auxarg2((auxarg2_t *) argin, &bl_size, &D, &DE2,
+		  retrieve_auxarg2((auxarg2_t<FloatingType> *) argin, &bl_size, &D, &DE2,
 				   &rf_begin, &rf_end, &W, &Werr, &Wgap, &Windex, &rtol1, &rtol2,
 				   &pivmin, &bl_spdiam);
 
@@ -1090,15 +1090,15 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct,
 		}
 
 		template<typename FloatingType> 
-		auxarg2_t *create_auxarg2(int bl_size, FloatingType *D, FloatingType *DE2,
+		auxarg2_t<FloatingType> *create_auxarg2(int bl_size, FloatingType *D, FloatingType *DE2,
 					  int rf_begin, int rf_end, FloatingType *W, FloatingType *Werr,
 					  FloatingType *Wgap, int *Windex,    
 					  FloatingType rtol1, FloatingType rtol2, FloatingType pivmin, 
 					  FloatingType bl_spdiam)
 		{
-		  auxarg2_t *arg;
+		  auxarg2_t<FloatingType> *arg;
 
-		  arg = (auxarg2_t *) malloc( sizeof(auxarg2_t) );
+		  arg = (auxarg2_t<FloatingType> *) malloc( sizeof(auxarg2_t<FloatingType>) );
 		  assert(arg != NULL);
 
 		  arg->bl_size   = bl_size;
@@ -1119,7 +1119,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct,
 		}
 
 		template<typename FloatingType>
-		void retrieve_auxarg2(auxarg2_t *arg, int *bl_size, FloatingType **D,
+		void retrieve_auxarg2(auxarg2_t<FloatingType> *arg, int *bl_size, FloatingType **D,
 					  FloatingType **DE2, int *rf_begin, int *rf_end,
 					  FloatingType **W, FloatingType **Werr, FloatingType **Wgap, int **Windex, 
 					  FloatingType *rtol1, FloatingType *rtol2,

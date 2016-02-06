@@ -46,158 +46,131 @@
 #include "counter.h"
 #include "queue.h"
 
-typedef struct {
-  int              n;
-  double *restrict D;
-  double *restrict E;
-  int              nsplit;
-  int    *restrict isplit ;
-  double           spdiam;
-} in_t;
+namespace pmrrr { namespace detail {
 
-#ifdef __cplusplus
-template<typename FloatingType>
-struct val_t{
-  int              n;
-  FloatingType           *vl;
-  FloatingType           *vu;
-  int              *il;
-  int              *iu;
-  FloatingType *restrict W;
-  FloatingType *restrict Werr;
-  FloatingType *restrict Wgap;
-  int    *restrict Windex;
-  int    *restrict iblock;
-  int    *restrict iproc;
-  FloatingType *restrict Wshifted;
-  FloatingType *restrict gersch;
-};
-#endif
-typedef struct {
-  int              n;
-  double           *vl;
-  double           *vu;
-  int              *il;
-  int              *iu;
-  double *restrict W;
-  double *restrict Werr;
-  double *restrict Wgap;
-  int    *restrict Windex;
-  int    *restrict iblock;
-  int    *restrict iproc;
-  double *restrict Wshifted;
-  double *restrict gersch;
-} val_t_;
+	template<typename FloatingType>
+	struct in_t {
+	  int              n;
+	  FloatingType *restrict D;
+	  FloatingType *restrict E;
+	  int              nsplit;
+	  int    *restrict isplit ;
+	  FloatingType           spdiam;
+	};
 
-typedef struct {
-  int              ldz;
-  int              nz;
-  double *restrict Z;
-  int    *restrict Zsupp;
-  int    *restrict Zindex;
-} vec_t;
+	template<typename FloatingType>
+	struct val_t {
+	  int              n;
+	  FloatingType           *vl;
+	  FloatingType           *vu;
+	  int              *il;
+	  int              *iu;
+	  FloatingType *restrict W;
+	  FloatingType *restrict Werr;
+	  FloatingType *restrict Wgap;
+	  int    *restrict Windex;
+	  int    *restrict iblock;
+	  int    *restrict iproc;
+	  FloatingType *restrict Wshifted;
+	  FloatingType *restrict gersch;
+	};
 
-typedef struct {
-  int      pid;
-  int      nproc;
-  MPI_Comm comm;
-  int      nthreads;
-  int      thread_support;
-} proc_t;
+	template<typename FloatingType>
+	struct vec_t {
+	  int              ldz;
+	  int              nz;
+	  FloatingType *restrict Z;
+	  int    *restrict Zsupp;
+	  int    *restrict Zindex;
+	};
 
-typedef struct {
-  double split;
-  double rtol1;
-  double rtol2;
-  double pivmin;
-} tol_t;
+	struct proc_t {
+	  int      pid;
+	  int      nproc;
+	  MPI_Comm comm;
+	  int      nthreads;
+	  int      thread_support;
+	};
 
-typedef struct {
-  int         num_messages;
-  MPI_Request *requests;
-  MPI_Status  *stats;
-} comm_t;
+	template<typename FloatingType>
+	struct tol_t {
+	  FloatingType split;
+	  FloatingType rtol1;
+	  FloatingType rtol2;
+	  FloatingType pivmin;
+	};
 
-typedef struct {
-  queue_t *r_queue;
-  queue_t *s_queue;
-  queue_t *c_queue;
-} workQ_t;
+	typedef struct {
+	  int         num_messages;
+	  MPI_Request *requests;
+	  MPI_Status  *stats;
+	} comm_t;
 
-#ifdef __cplusplus
-template<typename FloatingType>
-struct sort_struct_t{
-  FloatingType lambda;
-  int    local_ind;
-  int    block_ind;
-  int    ind;
-};
-#endif
+	typedef struct {
+	  queue_t *r_queue;
+	  queue_t *s_queue;
+	  queue_t *c_queue;
+	} workQ_t;
 
-typedef struct {
-  double lambda;
-  int    local_ind;
-  int    block_ind;
-  int    ind;
-}sort_struct_t_;
+	template<typename FloatingType>
+	struct sort_struct_t{
+	  FloatingType lambda;
+	  int    local_ind;
+	  int    block_ind;
+	  int    ind;
+	};
 
-typedef struct {
-  int    n;
-  double *D;
-  double *E;
-  double *E2;
-  int    il;
-  int    iu;
-  int    my_il;
-  int    my_iu;
-  int    nsplit;
-  int    *isplit;
-  double bsrtol;
-  double pivmin;
-  double *gersch;
-  double *W;
-  double *Werr;
-  int    *Windex;
-  int   	 *iblock;
-} auxarg1_t;
+	template<typename FloatingType>
+	struct auxarg1_t {
+	  int    n;
+	  FloatingType *D;
+	  FloatingType *E;
+	  FloatingType *E2;
+	  int    il;
+	  int    iu;
+	  int    my_il;
+	  int    my_iu;
+	  int    nsplit;
+	  int    *isplit;
+	  FloatingType bsrtol;
+	  FloatingType pivmin;
+	  FloatingType *gersch;
+	  FloatingType *W;
+	  FloatingType *Werr;
+	  int    *Windex;
+	  int   	 *iblock;
+	};
 
-typedef struct {
-  int          bl_size;
-  double       *D;
-  double       *DE2;
-  int          rf_begin;
-  int          rf_end;
-  double        *W;
-  double        *Werr;
-  double        *Wgap;
-  int            *Windex;
-  double       rtol1;
-  double       rtol2;
-  double       pivmin;
-  double       bl_spdiam;
-} auxarg2_t;
+	template<typename FloatingType>
+	struct auxarg2_t {
+	  int          bl_size;
+	  FloatingType       *D;
+	  FloatingType       *DE2;
+	  int          rf_begin;
+	  int          rf_end;
+	  FloatingType        *W;
+	  FloatingType        *Werr;
+	  FloatingType        *Wgap;
+	  int            *Windex;
+	  FloatingType       rtol1;
+	  FloatingType       rtol2;
+	  FloatingType       pivmin;
+	  FloatingType       bl_spdiam;
+	};
 
-#ifdef __cplusplus
-template<typename FloatingType>
-struct auxarg3_t{
-  int          tid;
-  proc_t       *procinfo;
-  val_t<FloatingType>        *Wstruct;
-  vec_t        *Zstruct;
-  tol_t        *tolstruct;
-  workQ_t      *workQ;
-  counter_t    *num_left;
-};
-#endif
+	template<typename FloatingType>
+	struct auxarg3_t {
+	  int          tid;
+	  proc_t       *procinfo;
+	  val_t<FloatingType>        *Wstruct;
+	  vec_t<FloatingType>        *Zstruct;
+	  tol_t<FloatingType>        *tolstruct;
+	  workQ_t      *workQ;
+	  counter_t    *num_left;
+	};
 
-typedef struct {
-  int          tid;
-  proc_t       *procinfo;
-  val_t_        *Wstruct;
-  vec_t        *Zstruct;
-  tol_t        *tolstruct;
-  workQ_t      *workQ;
-  counter_t    *num_left;
-} auxarg3_t_;
+}	// namespace detail
+
+}	// namespace pmrrr
 
 #endif
