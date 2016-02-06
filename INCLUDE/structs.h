@@ -193,7 +193,7 @@ struct auxarg3_t{
 typedef struct {
   int          tid;
   proc_t       *procinfo;
-  double        *Wstruct;
+  val_t_        *Wstruct;
   vec_t        *Zstruct;
   tol_t        *tolstruct;
   workQ_t      *workQ;

@@ -419,7 +419,7 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
   } /* end of only eigenvalues to compute */
 
   /* Compute eigenvectors */
-  info = plarrv(procinfo, Dstruct, reinterpret_cast<val_t_*>(Wstruct), Zstruct, tolstruct, 
+  info = detail::plarrv(procinfo, Dstruct, Wstruct, Zstruct, tolstruct, 
 		nzp, offsetp);
   assert(info == 0);
 

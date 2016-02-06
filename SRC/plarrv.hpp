@@ -221,7 +221,7 @@ int assign_to_proc(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct
   sort_struct_t<FloatingType>     *array;
 
   array = (sort_struct_t<FloatingType> *) malloc(n*sizeof(sort_struct_t<FloatingType>));
-  
+
   for (i=0; i<n; i++) {
     /* Find shift of block */
     iblk                    = iblock[i];
@@ -297,10 +297,11 @@ namespace {
 	template<typename FloatingType> 
 	bool cmp(const sort_struct_t<FloatingType> & arg1, const sort_struct_t<FloatingType> & arg2)
 	{
-	std::cout << arg1.lambda << " " << arg2.lambda << std::endl;
 	  /* Within block local index decides */
 	  if (arg1.block_ind == arg2.block_ind) {
-		return (arg1.local_ind - arg2.local_ind);
+		// Was: (arg1.local_ind - arg2.local_ind)
+		// Now: true iff arg1.local_ind is lower, false for equal or greater
+		return arg1.local_ind < arg2.local_ind;
 	  } else {
 		if (arg1.lambda < arg2.lambda) {
 		  return true;
