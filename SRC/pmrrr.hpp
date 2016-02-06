@@ -56,11 +56,12 @@
 #include "mpi.h"
 #include "pmrrr.h"
 #include "global.h"
-#include "plarre.h"
+//#include "plarre.h"
 //#include "plarrv.h"
 #include "structs.h"
 
 #include "plarrv.hpp"
+#include "plarre.hpp"
 
 using std::sort;
 
@@ -358,7 +359,7 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
 
   /*  Compute all eigenvalues: sorted by block */
   // TODO: change later the casting
-  info = plarre(procinfo, jobz, range, Dstruct, reinterpret_cast<val_t_*>(Wstruct), tolstruct, nzp, offsetp);
+  info = detail::plarre(procinfo, jobz, range, Dstruct, Wstruct, tolstruct, nzp, offsetp);
   assert(info == 0);
 
   /* If just number of local eigenvectors are queried */
