@@ -55,6 +55,24 @@ typedef struct {
   double           spdiam;
 } in_t;
 
+#ifdef __cplusplus
+template<typename FloatingType>
+struct val_t{
+  int              n;
+  FloatingType           *vl;
+  FloatingType           *vu;
+  int              *il;
+  int              *iu;
+  FloatingType *restrict W;
+  FloatingType *restrict Werr;
+  FloatingType *restrict Wgap;
+  int    *restrict Windex;
+  int    *restrict iblock;
+  int    *restrict iproc;
+  FloatingType *restrict Wshifted;
+  FloatingType *restrict gersch;
+};
+#endif
 typedef struct {
   int              n;
   double           *vl;
@@ -69,7 +87,7 @@ typedef struct {
   int    *restrict iproc;
   double *restrict Wshifted;
   double *restrict gersch;
-} val_t;
+} val_t_;
 
 typedef struct {
   int              ldz;
@@ -106,12 +124,22 @@ typedef struct {
   queue_t *c_queue;
 } workQ_t;
 
+#ifdef __cplusplus
+template<typename FloatingType>
+struct sort_struct_t{
+  FloatingType lambda;
+  int    local_ind;
+  int    block_ind;
+  int    ind;
+};
+#endif
+
 typedef struct {
   double lambda;
   int    local_ind;
   int    block_ind;
   int    ind;
-} sort_struct_t;
+}sort_struct_t_;
 
 typedef struct {
   int    n;
@@ -130,7 +158,7 @@ typedef struct {
   double *W;
   double *Werr;
   int    *Windex;
-  int    *iblock;
+  int   	 *iblock;
 } auxarg1_t;
 
 typedef struct {
@@ -149,14 +177,27 @@ typedef struct {
   double       bl_spdiam;
 } auxarg2_t;
 
-typedef struct {
+#ifdef __cplusplus
+template<typename FloatingType>
+struct auxarg3_t{
   int          tid;
   proc_t       *procinfo;
-  val_t        *Wstruct;
+  val_t<FloatingType>        *Wstruct;
   vec_t        *Zstruct;
   tol_t        *tolstruct;
   workQ_t      *workQ;
   counter_t    *num_left;
-} auxarg3_t;
+};
+#endif
+
+typedef struct {
+  int          tid;
+  proc_t       *procinfo;
+  double        *Wstruct;
+  vec_t        *Zstruct;
+  tol_t        *tolstruct;
+  workQ_t      *workQ;
+  counter_t    *num_left;
+} auxarg3_t_;
 
 #endif

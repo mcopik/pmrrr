@@ -54,7 +54,7 @@
 
 
 int PMR_process_s_task(singleton_t *sng, int tid, proc_t *procinfo,
-		       val_t *Wstruct, vec_t *Zstruct, 
+		       val_t_ *Wstruct, vec_t *Zstruct, 
 		       tol_t *tolstruct, counter_t *num_left, 
 		       double *work, int *iwork)
 {

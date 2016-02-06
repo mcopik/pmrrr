@@ -65,12 +65,14 @@ typedef struct {
 
 
 /* functionality of the queue */
-queue_t *PMR_create_empty_queue  (void);
-int     PMR_insert_task_at_front (queue_t *queue, task_t *task);
-int     PMR_insert_task_at_back  (queue_t *queue, task_t *task);
-task_t  *PMR_remove_task_at_front(queue_t *queue);
-task_t  *PMR_remove_task_at_back (queue_t *queue);
-int     PMR_get_num_tasks(queue_t *queue);
-void    PMR_destroy_queue(queue_t *queue);
+#ifdef __cplusplus
+extern "C" queue_t *PMR_create_empty_queue  (void);
+extern "C" int     PMR_insert_task_at_front (queue_t *queue, task_t *task);
+extern "C" int     PMR_insert_task_at_back  (queue_t *queue, task_t *task);
+extern "C" task_t  *PMR_remove_task_at_front(queue_t *queue);
+extern "C" task_t  *PMR_remove_task_at_back (queue_t *queue);
+extern "C" int     PMR_get_num_tasks(queue_t *queue);
+extern "C" void    PMR_destroy_queue(queue_t *queue);
+#endif
 
 #endif

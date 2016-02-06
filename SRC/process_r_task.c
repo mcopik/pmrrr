@@ -56,7 +56,7 @@
 #include "LAPACK/odrrb.hpp"
 #include "LAPACK/odrrf.hpp"*/
 
-int PMR_process_r_task(refine_t *rf, proc_t *procinfo, val_t *Wstruct,
+int PMR_process_r_task(refine_t *rf, proc_t *procinfo, val_t_ *Wstruct,
 		       tol_t *tolstruct, double *work, int *iwork);
 
 
@@ -65,7 +65,7 @@ int PMR_process_r_task(refine_t *rf, proc_t *procinfo, val_t *Wstruct,
  * call. This routine is called to make sure that all tasks in the 
  * queue are dequeued before continueing with other tasks.
  */
-void PMR_process_r_queue(int tid, proc_t *procinfo, val_t *Wstruct, 
+void PMR_process_r_queue(int tid, proc_t *procinfo, val_t_ *Wstruct, 
 			 vec_t *Zstruct, tol_t *tolstruct, 
 			 workQ_t *workQ, counter_t *num_left, 
 			 double *work, int *iwork)
@@ -121,7 +121,7 @@ void PMR_process_r_queue(int tid, proc_t *procinfo, val_t *Wstruct,
  * Process the task of refining a subset of eigenvalues.
  */
 int PMR_process_r_task(refine_t *rf, proc_t *procinfo, 
-		       val_t *Wstruct, tol_t *tolstruct, 
+		       val_t_ *Wstruct, tol_t *tolstruct, 
 		       double *work, int *iwork)
 {
   /* From inputs */

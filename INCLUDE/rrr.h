@@ -58,17 +58,18 @@ typedef struct {
 } rrr_t;
 
 
-rrr_t *PMR_create_rrr(double *restrict D, double *restrict L,
+#ifdef __cplusplus
+extern "C" rrr_t *PMR_create_rrr(double *restrict D, double *restrict L,
 		      double *restrict DL, double *restrict DLL,
 		      int size, int depth);
 
-rrr_t *PMR_reset_rrr (rrr_t *restrict RRR, double *restrict D,
+extern "C" rrr_t *PMR_reset_rrr (rrr_t *restrict RRR, double *restrict D,
 		      double *restrict L, double *restrict DL,
 		      double *restrict DLL, int size, int depth);
 
-int  PMR_increment_rrr_dependencies(rrr_t *RRR);
-int  PMR_set_parent_processed_flag (rrr_t *RRR);
-int  PMR_set_copied_parent_rrr_flag(rrr_t *RRR, bool val);
-int  PMR_try_destroy_rrr(rrr_t *RRR);
-
+extern "C" int  PMR_increment_rrr_dependencies(rrr_t *RRR);
+extern "C" int  PMR_set_parent_processed_flag (rrr_t *RRR);
+extern "C" int  PMR_set_copied_parent_rrr_flag(rrr_t *RRR, bool val);
+extern "C" int  PMR_try_destroy_rrr(rrr_t *RRR);
+#endif
 #endif

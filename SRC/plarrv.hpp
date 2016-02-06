@@ -41,12 +41,16 @@
  *
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include <assert.h>
+#include <algorithm>
+
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <cassert>
 #include <pthread.h>
+
+
 #include "mpi.h"
 #include "pmrrr.h"
 #include "plarrv.h"
@@ -57,46 +61,71 @@
 #include "structs.h"
 #include "counter.h"
 
+using std::sort;
 
-static int assign_to_proc(proc_t *procinfo, in_t *Dstruct,
-			  val_t_ *Wstruct, vec_t *Zstruct, int *nzp,
+namespace pmrrr {
+
+namespace detail{
+
+template<typename FloatingType>
+int assign_to_proc(proc_t *procinfo, in_t *Dstruct,
+			  val_t<FloatingType> *Wstruct, vec_t *Zstruct, int *nzp,
 			  int *myfirstp);
-static int cmpa(const void*, const void*);
-static int init_workQ(proc_t *procinfo, in_t *Dstruct,
-			   val_t_ *Wstruct, int *nzp,
+
+template<typename FloatingType>
+int init_workQ(proc_t *procinfo, in_t *Dstruct,
+			   val_t<FloatingType> *Wstruct, int *nzp,
 			   workQ_t *workQ);
-static void *empty_workQ(void*);
+
+template<typename FloatingType>
+void *empty_workQ(void*);
+
 static workQ_t *create_workQ();
+
 static void destroy_workQ(workQ_t*);
-static auxarg3_t_ *create_auxarg3(int, proc_t*, val_t_*, vec_t*,
+
+template<typename FloatingType>
+auxarg3_t<FloatingType> *create_auxarg3(int, proc_t*, val_t<FloatingType>*, vec_t*,
 				 tol_t*, workQ_t*, counter_t*);
-static void retrieve_auxarg3(auxarg3_t_*, int*, proc_t**, val_t_**,
+
+template<typename FloatingType>
+void retrieve_auxarg3(auxarg3_t<FloatingType>*, int*, proc_t**, val_t<FloatingType>**,
 			     vec_t**, tol_t**, workQ_t**, 
 			     counter_t**);
 
+/*
+ *	Anonymous namespace hides internal comparator.
+ */
+namespace {
+
+	template<typename FloatingType> 
+	bool cmp(const sort_struct_t<FloatingType> & arg1, const sort_struct_t<FloatingType> & arg2);
+
+}
 
 
 /*
  * Computation of eigenvectors of a symmetric tridiagonal
  */
-int plarrv(proc_t *procinfo, in_t *Dstruct, val_t_ *Wstruct,
+template<typename FloatingType>
+int plarrv(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 	   vec_t *Zstruct, tol_t *tolstruct, int *nzp,
 	   int *myfirstp)
 {
   /* Input variables */
-  int            pid     = procinfo->pid;
-  int            nthreads = procinfo->nthreads;
-  int            n        = Dstruct->n;
-  double         *W       = Wstruct->W;
+  int            	   pid     = procinfo->pid;
+  int            	   nthreads = procinfo->nthreads;
+  int            	   n        = Dstruct->n;
+  FloatingType         *W       = Wstruct->W;
 
   /* Work space */
-  double         *Wshifted;
+  FloatingType         *Wshifted;
  
   /* Multi-threading */
   pthread_t      *threads;   
   pthread_attr_t attr;
   void           *status;
-  auxarg3_t_      *auxarg;
+  auxarg3_t<FloatingType>      *auxarg;
   counter_t      *num_left;
   
   /* Others */
@@ -105,10 +134,10 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t_ *Wstruct,
 
 
   /* Allocate work space and copy eigenvalues */
-  Wshifted = (double *) malloc( n * sizeof(double) );
+  Wshifted = (FloatingType *) malloc( n * sizeof(FloatingType) );
   assert(Wshifted != NULL);
 
-  memcpy(Wshifted, W, n*sizeof(double));
+  memcpy(Wshifted, W, n*sizeof(FloatingType));
   Wstruct->Wshifted = Wshifted;
 
   threads = (pthread_t *) malloc(nthreads * sizeof(pthread_t));
@@ -130,7 +159,7 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t_ *Wstruct,
   for (i=1; i<nthreads; i++) {
     auxarg = create_auxarg3(i, procinfo, Wstruct, Zstruct, tolstruct,
 			    workQ, num_left);
-    info = pthread_create(&threads[i], &attr, empty_workQ, 
+    info = pthread_create(&threads[i], &attr, empty_workQ<FloatingType>, 
 			  (void *) auxarg);
     assert(info == 0);
   }
@@ -142,7 +171,7 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t_ *Wstruct,
   /* Empty the work queue */
   auxarg = create_auxarg3(0, procinfo, Wstruct, Zstruct, tolstruct,
 			  workQ, num_left);
-  status = empty_workQ((void *) auxarg);
+  status = empty_workQ<FloatingType>((void *) auxarg);
   assert(status == NULL);
 
   /* Join all the worker thread */
@@ -167,19 +196,19 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t_ *Wstruct,
 /* 
  * Assign the computation of eigenvectors to the processes
  */
-static  
-int assign_to_proc(proc_t *procinfo, in_t *Dstruct, val_t_ *Wstruct,
+template<typename FloatingType> 
+int assign_to_proc(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 		   vec_t *Zstruct, int *nzp, int *myfirstp)
 {
   /* From inputs */
   int              pid     = procinfo->pid;
   int              nproc   = procinfo->nproc;
-  double *restrict L       = Dstruct->E;
+  FloatingType *restrict L       = Dstruct->E;
   int    *restrict isplit  = Dstruct->isplit;
   int              n       = Wstruct->n;
   int              il      = *(Wstruct->il);
   int              iu      = *(Wstruct->iu);
-  double *restrict W       = Wstruct->W;
+  FloatingType *restrict W       = Wstruct->W;
   int    *restrict Windex  = Wstruct->Windex;
   int    *restrict iblock  = Wstruct->iblock;
   int    *restrict iproc   = Wstruct->iproc;
@@ -188,10 +217,10 @@ int assign_to_proc(proc_t *procinfo, in_t *Dstruct, val_t_ *Wstruct,
   /* Others */
   int               i, id, j, k, isize, iblk, ishift,
                     ibegin, iend, chunk, ind;
-  double            sigma;
-  sort_struct_t_     *array;
+  FloatingType            		  sigma;
+  sort_struct_t<FloatingType>     *array;
 
-  array = (sort_struct_t_ *) malloc(n*sizeof(sort_struct_t_));
+  array = (sort_struct_t<FloatingType> *) malloc(n*sizeof(sort_struct_t<FloatingType>));
   
   for (i=0; i<n; i++) {
     /* Find shift of block */
@@ -207,7 +236,7 @@ int assign_to_proc(proc_t *procinfo, in_t *Dstruct, val_t_ *Wstruct,
   /* Alternatively could sort list of pointers, which
      requires less data copying */
 
-  qsort(array, n, sizeof(sort_struct_t_), cmpa);
+  sort(array, array + n, cmp<FloatingType>);
 
   /* Mark eigenvectors that do not need to be computed */
   for (j = 0; j < il-1; j++ ) {
@@ -259,37 +288,50 @@ int assign_to_proc(proc_t *procinfo, in_t *Dstruct, val_t_ *Wstruct,
 }
 
 
+namespace {
 
+	/* 
+	 * Compare function for using qsort() on an array of 
+	 * sort_structs
+	 */
+	template<typename FloatingType> 
+	bool cmp(const sort_struct_t<FloatingType> & arg1, const sort_struct_t<FloatingType> & arg2)
+	{
+	std::cout << arg1.lambda << " " << arg2.lambda << std::endl;
+	  /* Within block local index decides */
+	  if (arg1.block_ind == arg2.block_ind) {
+		return (arg1.local_ind - arg2.local_ind);
+	  } else {
+		if (arg1.lambda < arg2.lambda) {
+		  return true;
+		} else if (arg1.lambda > arg2.lambda) {
+		  return false;
+		} else {
+		  if (arg1.local_ind < arg2.local_ind)
+		return true;
+		  else
+		return false;
+		}
+	  }
+	}
 
-/* 
- * Compare function for using qsort() on an array of 
- * sort_structs
- */
-static 
-int cmpa(const void *a1, const void *a2)
-{
-  sort_struct_t_ *arg1, *arg2;
+/*
+	  if (arg1.block_ind == arg2.block_ind) {
+		return (arg1.local_ind - arg2.local_ind);
+	  } else {
+		if (arg1.lambda < arg2.lambda) {
+		  return(-1);
+		} else if (arg1.lambda > arg2.lambda) {
+		  return(1);
+		} else {
+		  if (arg1.local_ind < arg2.local_ind)
+		return(-1);
+		  else
+		return(1);
+		}
+	  }*/
 
-  arg1 = (sort_struct_t_ *) a1;
-  arg2 = (sort_struct_t_ *) a2;
-
-  /* Within block local index decides */
-  if (arg1->block_ind == arg2->block_ind) {
-    return (arg1->local_ind - arg2->local_ind);
-  } else {
-    if (arg1->lambda < arg2->lambda) {
-      return(-1);
-    } else if (arg1->lambda > arg2->lambda) {
-      return(1);
-    } else {
-      if (arg1->local_ind < arg2->local_ind)
-	return(-1);
-      else
-	return(1);
-    }
-  }
 }
-
 
 
 
@@ -297,31 +339,31 @@ int cmpa(const void *a1, const void *a2)
  * Initialize work queue by putting all tasks for the process
  * into the work queue.
  */
-static 
-int init_workQ(proc_t *procinfo, in_t *Dstruct, val_t_ *Wstruct,
+template<typename FloatingType>
+int init_workQ(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 	       int *nzp, workQ_t *workQ)
 {
   /* Input arguments */
   int              pid      = procinfo->pid;
   int              nproc    = procinfo->nproc;
   int              nthreads = procinfo->nthreads;
-  double *restrict D        = Dstruct->D;
-  double *restrict L        = Dstruct->E;
+  FloatingType *restrict D        = Dstruct->D;
+  FloatingType *restrict L        = Dstruct->E;
   int              nsplit   = Dstruct->nsplit;
   int    *restrict isplit   = Dstruct->isplit;
-  double *restrict W        = Wstruct->W;
-  double *restrict Werr     = Wstruct->Werr;
-  double *restrict Wgap     = Wstruct->Wgap;
+  FloatingType *restrict W        = Wstruct->W;
+  FloatingType *restrict Werr     = Wstruct->Werr;
+  FloatingType *restrict Wgap     = Wstruct->Wgap;
   int    *restrict iproc    = Wstruct->iproc;
-  double *restrict Wshifted = Wstruct->Wshifted;
-  double *restrict gersch   = Wstruct->gersch;
+  FloatingType *restrict Wshifted = Wstruct->Wshifted;
+  FloatingType *restrict gersch   = Wstruct->gersch;
   int              nz       = *nzp;
 
   /* Loop over blocks */
   int              ibegin, iend, isize, iWbegin, iWend, nbl;
-  double           sigma, gl, gu, avggap, spdiam;
-  double *restrict DL;
-  double *restrict DLL;
+  FloatingType           sigma, gl, gu, avggap, spdiam;
+  FloatingType *restrict DL;
+  FloatingType *restrict DLL;
   rrr_t            *RRR, *RRR_parent;
 
   /* Splitting into singletons and cluster */
@@ -330,11 +372,11 @@ int init_workQ(proc_t *procinfo, in_t *Dstruct, val_t_ *Wstruct,
   int              cl_first,  cl_last,  cl_size;
   bool             task_inserted;
   int              max_size, left_pid, right_pid;
-  double           lgap;
+  FloatingType           lgap;
  
   /* Others */
   int              i, j, k, l;
-  double           tmp;
+  FloatingType           tmp;
   task_t           *task;
 
   /* Loop over blocks */
@@ -382,10 +424,10 @@ int init_workQ(proc_t *procinfo, in_t *Dstruct, val_t_ *Wstruct,
 
     /* Compute DL and DLL for later computation of singletons
      * (freed when all singletons of root are computed) */
-    DL  = (double *) malloc(isize * sizeof(double));
+    DL  = (FloatingType *) malloc(isize * sizeof(FloatingType));
     assert(DL != NULL);
     
-    DLL = (double *) malloc(isize * sizeof(double));
+    DLL = (FloatingType *) malloc(isize * sizeof(FloatingType));
     assert(DLL != NULL);
 
     for (i=0; i<isize-1; i++) {
@@ -585,13 +627,13 @@ int init_workQ(proc_t *procinfo, in_t *Dstruct, val_t_ *Wstruct,
 /*
  * Processes all the tasks put in the work queue.
  */
-static 
+template<typename FloatingType> 
 void *empty_workQ(void *argin)
 {
   /* input arguments */
   int          tid;
   proc_t       *procinfo;
-  val_t_        *Wstruct;
+  val_t<FloatingType>        *Wstruct;
   vec_t        *Zstruct;
   tol_t        *tolstruct;
   workQ_t *workQ;
@@ -600,17 +642,17 @@ void *empty_workQ(void *argin)
 
   /* others */
   task_t       *task;
-  double       *work;
+  FloatingType       *work;
   int          *iwork;
 
   /* retrieve necessary arguments from structures */
-  retrieve_auxarg3((auxarg3_t_ *) argin, &tid, &procinfo, &Wstruct,
+  retrieve_auxarg3((auxarg3_t<FloatingType> *) argin, &tid, &procinfo, &Wstruct,
 		   &Zstruct, &tolstruct, &workQ, &num_left);
 
   n        = Wstruct->n;
 
   /* max. needed double precision work space: odr1v */
-  work      = (double *) malloc(4*n * sizeof(double));
+  work      = (FloatingType *) malloc(4*n * sizeof(FloatingType));
   assert(work != NULL);
 
   /* max. needed double precision work space: odrrb */
@@ -622,7 +664,7 @@ void *empty_workQ(void *argin)
   while (PMR_get_counter_value(num_left) > 0) {
 
     /* empty r-queue before processing other tasks */
-    PMR_process_r_queue(tid, procinfo, Wstruct, Zstruct, tolstruct,
+    PMR_process_r_queue(tid, procinfo, reinterpret_cast<val_t_*>(Wstruct), Zstruct, tolstruct,
 			workQ, num_left, work, iwork);
 
     task = PMR_remove_task_at_front(workQ->s_queue);
@@ -630,7 +672,7 @@ void *empty_workQ(void *argin)
       assert(task->flag == SINGLETON_TASK_FLAG);
 
       PMR_process_s_task((singleton_t *) task->data, tid, procinfo,
-			 Wstruct, Zstruct, tolstruct, num_left, 
+			 reinterpret_cast<val_t_*>(Wstruct), Zstruct, tolstruct, num_left, 
 			 work, iwork);
       free(task);
       continue;
@@ -641,7 +683,7 @@ void *empty_workQ(void *argin)
       assert(task->flag == CLUSTER_TASK_FLAG);
 
       PMR_process_c_task((cluster_t *) task->data, tid, procinfo,
-			 Wstruct, Zstruct, tolstruct, workQ,
+			 reinterpret_cast<val_t_*>(Wstruct), Zstruct, tolstruct, workQ,
 			 num_left, work, iwork);
       free(task);
       continue;
@@ -685,14 +727,15 @@ static void destroy_workQ(workQ_t *wq)
 
 
 
-static auxarg3_t_*
-create_auxarg3(int tid, proc_t *procinfo, val_t_ *Wstruct,
+template<typename FloatingType>
+auxarg3_t<FloatingType>*
+create_auxarg3(int tid, proc_t *procinfo, val_t<FloatingType> *Wstruct,
 	       vec_t *Zstruct, tol_t *tolstruct,
 	       workQ_t *workQ, counter_t *num_left)
 {
-  auxarg3_t_ *arg;
+  auxarg3_t<FloatingType> *arg;
 
-  arg = (auxarg3_t_ *) malloc( sizeof(auxarg3_t_) );
+  arg = (auxarg3_t<FloatingType> *) malloc( sizeof(auxarg3_t<FloatingType>) );
   assert(arg != NULL);
 
   arg->tid         = tid;
@@ -708,10 +751,10 @@ create_auxarg3(int tid, proc_t *procinfo, val_t_ *Wstruct,
 
 
 
-
-static void 
-retrieve_auxarg3(auxarg3_t_ *arg, int *tid, proc_t **procinfo,
-		 val_t_ **Wstruct, vec_t **Zstruct,
+template<typename FloatingType>
+void 
+retrieve_auxarg3(auxarg3_t<FloatingType> *arg, int *tid, proc_t **procinfo,
+		 val_t<FloatingType> **Wstruct, vec_t **Zstruct,
 		 tol_t **tolstruct, workQ_t **workQ,
 		 counter_t **num_left)
 {
@@ -725,3 +768,8 @@ retrieve_auxarg3(auxarg3_t_ *arg, int *tid, proc_t **procinfo,
 
   free(arg);
 }
+
+}
+
+}
+

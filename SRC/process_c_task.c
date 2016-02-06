@@ -64,27 +64,27 @@
 
 static inline 
 rrr_t* compute_new_rrr(cluster_t *cl, int tid, proc_t *procinfo,
-		       val_t *Wstruct, vec_t *Zstruct,
+		       val_t_ *Wstruct, vec_t *Zstruct,
 		       tol_t *tolstruct, double *work, int *iwork);
 
 static inline 
 int refine_eigvals(cluster_t *cl, int rf_begin, int rf_end,
 		   int tid, proc_t *procinfo,
-		   rrr_t *RRR, val_t *Wstruct, vec_t *Zstruct,
+		   rrr_t *RRR, val_t_ *Wstruct, vec_t *Zstruct,
 		   tol_t *tolstruct, counter_t *num_left, 
 		   workQ_t *workQ, double *work, 
 		   int *iwork);
 
 static inline 
 int communicate_refined_eigvals(cluster_t *cl, proc_t *procinfo,
-				int tid, val_t *Wstruct, rrr_t *RRR);
+				int tid, val_t_ *Wstruct, rrr_t *RRR);
 
 static inline 
-int test_comm_status(cluster_t *cl, val_t *Wstruct);
+int test_comm_status(cluster_t *cl, val_t_ *Wstruct);
 
 static inline 
 int create_subtasks(cluster_t *cl, int tid, proc_t *procinfo,
-		    rrr_t *RRR, val_t *Wstruct, vec_t *Zstruct,
+		    rrr_t *RRR, val_t_ *Wstruct, vec_t *Zstruct,
 		    workQ_t *workQ,
 		    counter_t *num_left);
 
@@ -92,7 +92,7 @@ int create_subtasks(cluster_t *cl, int tid, proc_t *procinfo,
 
 
 int PMR_process_c_task(cluster_t *cl, int tid, proc_t *procinfo,
-		       val_t *Wstruct, vec_t *Zstruct, 
+		       val_t_ *Wstruct, vec_t *Zstruct, 
 		       tol_t *tolstruct, workQ_t *workQ, 
 		       counter_t *num_left, double *work, int *iwork)
 {
@@ -169,7 +169,7 @@ int PMR_process_c_task(cluster_t *cl, int tid, proc_t *procinfo,
 
 static inline 
 rrr_t* compute_new_rrr(cluster_t *cl, int tid, proc_t *procinfo,
-		       val_t *Wstruct, vec_t *Zstruct,
+		       val_t_ *Wstruct, vec_t *Zstruct,
 		       tol_t *tolstruct, double *work, int *iwork)
 {
   /* From inputs */
@@ -310,7 +310,7 @@ rrr_t* compute_new_rrr(cluster_t *cl, int tid, proc_t *procinfo,
 static inline 
 int refine_eigvals(cluster_t *cl, int rf_begin, int rf_end,
 		   int tid, proc_t *procinfo, rrr_t *RRR, 
-		   val_t *Wstruct, vec_t *Zstruct,
+		   val_t_ *Wstruct, vec_t *Zstruct,
 		   tol_t *tolstruct, counter_t *num_left,
 		   workQ_t *workQ, double *work,
 		   int *iwork)
@@ -471,7 +471,7 @@ int refine_eigvals(cluster_t *cl, int rf_begin, int rf_end,
 
 static inline 
 int communicate_refined_eigvals(cluster_t *cl, proc_t *procinfo,
-				int tid, val_t *Wstruct, rrr_t *RRR)
+				int tid, val_t_ *Wstruct, rrr_t *RRR)
 {
   /* From inputs */
   int              cl_begin     = cl->begin;
@@ -630,7 +630,7 @@ int communicate_refined_eigvals(cluster_t *cl, proc_t *procinfo,
 
 
 static inline 
-int test_comm_status(cluster_t *cl, val_t *Wstruct)
+int test_comm_status(cluster_t *cl, val_t_ *Wstruct)
 {
   int         cl_begin            = cl->begin;
   int         cl_end              = cl->end;
@@ -683,7 +683,7 @@ int test_comm_status(cluster_t *cl, val_t *Wstruct)
 
 static inline 
 int create_subtasks(cluster_t *cl, int tid, proc_t *procinfo, 
-		    rrr_t *RRR, val_t *Wstruct, vec_t *Zstruct,
+		    rrr_t *RRR, val_t_ *Wstruct, vec_t *Zstruct,
 		    workQ_t *workQ, counter_t *num_left)
 {
   /* From inputs */

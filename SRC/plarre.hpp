@@ -120,7 +120,7 @@ static int cmp(const void*, const void*);
 
 /* Routine to compute eigenvalues */
 int plarre(proc_t *procinfo, char *jobz, char *range, in_t *Dstruct, 
-	       val_t_ *Wstruct, tol_t *tolstruct, int *nzp, int *offsetp)
+	       val_t *Wstruct, tol_t *tolstruct, int *nzp, int *offsetp)
 {
   /* input variables */
   int              pid    = procinfo->pid;
@@ -1051,7 +1051,7 @@ void *eigval_subset_thread_r(void *argin)
   double       *D, *DE2;
   double       rtol1, rtol2, pivmin;
   double       bl_spdiam;
-  val_t_        *Wstruct;
+  val_t        *Wstruct;
 
   /* others */
   int          info, offset;

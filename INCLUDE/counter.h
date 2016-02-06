@@ -53,11 +53,13 @@ typedef struct {
 #endif
 } counter_t;
 
-counter_t *PMR_create_counter(int init_value);
-int PMR_get_counter_value(counter_t *counter);
-int PMR_set_counter_value(counter_t *counter, int value);
-int PMR_decrement_counter(counter_t *counter, int amount);
-int PMR_increment_counter(counter_t *counter, int amount);
-void PMR_destroy_counter(counter_t *counter);
-
+#ifdef __cplusplus
+extern "C" counter_t *PMR_create_counter(int init_value);
+extern "C" int PMR_get_counter_value(counter_t *counter);
+extern "C" int PMR_set_counter_value(counter_t *counter, int value);
+extern "C" int PMR_decrement_counter(counter_t *counter, int amount);
+extern "C" int PMR_increment_counter(counter_t *counter, int amount);
+extern "C" void PMR_destroy_counter(counter_t *counter);
+#endif
+	
 #endif
