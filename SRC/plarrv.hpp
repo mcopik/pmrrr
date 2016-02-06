@@ -56,7 +56,7 @@
 #include "plarrv.h"
 //#include "process_task.h"
 #include "global.h"
-#include "rrr.h"
+//#include "rrr.h"
 #include "queue.h"
 #include "structs.h"
 #include "counter.h"
@@ -64,6 +64,8 @@
 #include "process_c_task.hpp"
 #include "process_s_task.hpp"
 #include "process_r_task.hpp"
+#include "rrr.hpp"
+#include "tasks.hpp"
 
 using std::sort;
 
@@ -341,7 +343,7 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 		  FloatingType           sigma, gl, gu, avggap, spdiam;
 		  FloatingType *restrict DL;
 		  FloatingType *restrict DLL;
-		  rrr_t            *RRR, *RRR_parent;
+		  rrr_t<FloatingType>            *RRR, *RRR_parent;
 
 		  /* Splitting into singletons and cluster */
 		  int              new_first, new_last, new_size;
@@ -527,8 +529,12 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 				right_pid = imax(right_pid, iproc[l]);
 				  }
 				}
-
-				RRR_parent = PMR_create_rrr(&D[ibegin], &L[ibegin], 
+				
+				/* 
+				 * We have to explicitly specify the type because neither NULL nor nullptr
+				 * can't be used for template type deduction.
+				 */
+				RRR_parent = PMR_create_rrr<FloatingType>(&D[ibegin], &L[ibegin], 
 							NULL, NULL, isize, 0);
 
 				task = PMR_create_c_task(cl_first, cl_last, 1, ibegin, 
@@ -566,7 +572,11 @@ int plarrv(proc_t *procinfo, in_t *Dstruct, val_t<FloatingType> *Wstruct,
 				}
 			  }
 
-			  RRR_parent = PMR_create_rrr(&D[ibegin], &L[ibegin], 
+				/* 
+				 * We have to explicitly specify the type because neither NULL nor nullptr
+				 * can't be used for template type deduction.
+				 */
+			  RRR_parent = PMR_create_rrr<FloatingType>(&D[ibegin], &L[ibegin], 
 							  NULL, NULL, isize, 0);
 
 			  task = PMR_create_c_task(cl_first, cl_last, 1, ibegin, 

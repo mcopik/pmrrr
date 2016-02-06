@@ -69,7 +69,7 @@ namespace pmrrr { namespace detail {
 	  int    				 bl_end        = sng->bl_end;
 	  int    				 bl_size       = bl_end - bl_begin + 1;
 	  FloatingType 			 bl_spdiam     = sng->bl_spdiam; 
-	  rrr_t  				 *RRR          = sng->RRR;
+	  rrr_t<FloatingType>  				 *RRR          = sng->RRR;
 	  FloatingType *restrict D   = RRR->D; 
 	  FloatingType *restrict L   = RRR->L; 
 	  FloatingType *restrict DL  = RRR->DL;

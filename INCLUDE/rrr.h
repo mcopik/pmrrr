@@ -44,22 +44,48 @@
 #include <pthread.h>
 #include "global.h"
 
-typedef struct {
-  double          *restrict D;
-  double          *restrict L;
-  double          *restrict DL;
-  double          *restrict DLL;
+template<typename FloatingType>
+struct rrr_t {
+  FloatingType          *restrict D;
+  FloatingType          *restrict L;
+  FloatingType          *restrict DL;
+  FloatingType          *restrict DLL;
   int             size;
   int             depth;
   bool            parent_processed;
   bool            copied_parent_rrr;
   int             ndepend;
   pthread_mutex_t mutex;
-} rrr_t;
+};
 
 
 #ifdef __cplusplus
-extern "C" rrr_t *PMR_create_rrr(double *restrict D, double *restrict L,
+namespace pmrrr { namespace detail {
+
+	template<typename FloatingType>
+	rrr_t<FloatingType> *PMR_create_rrr(FloatingType *restrict D, FloatingType *restrict L,
+		      FloatingType *restrict DL, FloatingType *restrict DLL,
+		      int size, int depth);
+
+	template<typename FloatingType>
+	rrr_t<FloatingType> *PMR_reset_rrr (rrr_t<FloatingType> *restrict RRR, FloatingType *restrict D,
+		      FloatingType *restrict L, FloatingType *restrict DL,
+		      FloatingType *restrict DLL, int size, int depth);
+
+	template<typename FloatingType>
+	int  PMR_increment_rrr_dependencies(rrr_t<FloatingType> *RRR);
+
+	template<typename FloatingType>
+	int  PMR_set_parent_processed_flag (rrr_t<FloatingType> *RRR);
+
+	template<typename FloatingType>
+	int  PMR_set_copied_parent_rrr_flag(rrr_t<FloatingType> *RRR, bool val);
+
+	template<typename FloatingType>
+	int  PMR_try_destroy_rrr(rrr_t<FloatingType> *RRR);
+
+} }
+/*extern "C" rrr_t *PMR_create_rrr(double *restrict D, double *restrict L,
 		      double *restrict DL, double *restrict DLL,
 		      int size, int depth);
 
@@ -70,6 +96,6 @@ extern "C" rrr_t *PMR_reset_rrr (rrr_t *restrict RRR, double *restrict D,
 extern "C" int  PMR_increment_rrr_dependencies(rrr_t *RRR);
 extern "C" int  PMR_set_parent_processed_flag (rrr_t *RRR);
 extern "C" int  PMR_set_copied_parent_rrr_flag(rrr_t *RRR, bool val);
-extern "C" int  PMR_try_destroy_rrr(rrr_t *RRR);
+extern "C" int  PMR_try_destroy_rrr(rrr_t *RRR);*/
 #endif
 #endif

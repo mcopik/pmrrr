@@ -59,7 +59,7 @@ typedef struct {
   int        bl_end;
   double     bl_spdiam;
   double     lgap;
-  rrr_t      *RRR;
+  rrr_t<double>      *RRR;
 } singleton_t;
 
 typedef struct {
@@ -74,7 +74,7 @@ typedef struct {
   int        proc_W_end;
   int        left_pid;
   int        right_pid;
-  rrr_t      *RRR;
+  rrr_t<double>      *RRR;
   bool       wait_until_refined;
   comm_t     *messages;
 } cluster_t;
@@ -97,7 +97,7 @@ typedef struct {
 
 
 #ifdef __cplusplus
-extern "C" task_t *PMR_create_s_task(int first, int last, int depth,
+/*extern "C" task_t *PMR_create_s_task(int first, int last, int depth,
 			  int bl_begin, int bl_end, double spdiam,
 			  double lgap, rrr_t *RRR);
 
@@ -109,6 +109,26 @@ extern "C" task_t *PMR_create_c_task(int first, int last, int depth,
 
 extern "C" task_t *PMR_create_r_task(int begin, int end, double *D,
 			  double *DLL, int p, int q, int bl_size,
-			  double bl_spdiam, int tid, sem_t *sem);
+			  double bl_spdiam, int tid, sem_t *sem);*/
+namespace pmrrr { namespace detail {
+	
+	template<typename FloatingType>
+	task_t *PMR_create_s_task(int first, int last, int depth,
+				  int bl_begin, int bl_end, FloatingType spdiam,
+				  FloatingType lgap, rrr_t<FloatingType> *RRR);
+
+	template<typename FloatingType>
+	task_t *PMR_create_c_task(int first, int last, int depth,
+				  int bl_begin, int bl_end, FloatingType spdiam,
+				  FloatingType lgap, int proc_W_begin, 
+				  int proc_W_end, int left_pid, int right_pid, 
+				  rrr_t<FloatingType> *RRR);
+
+	template<typename FloatingType>
+	task_t *PMR_create_r_task(int begin, int end, FloatingType *D,
+				  FloatingType *DLL, int p, int q, int bl_size,
+				  FloatingType bl_spdiam, int tid, sem_t *sem);
+
+} }
 #endif
 #endif

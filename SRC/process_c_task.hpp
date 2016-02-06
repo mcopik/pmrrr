@@ -69,28 +69,28 @@ namespace pmrrr { namespace detail {
 	namespace {
 
 		template<typename FloatingType>
-		rrr_t* compute_new_rrr(cluster_t *cl, int tid, proc_t *procinfo,
+		rrr_t<FloatingType>* compute_new_rrr(cluster_t *cl, int tid, proc_t *procinfo,
 					   val_t<FloatingType> *Wstruct, vec_t *Zstruct,
 					   tol_t *tolstruct, FloatingType *work, int *iwork);
 
 		template<typename FloatingType>
 		inline int refine_eigvals(cluster_t *cl, int rf_begin, int rf_end,
 				   int tid, proc_t *procinfo,
-				   rrr_t *RRR, val_t<FloatingType> *Wstruct, vec_t *Zstruct,
+				   rrr_t<FloatingType> *RRR, val_t<FloatingType> *Wstruct, vec_t *Zstruct,
 				   tol_t *tolstruct, counter_t *num_left, 
 				   workQ_t *workQ, FloatingType *work, 
 				   int *iwork);
 
 		template<typename FloatingType>
 		inline int communicate_refined_eigvals(cluster_t *cl, proc_t *procinfo,
-						int tid, val_t<FloatingType> *Wstruct, rrr_t *RRR);
+						int tid, val_t<FloatingType> *Wstruct, rrr_t<FloatingType> *RRR);
 
 		template<typename FloatingType>
 		inline int test_comm_status(cluster_t *cl, val_t<FloatingType> *Wstruct);
 
 		template<typename FloatingType>
 		inline int create_subtasks(cluster_t *cl, int tid, proc_t *procinfo,
-					rrr_t *RRR, val_t<FloatingType> *Wstruct, vec_t *Zstruct,
+					rrr_t<FloatingType> *RRR, val_t<FloatingType> *Wstruct, vec_t *Zstruct,
 					workQ_t *workQ,
 					counter_t *num_left);
 	
@@ -112,7 +112,7 @@ namespace pmrrr { namespace detail {
 	  int   n          = Wstruct->n;
 
 	  /* Others */
-	  rrr_t *RRR;
+	  rrr_t<FloatingType> *RRR;
 	  int   rf_begin, rf_end;
 	  int   status;
 
@@ -174,7 +174,7 @@ namespace pmrrr { namespace detail {
 	namespace {
 
 		template<typename FloatingType>
-		rrr_t* compute_new_rrr(cluster_t *cl, int tid, proc_t *procinfo,
+		rrr_t<FloatingType>* compute_new_rrr(cluster_t *cl, int tid, proc_t *procinfo,
 					   val_t<FloatingType> *Wstruct, vec_t *Zstruct,
 					   tol_t *tolstruct, FloatingType *work, int *iwork)
 		{
@@ -187,7 +187,7 @@ namespace pmrrr { namespace detail {
 		  int              bl_end      = cl->bl_end;
 		  int              bl_size     = bl_end - bl_begin + 1;
 		  FloatingType     bl_spdiam   = cl->bl_spdiam;
-		  rrr_t            *RRR_parent = cl->RRR;
+		  rrr_t<FloatingType>            *RRR_parent = cl->RRR;
 
 		  FloatingType *restrict Werr        = Wstruct->Werr;
 		  FloatingType *restrict Wgap        = Wstruct->Wgap;
@@ -202,7 +202,7 @@ namespace pmrrr { namespace detail {
 		  FloatingType           *restrict D_parent,  *restrict L_parent;
 		  FloatingType           *DL_parent,          *DLL_parent;
 		  FloatingType           left_gap, right_gap, tau, fudge;
-		  rrr_t            		 *RRR;
+		  rrr_t<FloatingType>            		 *RRR;
 		  FloatingType           RQtol = 2*DBL_EPSILON;
 		  FloatingType           savegap;
 
@@ -315,7 +315,7 @@ namespace pmrrr { namespace detail {
 		 */
 		template<typename FloatingType>
 		int refine_eigvals(cluster_t *cl, int rf_begin, int rf_end,
-				   int tid, proc_t *procinfo, rrr_t *RRR, 
+				   int tid, proc_t *procinfo, rrr_t<FloatingType> *RRR, 
 				   val_t<FloatingType> *Wstruct, vec_t *Zstruct,
 				   tol_t *tolstruct, counter_t *num_left,
 				   workQ_t *workQ, FloatingType *work,
@@ -471,7 +471,7 @@ namespace pmrrr { namespace detail {
 
 		template<typename FloatingType>
 		int communicate_refined_eigvals(cluster_t *cl, proc_t *procinfo,
-						int tid, val_t<FloatingType> *Wstruct, rrr_t *RRR)
+						int tid, val_t<FloatingType> *Wstruct, rrr_t<FloatingType> *RRR)
 		{
 		  /* From inputs */
 		  int              cl_begin     = cl->begin;
@@ -632,7 +632,7 @@ namespace pmrrr { namespace detail {
 		  int         cl_end              = cl->end;
 		  int         bl_begin            = cl->bl_begin;
 		  int         bl_end              = cl->bl_end;
-		  rrr_t       *RRR                = cl->RRR;
+		  rrr_t<FloatingType>       *RRR                = cl->RRR;
 		  comm_t      *comm               = cl->messages;
 		  int         num_messages        = comm->num_messages;
 		  MPI_Request *requests           = comm->requests;
@@ -676,7 +676,7 @@ namespace pmrrr { namespace detail {
 
 		template<typename FloatingType>
 		int create_subtasks(cluster_t *cl, int tid, proc_t *procinfo, 
-					rrr_t *RRR, val_t<FloatingType> *Wstruct, vec_t *Zstruct,
+					rrr_t<FloatingType> *RRR, val_t<FloatingType> *Wstruct, vec_t *Zstruct,
 					workQ_t *workQ, counter_t *num_left)
 		{
 		  /* From inputs */
@@ -709,7 +709,7 @@ namespace pmrrr { namespace detail {
 		  bool   task_inserted;
 		  int    new_first, new_last, new_size, new_ftt1, new_ftt2;
 		  int    sn_first, sn_last, sn_size;
-		  rrr_t  *RRR_parent;
+		  rrr_t<FloatingType>  *RRR_parent;
 		  int    new_lpid, new_rpid;
 		  FloatingType *restrict D_parent;
 		  FloatingType *restrict L_parent;
@@ -834,7 +834,11 @@ namespace pmrrr { namespace detail {
 			memcpy(D_parent, RRR->D, bl_size*sizeof(FloatingType));
 			memcpy(L_parent, RRR->L, bl_size*sizeof(FloatingType));
 
-			RRR_parent = PMR_create_rrr(D_parent, L_parent, NULL, 
+			/* 
+			 * We have to explicitly specify the type because neither NULL nor nullptr
+			 * can't be used for template type deduction.
+			 */
+			RRR_parent = PMR_create_rrr<FloatingType>(D_parent, L_parent, NULL, 
 							NULL, bl_size, depth);
 			PMR_set_copied_parent_rrr_flag(RRR_parent, true);
 
@@ -844,8 +848,11 @@ namespace pmrrr { namespace detail {
 				   bl_size*sizeof(FloatingType));
 			memcpy(&Z[new_ftt2*ldz+bl_begin], RRR->L, 
 				   bl_size*sizeof(FloatingType));
-
-			RRR_parent = PMR_create_rrr(&Z[new_ftt1*ldz + bl_begin],
+			/* 
+			 * We have to explicitly specify the type because neither NULL nor nullptr
+			 * can't be used for template type deduction.
+			 */
+			RRR_parent = PMR_create_rrr<FloatingType>(&Z[new_ftt1*ldz + bl_begin],
 							&Z[new_ftt2*ldz + bl_begin],
 							NULL, NULL, bl_size, depth);
 			  }
