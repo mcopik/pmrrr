@@ -14,6 +14,7 @@
 #include "lapack.hpp"
 #include "odrre.hpp"
 #include "ode2.hpp"
+#include "odev2.hpp"
 #include "odrrv.hpp"
 #include "odsrt.hpp"
 #include "odnst.hpp"
@@ -473,7 +474,7 @@ namespace pmrrr { namespace lapack {
 		if (! wantz) {
 			ode2(&d__[1], &e[1], &d__[2], &r1, &r2);
 		} else if (wantz && ! zquery) {
-			odev2_(&d__[1], &e[1], &d__[2], &r1, &r2, &cs, &sn);
+			odev2(&d__[1], &e[1], &d__[2], &r1, &r2, &cs, &sn);
 		}
 		if (alleig || valeig && r2 > wl && r2 <= wu || indeig && iil == 1) {
 			++(*m);
