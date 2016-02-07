@@ -62,13 +62,13 @@
 
 #include "plarrv.hpp"
 #include "plarre.hpp"
+#include "LAPACK/odstmr.hpp"
 
 using std::sort;
 
-/*
-#include "LAPACK/odrrr.hpp"
-#include "LAPACK/odstmr.hpp"
-#include "LAPACK/odnst.hpp"
+
+//#include "LAPACK/odrrr.hpp"
+/*#include "LAPACK/odnst.hpp"
 #include "LAPACK/odrrj.hpp"
 #include "BLAS/odscl.hpp"
 */
@@ -537,7 +537,7 @@ int handle_small_cases(char *jobz, char *range, int *np, FloatingType  *D,
   if (cntval) {
     /* Note: at the moment, jobz="C" should never get here, since
      * it is blocked before. */
-    odstmr_("V", "V", np, D, E, vlp, vup, ilp, iup, &m, W, &cnt,
+    lapack::odstmr("V", "V", np, D, E, vlp, vup, ilp, iup, &m, W, &cnt,
 	    &ldz_tmp, &MINUSONE, Zsupp, tryracp, work, &lwork, iwork,
 	    &liwork, &info);
     assert(info == 0);
@@ -547,7 +547,7 @@ int handle_small_cases(char *jobz, char *range, int *np, FloatingType  *D,
     return(0);
   }
 
-  odstmr_(jobz, range, np, D, E, vlp, vup, ilp, iup, &m, W, Z_tmp,
+  lapack::odstmr(jobz, range, np, D, E, vlp, vup, ilp, iup, &m, W, Z_tmp,
 	  &ldz_tmp, np, Zsupp, tryracp, work, &lwork, iwork,
 	  &liwork, &info);
   assert(info == 0);

@@ -1,15 +1,15 @@
 /* odcpy.f -- translated by f2c (version 20061008) */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include <float.h>
-#include <assert.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <cfloat>
+#include <cassert>
 
 /* Subroutine */ 
 template<typename FloatingType>
-int odcpy_(int *n, FloatingType *dx, int *incx, 
+int odcpy(int *n, FloatingType *dx, int *incx, 
 	FloatingType *dy, int *incy)
 {
     /* System generated locals */
@@ -101,10 +101,3 @@ L40:
     }
     return 0;
 } /* odcpy_ */
-
-
-template int odcpy_(int *n, double *dx, int *incx, 
-	double *dy, int *incy);
-
-template int odcpy_(int *n, float *dx, int *incx, 
-	float *dy, int *incy);

@@ -10,105 +10,111 @@
 #include <float.h>
 #include <assert.h>
 
-/* Subroutine */ 
-template<typename FloatingType>
-int odssq_(int *n, FloatingType *x, int *incx, 
-	FloatingType *scale, FloatingType *sumsq)
-{
-    /* System generated locals */
-    int i__1, i__2;
-    FloatingType d__1;
+namespace pmrrr { namespace lapack {
 
-    /* Local variables */
-    int ix;
-    FloatingType absxi;
+	/* Subroutine */ 
+	template<typename FloatingType>
+	int odssq(int *n, FloatingType *x, int *incx, 
+		FloatingType *scale, FloatingType *sumsq)
+	{
+		/* System generated locals */
+		int i__1, i__2;
+		FloatingType d__1;
 
-/*  -- LAPACK auxiliary routine (version 3.2) -- */
-/*     Univ. of Tennessee, Univ. of California Berkeley and NAG Ltd.. */
-/*     November 2006 */
+		/* Local variables */
+		int ix;
+		FloatingType absxi;
 
-/*     .. Scalar Arguments .. */
-/*     .. */
-/*     .. Array Arguments .. */
-/*     .. */
+	/*  -- LAPACK auxiliary routine (version 3.2) -- */
+	/*     Univ. of Tennessee, Univ. of California Berkeley and NAG Ltd.. */
+	/*     November 2006 */
 
-/*  Purpose */
-/*  ======= */
+	/*     .. Scalar Arguments .. */
+	/*     .. */
+	/*     .. Array Arguments .. */
+	/*     .. */
 
-/*  ODSSQ  returns the values  scl  and  smsq  such that */
+	/*  Purpose */
+	/*  ======= */
 
-/*     ( scl**2 )*smsq = x( 1 )**2 +...+ x( n )**2 + ( scale**2 )*sumsq, */
+	/*  ODSSQ  returns the values  scl  and  smsq  such that */
 
-/*  where  x( i ) = X( 1 + ( i - 1 )*INCX ). The value of  sumsq  is */
-/*  assumed to be non-negative and  scl  returns the value */
+	/*     ( scl**2 )*smsq = x( 1 )**2 +...+ x( n )**2 + ( scale**2 )*sumsq, */
 
-/*     scl = max( scale, abs( x( i ) ) ). */
+	/*  where  x( i ) = X( 1 + ( i - 1 )*INCX ). The value of  sumsq  is */
+	/*  assumed to be non-negative and  scl  returns the value */
 
-/*  scale and sumsq must be supplied in SCALE and SUMSQ and */
-/*  scl and smsq are overwritten on SCALE and SUMSQ respectively. */
+	/*     scl = max( scale, abs( x( i ) ) ). */
 
-/*  The routine makes only one pass through the vector x. */
+	/*  scale and sumsq must be supplied in SCALE and SUMSQ and */
+	/*  scl and smsq are overwritten on SCALE and SUMSQ respectively. */
 
-/*  Arguments */
-/*  ========= */
+	/*  The routine makes only one pass through the vector x. */
 
-/*  N       (input) INT */
-/*          The number of elements to be used from the vector X. */
+	/*  Arguments */
+	/*  ========= */
 
-/*  X       (input) DOUBLE PRECISION array, dimension (N) */
-/*          The vector for which a scaled sum of squares is computed. */
-/*             x( i )  = X( 1 + ( i - 1 )*INCX ), 1 <= i <= n. */
+	/*  N       (input) INT */
+	/*          The number of elements to be used from the vector X. */
 
-/*  INCX    (input) INT */
-/*          The increment between successive values of the vector X. */
-/*          INCX > 0. */
+	/*  X       (input) DOUBLE PRECISION array, dimension (N) */
+	/*          The vector for which a scaled sum of squares is computed. */
+	/*             x( i )  = X( 1 + ( i - 1 )*INCX ), 1 <= i <= n. */
 
-/*  SCALE   (input/output) DOUBLE PRECISION */
-/*          On entry, the value  scale  in the equation above. */
-/*          On exit, SCALE is overwritten with  scl , the scaling factor */
-/*          for the sum of squares. */
+	/*  INCX    (input) INT */
+	/*          The increment between successive values of the vector X. */
+	/*          INCX > 0. */
 
-/*  SUMSQ   (input/output) DOUBLE PRECISION */
-/*          On entry, the value  sumsq  in the equation above. */
-/*          On exit, SUMSQ is overwritten with  smsq , the basic sum of */
-/*          squares from which  scl  has been factored out. */
+	/*  SCALE   (input/output) DOUBLE PRECISION */
+	/*          On entry, the value  scale  in the equation above. */
+	/*          On exit, SCALE is overwritten with  scl , the scaling factor */
+	/*          for the sum of squares. */
 
-/* ===================================================================== */
+	/*  SUMSQ   (input/output) DOUBLE PRECISION */
+	/*          On entry, the value  sumsq  in the equation above. */
+	/*          On exit, SUMSQ is overwritten with  smsq , the basic sum of */
+	/*          squares from which  scl  has been factored out. */
 
-/*     .. Parameters .. */
-/*     .. */
-/*     .. Local Scalars .. */
-/*     .. */
-/*     .. Intrinsic Functions .. */
-/*     .. */
-/*     .. Executable Statements .. */
+	/* ===================================================================== */
 
-    /* Parameter adjustments */
-    --x;
+	/*     .. Parameters .. */
+	/*     .. */
+	/*     .. Local Scalars .. */
+	/*     .. */
+	/*     .. Intrinsic Functions .. */
+	/*     .. */
+	/*     .. Executable Statements .. */
 
-    /* Function Body */
-    if (*n > 0) {
-	i__1 = (*n - 1) * *incx + 1;
-	i__2 = *incx;
-	for (ix = 1; i__2 < 0 ? ix >= i__1 : ix <= i__1; ix += i__2) {
-	    if (x[ix] != 0.) {
-		absxi = (d__1 = x[ix], fabs(d__1));
-		if (*scale < absxi) {
-/* Computing 2nd power */
-		    d__1 = *scale / absxi;
-		    *sumsq = *sumsq * (d__1 * d__1) + 1;
-		    *scale = absxi;
-		} else {
-/* Computing 2nd power */
-		    d__1 = absxi / *scale;
-		    *sumsq += d__1 * d__1;
+		/* Parameter adjustments */
+		--x;
+
+		/* Function Body */
+		if (*n > 0) {
+		i__1 = (*n - 1) * *incx + 1;
+		i__2 = *incx;
+		for (ix = 1; i__2 < 0 ? ix >= i__1 : ix <= i__1; ix += i__2) {
+			if (x[ix] != 0.) {
+			absxi = (d__1 = x[ix], fabs(d__1));
+			if (*scale < absxi) {
+	/* Computing 2nd power */
+				d__1 = *scale / absxi;
+				*sumsq = *sumsq * (d__1 * d__1) + 1;
+				*scale = absxi;
+			} else {
+	/* Computing 2nd power */
+				d__1 = absxi / *scale;
+				*sumsq += d__1 * d__1;
+			}
+			}
+	/* L10: */
 		}
-	    }
-/* L10: */
-	}
-    }
-    return 0;
+		}
+		return 0;
 
-/*     End of ODSSQ */
+	/*     End of ODSSQ */
 
-} /* odssq_ */
+	} /* odssq_ */
+
+}
+
+}

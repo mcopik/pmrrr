@@ -299,10 +299,30 @@ extern "C" void   odr1v_(int*, int*, int*, double*, double*, double*,
 extern "C" void   odrrj_(int*, double*, double*, int*, int*, double*, 
 		      int*, double*, double*, double*, int*, double*, 
 		      double*, int*);
-extern "C" int   odstmr_(char*, char*, int*, double*, double*, double*, 
-		      double*, int*, int*, int*, double*, double*, 
-		      int*, int*, int*, int*, double*, int*, int*, 
-		      int*, int*);
+extern "C" int olsame_(char *ca, char *cb);
+extern "C" int odev2_(double *a, double *b, double *c__, 
+	double *rt1, double *rt2, double *cs1, double *sn1);
+extern "C" int odnan_(double *);
+extern "C" double odmch_(char *);
+/*extern "C" int odrra_(int *, double *, double *, 
+			 double *, double *, double *, int *, int *, 
+			int *);
+extern "C" int odrrb_(int *, double *, double *, 
+			int *, int *, double *, double *, int *, 
+			double *, double *, double *, double *, int *, 
+			 double *, double *, int *, int *);
+extern "C" int odrrc_(char *
+	, int *, double *, double *, double *, double 
+			*, double *, int *, int *, int *, int *);
+extern "C"  int odrrd_(char *, char *, int *, double 
+			*, double *, int *, int *, double *, double *, 
+			 double *, double *, double *, double *, int *
+	, int *, int *, double *, double *, double *, 
+			double *, int *, int *, double *, int *, 
+			int *);
+extern "C" int odrrk_(int *, int *, double *, 
+			double *, double *, double *, double *, 
+			double *, double *, double *, int *);*/
  
 //template<typename pmrrr_datatype>
 extern "C" int odcpy_(int *n, double *dx, int *incx, 
