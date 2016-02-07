@@ -55,10 +55,10 @@
 #include "global.h"
 #include "structs.h" 
 
-/*#include "LAPACK/odrra.hpp"
+//#include "LAPACK/odrra.hpp"
 #include "LAPACK/odebz.hpp"
 #include "LAPACK/odrrd.hpp"
-#include "LAPACK/odrnv.hpp"
+/*#include "LAPACK/odrnv.hpp"
 #include "LAPACK/odrrk.hpp"
 #include "LAPACK/odrrc.hpp"
 #include "LAPACK/odrrb.hpp"
@@ -262,7 +262,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
     
     /* find negcount at boundaries 'vl' and 'vu';
      * needs work of dim(n) and iwork of dim(n) */
-    odebz_(&IONE, &IZERO, &n, &IONE, &IONE, &IZERO,
+    lapack::odebz(&IONE, &IZERO, &n, &IONE, &IONE, &IZERO,
   	    &DZERO, &DZERO, &tolstruct->pivmin, D, E, E2, &idummy,
   	    intervals, &dummy, &idummy, negcounts, work,
   	    iwork, &info);
@@ -548,7 +548,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 		  } else {
 			/* no multithreaded computation */
 		
-			odrrd_("I", "B", &n, &dummy, &dummy, &ifirst, &ilast, gersch,
+			lapack::odrrd("I", "B", &n, &dummy, &dummy, &ifirst, &ilast, gersch,
 		  	    &bsrtol, D, E, E2, &pivmin, &nsplit, isplit, &m, W, Werr,
 		  	    &wl, &wu, iblock, Windex, work, iwork, &info);
 			assert(info == 0);
@@ -956,7 +956,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 		  assert (iwork != NULL);
 
 		  /* compute eigenvalues 'my_il' to 'my_iu', put into temporary arrays */
-		  odrrd_("I", "B", &n, &dummy1, &dummy2, &my_il, &my_iu, gersch,
+		  lapack::odrrd("I", "B", &n, &dummy1, &dummy2, &my_il, &my_iu, gersch,
 		  	  &bsrtol, D, E, E2, &pivmin, &nsplit, isplit, &num_vals,
 		  	  W_tmp, Werr_tmp, &dummy1, &dummy2, iblock_tmp, Windex_tmp,
 		  	  work, iwork, &info);

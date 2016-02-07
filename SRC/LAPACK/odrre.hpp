@@ -3,6 +3,9 @@
 	Based on C code translated by f2c (version 20061008).
 */
 
+#ifndef __ODRRE_HPP__
+#define __ODRRE_HPP__
+
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
@@ -13,6 +16,7 @@
 #include "pmrrr.h"
 
 #include "odsq2.hpp"
+#include "odrrd.hpp"
 
 #define TRUE_ (1)
 #define FALSE_ (0)
@@ -371,7 +375,7 @@ namespace pmrrr { namespace lapack {
 	/*        An interval [LEFT,RIGHT] has converged if */
 	/*        RIGHT-LEFT.LT.RTOL*MAX(ABS(LEFT),ABS(RIGHT)) */
 	/*        ODRRD needs a WORK of size 4*N, IWORK of size 3*N */
-		odrrd_(range, "B", n, vl, vu, il, iu, &gers[1], &bsrtol, &d__[1], &e[
+		odrrd(range, "B", n, vl, vu, il, iu, &gers[1], &bsrtol, &d__[1], &e[
 			1], &e2[1], pivmin, nsplit, &isplit[1], &mm, &w[1], &werr[1], 
 			vl, vu, &iblock[1], &indexw[1], &work[1], &iwork[1], &iinfo);
 		if (iinfo != 0) {
@@ -856,3 +860,5 @@ namespace pmrrr { namespace lapack {
 } //namespace lapack
 
 } //namespace pmrrr
+
+#endif
