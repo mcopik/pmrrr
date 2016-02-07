@@ -15,7 +15,7 @@ HEADERS = $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.h))
 HEADERS += $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.hpp))
 
 #CPPSRCS   := $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.cpp))
-CPPSRCS := $(foreach DIR,SRC,$(wildcard $(DIR)/*.cpp))
+CPPSRCS := $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.cpp))
 CPPOBJS = $(CPPSRCS:.cpp=.o)
 
 CSRCS   := $(foreach DIR,$(DIRS),$(wildcard $(DIR)/*.c))
