@@ -269,8 +269,6 @@ extern "C" int odscl_(int *n, double *da, double *dx,
 	int *incx);
 extern "C" double odnst_(char*, int*, double*, double*);
 extern "C" void   odrrr_(int*, double*, double*, int*);
-extern "C" void   odrra_(int*, double*, double*, double*, double*, 
-		      double*, int*, int*, int*);
 extern "C" void   odrrc_(char*, int*, double*, double*, double*, double*,
 		      double*, int*, int*, int*, int*);
 /*extern "C" void   odrrd_(char*, char*, int*, double*, double*, int*, 
@@ -292,10 +290,10 @@ extern "C" int   odrrf_(int*, double*, double*, double*, int*, int*,
 		      double*, double*, double*, double*, double*, 
 		      double*, double*, double*, double*, double*, 
 		      double*, int*);
-extern "C" void   odr1v_(int*, int*, int*, double*, double*, double*, 
+/*extern "C" void   odr1v_(int*, int*, int*, double*, double*, double*, 
 		      double*, double*, double*, double*, double*, 
 		      int*, int*, double*, double*, int*, int*, 
-		      double*, double*, double*, double*);
+		      double*, double*, double*, double*);*/
 extern "C" void   odrrj_(int*, double*, double*, int*, int*, double*, 
 		      int*, double*, double*, double*, int*, double*, 
 		      double*, int*);

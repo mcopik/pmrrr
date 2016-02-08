@@ -356,7 +356,7 @@ namespace pmrrr { namespace lapack {
 	/*     estimate that is wrong by at most a factor of SQRT(2) */
 		spdiam = gu - gl;
 	/*     Compute splitting points */
-		odrra_(n, &d__[1], &e[1], &e2[1], spltol, &spdiam, nsplit, &isplit[1], &
+		odrra(n, &d__[1], &e[1], &e2[1], spltol, &spdiam, nsplit, &isplit[1], &
 			iinfo);
 	/*     Can force use of bisection instead of faster DQDS. */
 	/*     Option left in the code for future multisection work. */

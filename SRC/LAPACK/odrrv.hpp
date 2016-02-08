@@ -12,6 +12,7 @@
 #include "pmrrr.h"
 
 #include "odset.hpp"
+#include "odr1v.hpp"
 
 #define imax(a,b) ( (a) > (b) ? (a) : (b) )
 #define imin(a,b) ( (a) < (b) ? (a) : (b) )
@@ -812,7 +813,7 @@ namespace pmrrr { namespace lapack {
 				}
 	/*                    Given LAMBDA, compute the eigenvector. */
 				L__1 = ! usedbs;
-				odr1v_(&in, &c__1, &in, &lambda, &d__[ibegin], &l[
+				odr1v(&in, &c__1, &in, &lambda, &d__[ibegin], &l[
 					ibegin], &work[indld + ibegin - 1], &work[
 					indlld + ibegin - 1], pivmin, &gaptol, &z__[
 					ibegin + windex * z_dim1], &L__1, &negcnt, &
@@ -909,7 +910,7 @@ namespace pmrrr { namespace lapack {
 					if (stp2ii) {
 	/*                          improve error angle by second step */
 					L__1 = ! usedbs;
-					odr1v_(&in, &c__1, &in, &lambda, &d__[ibegin]
+					odr1v(&in, &c__1, &in, &lambda, &d__[ibegin]
 	, &l[ibegin], &work[indld + ibegin - 
 						1], &work[indlld + ibegin - 1], 
 						pivmin, &gaptol, &z__[ibegin + windex 

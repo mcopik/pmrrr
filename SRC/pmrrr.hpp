@@ -68,8 +68,8 @@ using std::sort;
 
 
 //#include "LAPACK/odrrr.hpp"
-/*#include "LAPACK/odnst.hpp"
-#include "LAPACK/odrrj.hpp"
+#include "LAPACK/odnst.hpp"
+/*#include "LAPACK/odrrj.hpp"
 #include "BLAS/odscl.hpp"
 */
 
@@ -609,7 +609,7 @@ FloatingType scale_matrix(in_t<FloatingType> *Dstruct, val_t<FloatingType> *Wstr
   rmax   = fmin(sqrt(bignum), 1.0 / sqrt(sqrt(DBL_MIN)));
 
   /*  Scale matrix to allowable range */
-  T_norm = odnst_("M", &n, D, E);  /* returns max(|T(i,j)|) */
+  T_norm = lapack::odnst("M", &n, D, E);  /* returns max(|T(i,j)|) */
   if (T_norm > 0 && T_norm < rmin) {
     scale = rmin / T_norm;
   } else if (T_norm > rmax) {

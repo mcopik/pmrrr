@@ -53,6 +53,8 @@
 #include "tasks.h"
 #include "process_task.h"
 
+#include "LAPACK/odr1v.hpp"
+
 
 namespace pmrrr { namespace detail {
 
@@ -204,7 +206,7 @@ namespace pmrrr { namespace detail {
 		  wantNC = (usedBS == true) ? false : true;
 
 		  /* compute the eigenvector corresponding to lambda */
-		  odr1v_(&bl_size, &IONE, &bl_size, &lambda, D, L, DL, DLL,
+		  lapack::odr1v(&bl_size, &IONE, &bl_size, &lambda, D, L, DL, DLL,
 			  &pivmin, &gaptol, &Z[zind*ldz+bl_begin], &wantNC,
 			  &negcount, &ztz, &mingma, &r, &isuppZ[2*zind],
 			  &norminv, &residual, &RQcorr, work);
@@ -268,7 +270,7 @@ namespace pmrrr { namespace detail {
 		  step2II = true;
 		}
 		if ( step2II == true ) {
-		  odr1v_(&bl_size, &IONE, &bl_size, &lambda, D, L, DL, DLL,
+		  lapack::odr1v(&bl_size, &IONE, &bl_size, &lambda, D, L, DL, DLL,
 			  &pivmin, &gaptol, &Z[zind*ldz+bl_begin], &wantNC,
 			  &negcount, &ztz, &mingma, &r, &isuppZ[2*zind],
 			  &norminv, &residual, &RQcorr, work);

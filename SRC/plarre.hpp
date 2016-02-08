@@ -55,7 +55,7 @@
 #include "global.h"
 #include "structs.h" 
 
-//#include "LAPACK/odrra.hpp"
+#include "LAPACK/odrra.hpp"
 #include "LAPACK/odebz.hpp"
 #include "LAPACK/odrrd.hpp"
 /*#include "LAPACK/odrnv.hpp"
@@ -242,7 +242,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
   Dstruct->spdiam = gu - gl;
 
   /* compute splitting points with threshold "split" */
-  odrra_(&n, D, E, E2, &tolstruct->split, &Dstruct->spdiam,
+  lapack::odrra(&n, D, E, E2, &tolstruct->split, &Dstruct->spdiam,
   	  &Dstruct->nsplit, isplit, &info);
   assert(info == 0);
 
