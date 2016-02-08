@@ -68,7 +68,7 @@ namespace pmrrr { namespace lapack {
 	//	    int *);
 		FloatingType scale;
 		int indgp;
-		//extern int olsame_(char *, char *);
+		//extern int olsame(char *, char *);
 		int iinfo, iindw, ilast;
 		 /* Subroutine */ 
 	//    extern int odswap_(int *, FloatingType *, int 
@@ -351,10 +351,10 @@ namespace pmrrr { namespace lapack {
 		--iwork;
 
 		/* Function Body */
-		wantz = olsame_(jobz, "V");
-		alleig = olsame_(range, "A");
-		valeig = olsame_(range, "V");
-		indeig = olsame_(range, "I");
+		wantz = olsame(jobz, "V");
+		alleig = olsame(range, "A");
+		valeig = olsame(range, "V");
+		indeig = olsame(range, "I");
 
 		lquery = *lwork == -1 || *liwork == -1;
 		zquery = *nzc == -1;
@@ -386,7 +386,7 @@ namespace pmrrr { namespace lapack {
 		}
 
 		*info = 0;
-		if (! (wantz || olsame_(jobz, "N"))) {
+		if (! (wantz || olsame(jobz, "N"))) {
 		*info = -1;
 		} else if (! (alleig || valeig || indeig)) {
 		*info = -2;

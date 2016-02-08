@@ -14,6 +14,7 @@
 #include <assert.h>
 
 #include "odssq.hpp"
+#include "lapack.hpp"
 
 namespace pmrrr { namespace lapack {
 
@@ -33,7 +34,7 @@ namespace pmrrr { namespace lapack {
 		/* Local variables */
 		int i__;
 		FloatingType sum, scale;
-		//extern int olsame_(char *, char *);
+		//extern int olsame(char *, char *);
 		FloatingType anorm;
 		//extern /* Subroutine */ int odssq_(int *, FloatingType *, int *, 
 			//FloatingType *, FloatingType *);
@@ -111,7 +112,7 @@ namespace pmrrr { namespace lapack {
 		/* Function Body */
 		if (*n <= 0) {
 		anorm = 0.;
-		} else if (olsame_(norm, "M")) {
+		} else if (olsame(norm, "M")) {
 
 	/*        Find max(abs(A(i,j))). */
 
@@ -126,8 +127,8 @@ namespace pmrrr { namespace lapack {
 			anorm = fmax(d__2,d__3);
 	/* L10: */
 		}
-		} else if (olsame_(norm, "O") || *(unsigned char *)
-			norm == '1' || olsame_(norm, "I")) {
+		} else if (olsame(norm, "O") || *(unsigned char *)
+			norm == '1' || olsame(norm, "I")) {
 
 	/*        Find norm1(A). */
 
@@ -147,7 +148,7 @@ namespace pmrrr { namespace lapack {
 	/* L20: */
 			}
 		}
-		} else if (olsame_(norm, "F") || olsame_(norm, "E")) {
+		} else if (olsame(norm, "F") || olsame(norm, "E")) {
 
 	/*        Find normF(A). */
 

@@ -13,6 +13,7 @@
 #include <float.h>
 #include <assert.h>
 
+#include "lapack.hpp"
 
 namespace pmrrr { namespace lapack {
 
@@ -113,7 +114,7 @@ namespace pmrrr { namespace lapack {
 		*lcnt = 0;
 		*rcnt = 0;
 		*eigcnt = 0;
-		matt = olsame_(jobt, "T");
+		matt = olsame(jobt, "T");
 		if (matt) {
 	/*        Sturm sequence count on T */
 		lpivot = d__[1] - *vl;

@@ -267,7 +267,7 @@ int PMR_comm_eigvals(MPI_Comm comm, int *nz, int *ifirst, double *W);
 #ifdef __cplusplus
 extern "C" int odscl_(int *n, double *da, double *dx, 
 	int *incx);
-extern "C" double odnst_(char*, int*, double*, double*);
+//extern "C" double odnst_(char*, int*, double*, double*);
 //extern "C" void   odrrr_(int*, double*, double*, int*);
 //extern "C" void   odrrc_(char*, int*, double*, double*, double*, double*,
 	//	      double*, int*, int*, int*, int*);
@@ -297,9 +297,9 @@ extern "C" double odnst_(char*, int*, double*, double*);
 /*extern "C" void   odrrj_(int*, double*, double*, int*, int*, double*, 
 		      int*, double*, double*, double*, int*, double*, 
 		      double*, int*);*/
-extern "C" int olsame_(char *ca, char *cb);
+//extern "C" int olsame_(char *ca, char *cb);
 //extern "C" int odnan_(double *);
-extern "C" double odmch_(char *);
+//extern "C" double odmch_(char *);
 /*extern "C" int odrra_(int *, double *, double *, 
 			 double *, double *, double *, int *, int *, 
 			int *);

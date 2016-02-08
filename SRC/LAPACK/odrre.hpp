@@ -21,6 +21,7 @@
 #include "odrrc.hpp"
 #include "odrrk.hpp"
 #include "odrnv.hpp"
+#include "lapack.hpp"
 
 #define TRUE_ (1)
 #define FALSE_ (0)
@@ -289,11 +290,11 @@ namespace pmrrr { namespace lapack {
 
 	/*     Decode RANGE */
 
-		if (olsame_(range, "A")) {
+		if (olsame(range, "A")) {
 		irange = 1;
-		} else if (olsame_(range, "V")) {
+		} else if (olsame(range, "V")) {
 		irange = 3;
-		} else if (olsame_(range, "I")) {
+		} else if (olsame(range, "I")) {
 		irange = 2;
 		}
 		*m = 0;

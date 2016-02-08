@@ -31,7 +31,7 @@ namespace pmrrr { namespace lapack {
 		int dir;
 		FloatingType tmp;
 		int endd;
-		//extern int olsame_(char *, char *);
+		//extern int olsame(char *, char *);
 		int stack[64]	/* was [2][32] */;
 		FloatingType dmnmx;
 		int start;
@@ -99,9 +99,9 @@ namespace pmrrr { namespace lapack {
 		/* Function Body */
 		*info = 0;
 		dir = -1;
-		if (olsame_(id, "D")) {
+		if (olsame(id, "D")) {
 		dir = 0;
-		} else if (olsame_(id, "I")) {
+		} else if (olsame(id, "I")) {
 		dir = 1;
 		}
 		if (dir == -1) {

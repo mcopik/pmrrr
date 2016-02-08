@@ -14,6 +14,7 @@
 #include <assert.h>
 
 #include "odebz.hpp"
+#include "lapack.hpp"
 
 #define imax(a,b) ( (a) > (b) ? (a) : (b) )
 #define imin(a,b) ( (a) < (b) ? (a) : (b) )
@@ -297,11 +298,11 @@ namespace pmrrr { namespace lapack {
 
 	/*     Decode RANGE */
 
-		if (olsame_(range, "A")) {
+		if (olsame(range, "A")) {
 		irange = 1;
-		} else if (olsame_(range, "V")) {
+		} else if (olsame(range, "V")) {
 		irange = 2;
-		} else if (olsame_(range, "I")) {
+		} else if (olsame(range, "I")) {
 		irange = 3;
 		} else {
 		irange = 0;
@@ -311,7 +312,7 @@ namespace pmrrr { namespace lapack {
 
 		if (irange <= 0) {
 		*info = -1;
-		} else if (! (olsame_(order, "B") || olsame_(order, 
+		} else if (! (olsame(order, "B") || olsame(order, 
 			"E"))) {
 		*info = -2;
 		} else if (*n < 0) {
@@ -752,7 +753,7 @@ namespace pmrrr { namespace lapack {
 	/*     If ORDER='B', do nothing the eigenvalues are already sorted by */
 	/*        block. */
 	/*     If ORDER='E', sort the eigenvalues from smallest to largest */
-		if (olsame_(order, "E") && *nsplit > 1) {
+		if (olsame(order, "E") && *nsplit > 1) {
 		i__1 = *m - 1;
 		for (je = 1; je <= i__1; ++je) {
 			ie = 0;

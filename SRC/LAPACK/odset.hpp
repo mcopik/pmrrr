@@ -13,6 +13,8 @@
 #include <float.h>
 #include <assert.h>
 
+#include "lapack.hpp"
+
 #define imin(a,b) ( (a) < (b) ? (a) : (b) )
 
 namespace pmrrr { namespace lapack {
@@ -27,7 +29,7 @@ namespace pmrrr { namespace lapack {
 
 		/* Local variables */
 		int i__, j;
-		//extern int olsame_(char *, char *);
+		//extern int olsame(char *, char *);
 
 
 	/*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -96,7 +98,7 @@ namespace pmrrr { namespace lapack {
 		a -= a_offset;
 
 		/* Function Body */
-		if (olsame_(uplo, "U")) {
+		if (olsame(uplo, "U")) {
 
 	/*        Set the strictly upper triangular or trapezoidal part of the */
 	/*        array to ALPHA. */
@@ -113,7 +115,7 @@ namespace pmrrr { namespace lapack {
 	/* L20: */
 		}
 
-		} else if (olsame_(uplo, "L")) {
+		} else if (olsame(uplo, "L")) {
 
 	/*        Set the strictly lower triangular or trapezoidal part of the */
 	/*        array to ALPHA. */
