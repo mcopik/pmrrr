@@ -13,6 +13,7 @@
 
 #include "odset.hpp"
 #include "odr1v.hpp"
+#include "odrrf.hpp"
 
 #define imax(a,b) ( (a) > (b) ? (a) : (b) )
 #define imin(a,b) ( (a) < (b) ? (a) : (b) )
@@ -663,7 +664,7 @@ namespace pmrrr { namespace lapack {
 	/*                    Note that the new RRR is stored in Z */
 
 	/*                    ODRRF needs LWORK = 2*N */
-				odrrf_(&in, &d__[ibegin], &l[ibegin], &work[indld + 
+				odrrf(&in, &d__[ibegin], &l[ibegin], &work[indld + 
 					ibegin - 1], &newfst, &newlst, &work[wbegin], 
 					&wgap[wbegin], &werr[wbegin], &spdiam, &lgap, 
 					&rgap, pivmin, &tau, &z__[ibegin + newftt * 

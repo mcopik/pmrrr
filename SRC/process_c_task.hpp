@@ -57,8 +57,8 @@
 #include "tasks.h"
 #include "process_task.h"
 /*
-#include "LAPACK/odrrb.hpp"
-#include "LAPACK/odrrf.hpp"*/
+#include "LAPACK/odrrb.hpp"*/
+#include "LAPACK/odrrf.hpp"
 
 
 #define THREE            3.0
@@ -267,7 +267,7 @@ namespace pmrrr { namespace detail {
 		  right_gap = Wgap[cl_end];
 
 		  /* Compute new RRR and store it in D and L */
-		  odrrf_(&bl_size, D_parent, L_parent, DL_parent,
+		  lapack::odrrf(&bl_size, D_parent, L_parent, DL_parent,
 			  &IONE, &cl_size, &Wshifted[cl_begin], &Wgap[cl_begin],
 			  &Werr[cl_begin], &bl_spdiam, &left_gap, &right_gap,
 			  &pivmin, &tau, D, L, work, &info);

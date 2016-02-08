@@ -13,6 +13,7 @@
 #include "odsq4.hpp"
 #include "odsq5.hpp"
 #include "odsq6.hpp"
+#include "odnan.hpp"
 
 namespace pmrrr { namespace lapack {
 
@@ -311,7 +312,7 @@ namespace pmrrr { namespace lapack {
 			*ttype += -12;
 		}
 		goto L70;
-		} else if (odnan_(dmin__)) {
+		} else if (odnan(dmin__)) {
 
 	/*        NaN. */
 

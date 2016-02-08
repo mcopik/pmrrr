@@ -3,6 +3,9 @@
 	Based on C code translated by f2c (version 20061008).
 */
 
+#ifndef __ODSNAN_HPP__
+#define __ODSNAN_HPP__
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -10,47 +13,55 @@
 #include <float.h>
 #include <assert.h>
 
-template<typename FloatingType>
-int odsnan_(FloatingType *din1, FloatingType *din2)
-{
-    /* System generated locals */
-    int ret_val;
+namespace pmrrr { namespace lapack {
 
-/*  -- LAPACK auxiliary routine (version 3.2) -- */
-/*     Univ. of Tennessee, Univ. of California Berkeley and NAG Ltd.. */
-/*     November 2006 */
+	template<typename FloatingType>
+	int odsnan(FloatingType *din1, FloatingType *din2)
+	{
+		/* System generated locals */
+		int ret_val;
 
-/*     .. Scalar Arguments .. */
-/*     .. */
+	/*  -- LAPACK auxiliary routine (version 3.2) -- */
+	/*     Univ. of Tennessee, Univ. of California Berkeley and NAG Ltd.. */
+	/*     November 2006 */
 
-/*  Purpose */
-/*  ======= */
+	/*     .. Scalar Arguments .. */
+	/*     .. */
 
-/*  This routine is not for general use.  It exists solely to avoid */
-/*  over-optimization in DISNAN. */
+	/*  Purpose */
+	/*  ======= */
 
-/*  ODSNAN checks for NaNs by comparing its two arguments for */
-/*  inequality.  NaN is the only floating-point value where NaN != NaN */
-/*  returns .TRUE.  To check for NaNs, pass the same variable as both */
-/*  arguments. */
+	/*  This routine is not for general use.  It exists solely to avoid */
+	/*  over-optimization in DISNAN. */
 
-/*  A compiler must assume that the two arguments are */
-/*  not the same variable, and the test will not be optimized away. */
-/*  Interprocedural or whole-program optimization may delete this */
-/*  test.  The ISNAN functions will be replaced by the correct */
-/*  Fortran 03 intrinsic once the intrinsic is widely available. */
+	/*  ODSNAN checks for NaNs by comparing its two arguments for */
+	/*  inequality.  NaN is the only floating-point value where NaN != NaN */
+	/*  returns .TRUE.  To check for NaNs, pass the same variable as both */
+	/*  arguments. */
 
-/*  Arguments */
-/*  ========= */
+	/*  A compiler must assume that the two arguments are */
+	/*  not the same variable, and the test will not be optimized away. */
+	/*  Interprocedural or whole-program optimization may delete this */
+	/*  test.  The ISNAN functions will be replaced by the correct */
+	/*  Fortran 03 intrinsic once the intrinsic is widely available. */
 
-/*  DIN1     (input) DOUBLE PRECISION */
-/*  DIN2     (input) DOUBLE PRECISION */
-/*          Two numbers to compare for inequality. */
+	/*  Arguments */
+	/*  ========= */
 
-/*  ===================================================================== */
+	/*  DIN1     (input) DOUBLE PRECISION */
+	/*  DIN2     (input) DOUBLE PRECISION */
+	/*          Two numbers to compare for inequality. */
 
-/*  .. Executable Statements .. */
-    ret_val = *din1 != *din2;
-    return ret_val;
-} /* odsnan_ */
+	/*  ===================================================================== */
+
+	/*  .. Executable Statements .. */
+		ret_val = *din1 != *din2;
+		return ret_val;
+	} /* odsnan_ */
+
+}
+
+}
+
+#endif
 

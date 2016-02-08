@@ -13,6 +13,8 @@
 #include <float.h>
 #include <assert.h>
 
+#include "odnan.hpp"
+
 #define TRUE_ (1)
 #define FALSE_ (0)
 
@@ -228,7 +230,7 @@ namespace pmrrr { namespace lapack {
 		s = work[inds + i__] - *lambda;
 	/* L50: */
 		}
-		sawnan1 = odnan_(&s);
+		sawnan1 = odnan(&s);
 		if (sawnan1) {
 		goto L60;
 		}
@@ -240,7 +242,7 @@ namespace pmrrr { namespace lapack {
 		s = work[inds + i__] - *lambda;
 	/* L51: */
 		}
-		sawnan1 = odnan_(&s);
+		sawnan1 = odnan(&s);
 
 	L60:
 		if (sawnan1) {
@@ -298,7 +300,7 @@ namespace pmrrr { namespace lapack {
 	/* L80: */
 		}
 		tmp = work[indp + r1 - 1];
-		sawnan2 = odnan_(&tmp);
+		sawnan2 = odnan(&tmp);
 		if (sawnan2) {
 	/*        Runs a slower version of the above loop if a NaN is detected */
 		neg2 = 0;
