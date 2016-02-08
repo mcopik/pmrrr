@@ -56,8 +56,8 @@
 #include "structs.h"
 #include "tasks.h"
 #include "process_task.h"
-/*
-#include "LAPACK/odrrb.hpp"*/
+
+#include "LAPACK/odrrb.hpp"
 #include "LAPACK/odrrf.hpp"
 
 
@@ -249,7 +249,7 @@ namespace pmrrr { namespace detail {
 		
 			offset  = Windex[cl_begin] - 1;
 
-			odrrb_(&bl_size, D_parent, DLL_parent, &p, &p, &RQtol,
+			lapack::odrrb(&bl_size, D_parent, DLL_parent, &p, &p, &RQtol,
 				&RQtol, &offset, &Wshifted[cl_begin], &Wgap[cl_begin],
 				&Werr[cl_begin], work, iwork, &pivmin, &bl_spdiam,
 				&bl_size, &info);
@@ -391,7 +391,7 @@ namespace pmrrr { namespace detail {
 
 			/* Call bisection routine to refine the values */
 			if (ts_begin <= ts_end) {
-			  odrrb_(&bl_size, D, DLL, &p, &q, &rtol1, &rtol2, &offset, 
+			  lapack::odrrb(&bl_size, D, DLL, &p, &q, &rtol1, &rtol2, &offset, 
 				  &Wshifted[ts_begin], &Wgap[ts_begin], &Werr[ts_begin],
 				  work, iwork, &pivmin, &bl_spdiam, &bl_size, &info);
 			  assert( info == 0 );
@@ -447,7 +447,7 @@ namespace pmrrr { namespace detail {
 			}  
 		
 			/* Bisection routine to refine the values */
-			odrrb_(&bl_size, D, DLL, &p, &q, &rtol1, &rtol2, &offset, 
+			lapack::odrrb(&bl_size, D, DLL, &p, &q, &rtol1, &rtol2, &offset, 
 				&Wshifted[rf_begin], &Wgap[rf_begin], &Werr[rf_begin],
 				work, iwork, &pivmin, &bl_spdiam, &bl_size, &info);
 			assert( info == 0 );

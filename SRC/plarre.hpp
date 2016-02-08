@@ -60,9 +60,9 @@
 #include "LAPACK/odrrd.hpp"
 /*#include "LAPACK/odrnv.hpp"
 #include "LAPACK/odrrk.hpp"
-#include "LAPACK/odrrc.hpp"
+#include "LAPACK/odrrc.hpp"*/
 #include "LAPACK/odrrb.hpp"
-#include "LAPACK/odrrd.hpp"*/
+//#include "LAPACK/odrrd.hpp"
 
 #define ONE                1.0
 #define HUNDRED          100.0
@@ -893,7 +893,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 			offset = i_low-1;
 		
 			/* refine eigenvalues found by odrrb for i_low:i_upp */
-			odrrb_(&n, D, &work[off_DE2], &i_low,
+			lapack::odrrb(&n, D, &work[off_DE2], &i_low,
 				&i_upp, &tolstruct->rtol1, &tolstruct->rtol2, &offset, W, Wgap, 
 				Werr, work, iwork, &pivmin, &spdiam, &n, &info);
 			assert(info == 0);
@@ -1076,7 +1076,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 		  offset = Windex[rf_begin] - 1;
 		  
 		  /* call bisection routine to refine the eigenvalues */
-		  odrrb_(&bl_size, D, DE2, &Windex[rf_begin], &Windex[rf_end],
+		  lapack::odrrb(&bl_size, D, DE2, &Windex[rf_begin], &Windex[rf_end],
 			  &rtol1, &rtol2, &offset, &W[rf_begin], &Wgap[rf_begin],
 			  &Werr[rf_begin], work, iwork, &pivmin, &bl_spdiam,
 			  &bl_size, &info);

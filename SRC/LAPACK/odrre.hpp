@@ -17,6 +17,7 @@
 
 #include "odsq2.hpp"
 #include "odrrd.hpp"
+#include "odrrb.hpp"
 
 #define TRUE_ (1)
 #define FALSE_ (0)
@@ -745,7 +746,7 @@ namespace pmrrr { namespace lapack {
 			}
 	/*           use bisection to find EV from INDL to INDU */
 			i__2 = indl - 1;
-			odrrb_(&in, &d__[ibegin], &work[ibegin], &indl, &indu, rtol1, 
+			odrrb(&in, &d__[ibegin], &work[ibegin], &indl, &indu, rtol1, 
 				rtol2, &i__2, &w[wbegin], &wgap[wbegin], &werr[wbegin], &
 				work[(*n << 1) + 1], &iwork[1], pivmin, &spdiam, &in, &
 				iinfo);

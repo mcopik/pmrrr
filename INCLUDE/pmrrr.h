@@ -276,9 +276,9 @@ extern "C" void   odrrc_(char*, int*, double*, double*, double*, double*,
 		      double*, double*, int*, int*, int*, double*, 
 		      double*, double*, double*, int*, int*, double*, 
 		      int*, int*);*/
-extern "C" void   odrrb_(int*, double*, double*, int*, int*, double*,
-		      double*, int*, double*, double*, double*, double*,
-		      int*, double*, double*, int*, int*);
+//extern "C" void   odrrb_(int*, double*, double*, int*, int*, double*,
+//		      double*, int*, double*, double*, double*, double*,
+//		      int*, double*, double*, int*, int*);
 extern "C" void   odrrk_(int*, int*, double*, double*, double*, double*,
 		      double*, double*, double*, double*, int*);
 /*extern "C" void   odebz_(int*, int*, int*, int*, int*, int*, double*, 

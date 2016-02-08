@@ -54,6 +54,7 @@
 #include "process_task.h"
 
 #include "LAPACK/odr1v.hpp"
+#include "LAPACK/odrrb.hpp"
 
 
 namespace pmrrr { namespace detail {
@@ -193,7 +194,7 @@ namespace pmrrr { namespace detail {
 		tmp     = Wgap[i]; 
 		Wgap[i] = 0.0;
 	
-		odrrb_(&bl_size, D, DLL, &i_local, &i_local, &DZERO, 
+		lapack::odrrb(&bl_size, D, DLL, &i_local, &i_local, &DZERO, 
 			&twoeps, &offset, &Wshifted[i], &Wgap[i],
 			&Werr[i], work, iwork, &pivmin, &bl_spdiam,
 			&itmp, &info);

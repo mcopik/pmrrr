@@ -14,6 +14,7 @@
 #include "odset.hpp"
 #include "odr1v.hpp"
 #include "odrrf.hpp"
+#include "odrrb.hpp"
 
 #define imax(a,b) ( (a) > (b) ? (a) : (b) )
 #define imin(a,b) ( (a) < (b) ? (a) : (b) )
@@ -528,7 +529,7 @@ namespace pmrrr { namespace lapack {
 				offset = indexw[wbegin] - 1;
 	/*                 perform limited bisection (if necessary) to get approximate */
 	/*                 eigenvalues to the precision needed. */
-				odrrb_(&in, &d__[ibegin], &work[indlld + ibegin - 1], &p, 
+				odrrb(&in, &d__[ibegin], &work[indlld + ibegin - 1], &p, 
 					 &q, rtol1, rtol2, &offset, &work[wbegin], &wgap[
 					wbegin], &werr[wbegin], &work[indwrk], &iwork[
 					iindwk], pivmin, &spdiam, &in, &iinfo);
@@ -639,7 +640,7 @@ namespace pmrrr { namespace lapack {
 					p = indexw[wbegin - 1 + newlst];
 					}
 					offset = indexw[wbegin] - 1;
-					odrrb_(&in, &d__[ibegin], &work[indlld + ibegin 
+					odrrb(&in, &d__[ibegin], &work[indlld + ibegin 
 						- 1], &p, &p, &rqtol, &rqtol, &offset, &
 						work[wbegin], &wgap[wbegin], &werr[wbegin]
 	, &work[indwrk], &iwork[iindwk], pivmin, &
@@ -798,7 +799,7 @@ namespace pmrrr { namespace lapack {
 					itmp1 = iwork[iindr + windex];
 					offset = indexw[wbegin] - 1;
 					d__1 = eps * 2.;
-					odrrb_(&in, &d__[ibegin], &work[indlld + ibegin 
+					odrrb(&in, &d__[ibegin], &work[indlld + ibegin 
 						- 1], &indeig, &indeig, &c_b5, &d__1, &
 						offset, &work[wbegin], &wgap[wbegin], &
 						werr[wbegin], &work[indwrk], &iwork[

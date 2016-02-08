@@ -52,9 +52,9 @@
 #include "structs.h"
 #include "tasks.h"
 #include "process_task.h"
-/*
+
 #include "LAPACK/odrrb.hpp"
-#include "LAPACK/odrrf.hpp"*/
+/*#include "LAPACK/odrrf.hpp"*/
 
 namespace pmrrr { namespace detail {
 
@@ -151,7 +151,7 @@ namespace pmrrr { namespace detail {
 		Wgap[ts_begin] = 0.0;
 	  }  
 
-	  odrrb_(&bl_size, D, DLL, &p, &q, &rtol1, &rtol2, &offset, 
+	  lapack::odrrb(&bl_size, D, DLL, &p, &q, &rtol1, &rtol2, &offset, 
 		  &Wshifted[ts_begin], &Wgap[ts_begin], &Werr[ts_begin],
 		  work, iwork, &pivmin, &bl_spdiam, &bl_size, &info);
 	  assert(info == 0);
