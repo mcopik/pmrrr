@@ -268,9 +268,9 @@ int PMR_comm_eigvals(MPI_Comm comm, int *nz, int *ifirst, double *W);
 extern "C" int odscl_(int *n, double *da, double *dx, 
 	int *incx);
 extern "C" double odnst_(char*, int*, double*, double*);
-extern "C" void   odrrr_(int*, double*, double*, int*);
-extern "C" void   odrrc_(char*, int*, double*, double*, double*, double*,
-		      double*, int*, int*, int*, int*);
+//extern "C" void   odrrr_(int*, double*, double*, int*);
+//extern "C" void   odrrc_(char*, int*, double*, double*, double*, double*,
+	//	      double*, int*, int*, int*, int*);
 /*extern "C" void   odrrd_(char*, char*, int*, double*, double*, int*, 
 		      int*, double*, double*, double*, double*, 
 		      double*, double*, int*, int*, int*, double*, 
@@ -279,13 +279,13 @@ extern "C" void   odrrc_(char*, int*, double*, double*, double*, double*,
 //extern "C" void   odrrb_(int*, double*, double*, int*, int*, double*,
 //		      double*, int*, double*, double*, double*, double*,
 //		      int*, double*, double*, int*, int*);
-extern "C" void   odrrk_(int*, int*, double*, double*, double*, double*,
-		      double*, double*, double*, double*, int*);
+//extern "C" void   odrrk_(int*, int*, double*, double*, double*, double*,
+//		      double*, double*, double*, double*, int*);
 /*extern "C" void   odebz_(int*, int*, int*, int*, int*, int*, double*, 
 		      double*, double*, double*, double*, double*,
 		      int*, double*, double*, int*, int*, double*,
 		      int*, int*);*/
-extern "C" void   odrnv_(int*, int*, int*, double*);
+//extern "C" void   odrnv_(int*, int*, int*, double*);
 /*extern "C" int   odrrf_(int*, double*, double*, double*, int*, int*, 
 		      double*, double*, double*, double*, double*, 
 		      double*, double*, double*, double*, double*, 
@@ -294,9 +294,9 @@ extern "C" void   odrnv_(int*, int*, int*, double*);
 		      double*, double*, double*, double*, double*, 
 		      int*, int*, double*, double*, int*, int*, 
 		      double*, double*, double*, double*);*/
-extern "C" void   odrrj_(int*, double*, double*, int*, int*, double*, 
+/*extern "C" void   odrrj_(int*, double*, double*, int*, int*, double*, 
 		      int*, double*, double*, double*, int*, double*, 
-		      double*, int*);
+		      double*, int*);*/
 extern "C" int olsame_(char *ca, char *cb);
 //extern "C" int odnan_(double *);
 extern "C" double odmch_(char *);

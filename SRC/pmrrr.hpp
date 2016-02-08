@@ -67,10 +67,10 @@
 using std::sort;
 
 
-//#include "LAPACK/odrrr.hpp"
+#include "LAPACK/odrrr.hpp"
 #include "LAPACK/odnst.hpp"
-/*#include "LAPACK/odrrj.hpp"
-#include "BLAS/odscl.hpp"
+#include "LAPACK/odrrj.hpp"
+/*#include "BLAS/odscl.hpp"
 */
 
 /*static int handle_small_cases(char*, char*, int*, FloatingType*, FloatingType*,
@@ -324,7 +324,7 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
   /*  Test if matrix warrants more expensive computations which
    *  guarantees high relative accuracy */
   if (*tryracp) {
-    odrrr_(&n, D, E, &info); /* 0 - rel acc */
+    lapack::odrrr(&n, D, E, &info); /* 0 - rel acc */
   }
   else info = -1;
 
@@ -960,7 +960,7 @@ int refine_to_highrac(proc_t *procinfo, char *jobz, FloatingType *D,
     ilast   = nbl;
     offset  = 0;
 
-    odrrj_(&isize, &D[ibegin], &E2[ibegin], &ifirst, &ilast, &tol,
+    lapack::odrrj(&isize, &D[ibegin], &E2[ibegin], &ifirst, &ilast, &tol,
 	    &offset, &W[ibegin], &Werr[ibegin], work, iwork, &pivmin,
 	    &spdiam, &info);
     assert(info == 0);

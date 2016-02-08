@@ -13,6 +13,9 @@
 
 #include "lapack.hpp"
 #include "odrre.hpp"
+#include "odrrc.hpp"
+#include "odrrj.hpp"
+#include "odrrr.hpp"
 #include "ode2.hpp"
 #include "odev2.hpp"
 #include "odrrv.hpp"
@@ -421,7 +424,7 @@ namespace pmrrr { namespace lapack {
 		if (wantz && alleig) {
 			nzcmin = *n;
 		} else if (wantz && valeig) {
-			odrrc_("T", n, vl, vu, &d__[1], &e[1], &safmin, &nzcmin, &itmp, &
+			odrrc("T", n, vl, vu, &d__[1], &e[1], &safmin, &nzcmin, &itmp, &
 				itmp2, info);
 		} else if (wantz && indeig) {
 			nzcmin = iiu - iil + 1;
@@ -569,7 +572,7 @@ namespace pmrrr { namespace lapack {
 
 		if (*tryrac) {
 	/*        Test whether the matrix warrants the more expensive relative approach. */
-		odrrr_(n, &d__[1], &e[1], &iinfo);
+		odrrr(n, &d__[1], &e[1], &iinfo);
 		} else {
 	/*        The user does not care about relative accurately eigenvalues */
 		iinfo = -1;
@@ -675,7 +678,7 @@ namespace pmrrr { namespace lapack {
 			ifirst = iwork[iindw + wbegin - 1];
 			ilast = iwork[iindw + wend - 1];
 			rtol2 = eps * 4.;
-			odrrj_(&in, &work[indd + ibegin - 1], &work[inde2 + ibegin - 1], 
+			odrrj(&in, &work[indd + ibegin - 1], &work[inde2 + ibegin - 1], 
 				&ifirst, &ilast, &rtol2, &offset, &w[wbegin], &work[
 				inderr + wbegin - 1], &work[indwrk], &iwork[iindwk], &
 				pivmin, &tnrm, &iinfo);

@@ -58,9 +58,9 @@
 #include "LAPACK/odrra.hpp"
 #include "LAPACK/odebz.hpp"
 #include "LAPACK/odrrd.hpp"
-/*#include "LAPACK/odrnv.hpp"
+#include "LAPACK/odrnv.hpp"
 #include "LAPACK/odrrk.hpp"
-#include "LAPACK/odrrc.hpp"*/
+#include "LAPACK/odrrc.hpp"
 #include "LAPACK/odrrb.hpp"
 //#include "LAPACK/odrrd.hpp"
 
@@ -608,7 +608,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 		  assert(randvec != NULL);
 
 		  /* create random vector to perturb rrr and broadcast it */
-		  odrnv_(&ITWO, iseed, &two_n, randvec);
+		  lapack::odrnv(&ITWO, iseed, &two_n, randvec);
 		  
 		  /* store shift of initial RRR, here set to zero */
 		  E[n-1] = 0.0;
@@ -625,13 +625,13 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 		  /* find approximation of extremal eigenvalues of the block
 		   * odrrk computes one eigenvalue of tridiagonal matrix T
 		   * tmp1 and tmp2 one hold the eigenvalue and error, respectively */
-		  odrrk_(&n, &IONE, &gl, &gu, D, E2,
+		  lapack::odrrk(&n, &IONE, &gl, &gu, D, E2,
 			  &pivmin, &rtl, &tmp1, &tmp2, &info);
 		  assert(info == 0);  /* if info=-1 => eigenvalue did not converge */
 		
 		  isleft = fmax(gl, tmp1-tmp2 - HUNDRED*DBL_EPSILON*fabs(tmp1-tmp2) );
 		
-		  odrrk_(&n, &n, &gl, &gu, D, E2,
+		  lapack::odrrk(&n, &n, &gl, &gu, D, E2,
 		  	    &pivmin, &rtl, &tmp1, &tmp2, &info);
 		  assert(info == 0);  /* if info=-1 => eigenvalue did not converge */
 		
@@ -647,7 +647,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 		  /* cnt = number of eigenvalues in (s1,s2] = count_right - count_left
 		   * negcnt_lft = number of eigenvalues smaller equals than s1
 		   * negcnt_rgt = number of eigenvalues smaller equals than s2 */
-		  odrrc_("T", &n, &s1, &s2, D, E, &pivmin,
+		  lapack::odrrc("T", &n, &s1, &s2, D, E, &pivmin,
 			  &cnt, &negcnt_lft, &negcnt_rgt, &info);
 		  assert(info == 0);
 		  

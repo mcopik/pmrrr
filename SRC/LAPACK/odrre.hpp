@@ -18,6 +18,9 @@
 #include "odsq2.hpp"
 #include "odrrd.hpp"
 #include "odrrb.hpp"
+#include "odrrc.hpp"
+#include "odrrk.hpp"
+#include "odrnv.hpp"
 
 #define TRUE_ (1)
 #define FALSE_ (0)
@@ -486,7 +489,7 @@ namespace pmrrr { namespace lapack {
 		if (irange == 1 && ! forceb || usedqd) {
 	/*           Case of DQDS */
 	/*           Find approximations to the extremal eigenvalues of the block */
-			odrrk_(&in, &c__1, &gl, &gu, &d__[ibegin], &e2[ibegin], pivmin, &
+			odrrk(&in, &c__1, &gl, &gu, &d__[ibegin], &e2[ibegin], pivmin, &
 				rtl, &tmp, &tmp1, &iinfo);
 			if (iinfo != 0) {
 			*info = -1;
@@ -496,7 +499,7 @@ namespace pmrrr { namespace lapack {
 			d__2 = gl, d__3 = tmp - tmp1 - eps * 100. * (d__1 = tmp - tmp1, 
 				fabs(d__1));
 			isleft = fmax(d__2,d__3);
-			odrrk_(&in, &in, &gl, &gu, &d__[ibegin], &e2[ibegin], pivmin, &
+			odrrk(&in, &in, &gl, &gu, &d__[ibegin], &e2[ibegin], pivmin, &
 				rtl, &tmp, &tmp1, &iinfo);
 			if (iinfo != 0) {
 			*info = -1;
@@ -555,7 +558,7 @@ namespace pmrrr { namespace lapack {
 		}
 	/*        Compute the negcount at the 1/4 and 3/4 points */
 		if (mb > 1) {
-			odrrc_("T", &in, &s1, &s2, &d__[ibegin], &e[ibegin], pivmin, &
+			odrrc("T", &in, &s1, &s2, &d__[ibegin], &e[ibegin], pivmin, &
 				cnt, &cnt1, &cnt2, &iinfo);
 		}
 		if (mb == 1) {
@@ -707,7 +710,7 @@ namespace pmrrr { namespace lapack {
 	/* L122: */
 			}
 			i__2 = (in << 1) - 1;
-			odrnv_(&c__2, iseed, &i__2, &work[1]);
+			odrnv(&c__2, iseed, &i__2, &work[1]);
 			i__2 = in - 1;
 			for (i__ = 1; i__ <= i__2; ++i__) {
 			d__[ibegin + i__ - 1] *= eps * 8. * work[i__] + 1.;
