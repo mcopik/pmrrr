@@ -21,6 +21,9 @@
 #include "odrrv.hpp"
 #include "odsrt.hpp"
 #include "odnst.hpp"
+#include "../BLAS/odcpy.hpp"
+#include "../BLAS/odscl.hpp"
+#include "../BLAS/odswap.hpp"
 
 /* Table of constant values */
 #define TRUE_ (1)
@@ -550,9 +553,9 @@ namespace pmrrr { namespace lapack {
 		scale = rmax / tnrm;
 		}
 		if (scale != 1.) {
-		odscl_(n, &scale, &d__[1], &c__1);
+		blas::odscl(n, &scale, &d__[1], &c__1);
 		i__1 = *n - 1;
-		odscl_(&i__1, &scale, &e[1], &c__1);
+		blas::odscl(&i__1, &scale, &e[1], &c__1);
 		tnrm *= scale;
 		if (valeig) {
 	/*           If eigenvalues in interval have to be found, */
@@ -588,7 +591,7 @@ namespace pmrrr { namespace lapack {
 
 		if (*tryrac) {
 	/*        Copy original diagonal, needed to guarantee relative accuracy */
-		odcpy_(n, &d__[1], &c__1, &work[indd], &c__1);
+		blas::odcpy(n, &d__[1], &c__1, &work[indd], &c__1);
 		}
 	/*     Store the squares of the offdiagonal values of T */
 		i__1 = *n - 1;
@@ -693,7 +696,7 @@ namespace pmrrr { namespace lapack {
 
 		if (scale != 1.) {
 		d__1 = 1. / scale;
-		odscl_(m, &d__1, &w[1], &c__1);
+		blas::odscl(m, &d__1, &w[1], &c__1);
 		}
 
 	/*     If eigenvalues are not in increasing order, then sort them, */
@@ -723,7 +726,7 @@ namespace pmrrr { namespace lapack {
 				w[i__] = w[j];
 				w[j] = tmp;
 				if (wantz) {
-				odswap_(n, &z__[i__ * z_dim1 + 1], &c__1, &z__[j * 
+				blas::odswap(n, &z__[i__ * z_dim1 + 1], &c__1, &z__[j * 
 					z_dim1 + 1], &c__1);
 				itmp = isuppz[(i__ << 1) - 1];
 				isuppz[(i__ << 1) - 1] = isuppz[(j << 1) - 1];

@@ -265,8 +265,8 @@ int PMR_comm_eigvals(MPI_Comm comm, int *nz, int *ifirst, double *W);
 //extern void odscl_(int*, double*, double*, int*);
 //template<typename pmrrr_datatype>
 #ifdef __cplusplus
-extern "C" int odscl_(int *n, double *da, double *dx, 
-	int *incx);
+//extern "C" int odscl_(int *n, double *da, double *dx, 
+//	int *incx);
 //extern "C" double odnst_(char*, int*, double*, double*);
 //extern "C" void   odrrr_(int*, double*, double*, int*);
 //extern "C" void   odrrc_(char*, int*, double*, double*, double*, double*,
@@ -321,11 +321,11 @@ extern "C" int odrrk_(int *, int *, double *,
 			double *, double *, double *, int *);*/
  
 //template<typename pmrrr_datatype>
-extern "C" int odcpy_(int *n, double *dx, int *incx, 
-	double *dy, int *incy);
+//extern "C" int odcpy_(int *n, double *dx, int *incx, 
+//	double *dy, int *incy);
 //
 //template<typename pmrrr_datatype>
-extern "C" int odswap_(int *n, double *dx, int *incx, 
-	double *dy, int *incy);
+//extern "C" int odswap_(int *n, double *dx, int *incx, 
+	//double *dy, int *incy);
 #endif
 #endif /* End of header file */

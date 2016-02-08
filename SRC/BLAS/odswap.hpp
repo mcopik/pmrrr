@@ -1,5 +1,8 @@
 /* dswap.f -- translated by f2c (version 20061008) */
 
+#ifndef __ODSWAP_HPP__
+#define __ODSWAP_HPP__
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -7,107 +10,112 @@
 #include <float.h>
 #include <assert.h>
 
-/* Subroutine */ 
-template<typename FloatingType>
-int odswap_(int *n, FloatingType *dx, int *incx, 
-	FloatingType *dy, int *incy)
-{
-    /* System generated locals */
-    int i__1;
+namespace pmrrr { namespace blas {
 
-    /* Local variables */
-    int i__, m, ix, iy, mp1;
-    FloatingType dtemp;
+	/* Subroutine */ 
+	template<typename FloatingType>
+	int odswap(int *n, FloatingType *dx, int *incx, 
+		FloatingType *dy, int *incy)
+	{
+		/* System generated locals */
+		int i__1;
 
-/*     .. Scalar Arguments .. */
-/*     .. */
-/*     .. Array Arguments .. */
-/*     .. */
+		/* Local variables */
+		int i__, m, ix, iy, mp1;
+		FloatingType dtemp;
 
-/*  Purpose */
-/*  ======= */
+	/*     .. Scalar Arguments .. */
+	/*     .. */
+	/*     .. Array Arguments .. */
+	/*     .. */
 
-/*     interchanges two vectors. */
-/*     uses unrolled loops for increments equal one. */
-/*     jack dongarra, linpack, 3/11/78. */
-/*     modified 12/3/93, array(1) declarations changed to array(*) */
+	/*  Purpose */
+	/*  ======= */
 
-
-/*     .. Local Scalars .. */
-/*     .. */
-/*     .. Intrinsic Functions .. */
-/*     .. */
-    /* Parameter adjustments */
-    --dy;
-    --dx;
-
-    /* Function Body */
-    if (*n <= 0) {
-	return 0;
-    }
-    if (*incx == 1 && *incy == 1) {
-	goto L20;
-    }
-
-/*       code for unequal increments or equal increments not equal */
-/*         to 1 */
-
-    ix = 1;
-    iy = 1;
-    if (*incx < 0) {
-	ix = (-(*n) + 1) * *incx + 1;
-    }
-    if (*incy < 0) {
-	iy = (-(*n) + 1) * *incy + 1;
-    }
-    i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__) {
-	dtemp = dx[ix];
-	dx[ix] = dy[iy];
-	dy[iy] = dtemp;
-	ix += *incx;
-	iy += *incy;
-/* L10: */
-    }
-    return 0;
-
-/*       code for both increments equal to 1 */
+	/*     interchanges two vectors. */
+	/*     uses unrolled loops for increments equal one. */
+	/*     jack dongarra, linpack, 3/11/78. */
+	/*     modified 12/3/93, array(1) declarations changed to array(*) */
 
 
-/*       clean-up loop */
+	/*     .. Local Scalars .. */
+	/*     .. */
+	/*     .. Intrinsic Functions .. */
+	/*     .. */
+		/* Parameter adjustments */
+		--dy;
+		--dx;
 
-L20:
-    m = *n % 3;
-    if (m == 0) {
-	goto L40;
-    }
-    i__1 = m;
-    for (i__ = 1; i__ <= i__1; ++i__) {
-	dtemp = dx[i__];
-	dx[i__] = dy[i__];
-	dy[i__] = dtemp;
-/* L30: */
-    }
-    if (*n < 3) {
-	return 0;
-    }
-L40:
-    mp1 = m + 1;
-    i__1 = *n;
-    for (i__ = mp1; i__ <= i__1; i__ += 3) {
-	dtemp = dx[i__];
-	dx[i__] = dy[i__];
-	dy[i__] = dtemp;
-	dtemp = dx[i__ + 1];
-	dx[i__ + 1] = dy[i__ + 1];
-	dy[i__ + 1] = dtemp;
-	dtemp = dx[i__ + 2];
-	dx[i__ + 2] = dy[i__ + 2];
-	dy[i__ + 2] = dtemp;
-/* L50: */
-    }
-    return 0;
-} /* dswap_ */
+		/* Function Body */
+		if (*n <= 0) {
+		return 0;
+		}
+		if (*incx == 1 && *incy == 1) {
+		goto L20;
+		}
 
-template int odswap_(int *n, double *dx, int *incx, 
-	double *dy, int *incy);
+	/*       code for unequal increments or equal increments not equal */
+	/*         to 1 */
+
+		ix = 1;
+		iy = 1;
+		if (*incx < 0) {
+		ix = (-(*n) + 1) * *incx + 1;
+		}
+		if (*incy < 0) {
+		iy = (-(*n) + 1) * *incy + 1;
+		}
+		i__1 = *n;
+		for (i__ = 1; i__ <= i__1; ++i__) {
+		dtemp = dx[ix];
+		dx[ix] = dy[iy];
+		dy[iy] = dtemp;
+		ix += *incx;
+		iy += *incy;
+	/* L10: */
+		}
+		return 0;
+
+	/*       code for both increments equal to 1 */
+
+
+	/*       clean-up loop */
+
+	L20:
+		m = *n % 3;
+		if (m == 0) {
+		goto L40;
+		}
+		i__1 = m;
+		for (i__ = 1; i__ <= i__1; ++i__) {
+		dtemp = dx[i__];
+		dx[i__] = dy[i__];
+		dy[i__] = dtemp;
+	/* L30: */
+		}
+		if (*n < 3) {
+		return 0;
+		}
+	L40:
+		mp1 = m + 1;
+		i__1 = *n;
+		for (i__ = mp1; i__ <= i__1; i__ += 3) {
+		dtemp = dx[i__];
+		dx[i__] = dy[i__];
+		dy[i__] = dtemp;
+		dtemp = dx[i__ + 1];
+		dx[i__ + 1] = dy[i__ + 1];
+		dy[i__ + 1] = dtemp;
+		dtemp = dx[i__ + 2];
+		dx[i__ + 2] = dy[i__ + 2];
+		dy[i__ + 2] = dtemp;
+	/* L50: */
+		}
+		return 0;
+	} /* dswap_ */
+
+}
+
+}
+
+#endif

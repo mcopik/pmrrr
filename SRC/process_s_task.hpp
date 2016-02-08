@@ -55,6 +55,7 @@
 
 #include "LAPACK/odr1v.hpp"
 #include "LAPACK/odrrb.hpp"
+#include "BLAS/odscl.hpp"
 
 
 namespace pmrrr { namespace detail {
@@ -302,7 +303,7 @@ namespace pmrrr { namespace detail {
 		
 		/* normalize eigenvector */
 		suppsize = i_Zto - i_Zfrom + 1;
-		odscl_(&suppsize, &norminv, &Z[i_Zfrom + zind*ldz], &IONE);
+		blas::odscl(&suppsize, &norminv, &Z[i_Zfrom + zind*ldz], &IONE);
 
 		sigma = L[bl_size-1];
 		W[i]  = lambda + sigma;

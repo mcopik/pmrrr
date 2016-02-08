@@ -80,7 +80,7 @@ int main(int argc, char **argv)
       printf("\n\n%% Results of process %d:\n", pid);
       if (i == 0) printf("W = [];");
       print_vector("W = [W;", W, "];", nz);
-//      print_matrix("Z", Z, n, nz, offset);
+      print_matrix("Z", Z, n, nz, offset);
       fflush(stdout);
     }
   }

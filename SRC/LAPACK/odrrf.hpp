@@ -15,6 +15,7 @@
 #include "pmrrr.h"
 
 #include "odnan.hpp"
+#include "../BLAS/odcpy.hpp"
 
 namespace pmrrr { namespace lapack {
 
@@ -420,9 +421,9 @@ namespace pmrrr { namespace lapack {
 		if (shift == 1) {
 		} else if (shift == 2) {
 	/*        store new L and D back into DPLUS, LPLUS */
-		odcpy_(n, &work[1], &c__1, &dplus[1], &c__1);
+		blas::odcpy(n, &work[1], &c__1, &dplus[1], &c__1);
 		i__1 = *n - 1;
-		odcpy_(&i__1, &work[*n + 1], &c__1, &lplus[1], &c__1);
+		blas::odcpy(&i__1, &work[*n + 1], &c__1, &lplus[1], &c__1);
 		}
 		return 0;
 

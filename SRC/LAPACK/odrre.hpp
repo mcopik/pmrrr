@@ -22,6 +22,7 @@
 #include "odrrk.hpp"
 #include "odrnv.hpp"
 #include "lapack.hpp"
+#include "../BLAS/odcpy.hpp"
 
 #define TRUE_ (1)
 #define FALSE_ (0)
@@ -697,9 +698,9 @@ namespace pmrrr { namespace lapack {
 	/*        Store the shift. */
 		e[iend] = sigma;
 	/*        Store D and L. */
-		odcpy_(&in, &work[1], &c__1, &d__[ibegin], &c__1);
+		blas::odcpy(&in, &work[1], &c__1, &d__[ibegin], &c__1);
 		i__2 = in - 1;
-		odcpy_(&i__2, &work[in + 1], &c__1, &e[ibegin], &c__1);
+		blas::odcpy(&i__2, &work[in + 1], &c__1, &e[ibegin], &c__1);
 		if (mb > 1) {
 
 	/*           Perturb each entry of the base representation by a small */

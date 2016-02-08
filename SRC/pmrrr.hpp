@@ -70,8 +70,7 @@ using std::sort;
 #include "LAPACK/odrrr.hpp"
 #include "LAPACK/odnst.hpp"
 #include "LAPACK/odrrj.hpp"
-/*#include "BLAS/odscl.hpp"
-*/
+#include "BLAS/odscl.hpp"
 
 /*static int handle_small_cases(char*, char*, int*, FloatingType*, FloatingType*,
 			      FloatingType*, FloatingType*, int*, int*, int*,
@@ -619,8 +618,8 @@ FloatingType scale_matrix(in_t<FloatingType> *Dstruct, val_t<FloatingType> *Wstr
   if (scale != 1.0) {  /* FP cmp okay */
     /* Scale matrix and matrix norm */
     itmp = n-1;
-    odscl_(&n,    &scale, D, &IONE);
-    odscl_(&itmp, &scale, E, &IONE);
+    blas::odscl(&n,    &scale, D, &IONE);
+    blas::odscl(&itmp, &scale, E, &IONE);
     if (valeig == true) {
       /* Scale eigenvalue bounds */
       *vl *= scale;
@@ -650,7 +649,7 @@ void invscale_eigenvalues(val_t<FloatingType> *Wstruct, FloatingType scale,
   if (scale != 1.0) {  /* FP cmp okay */
     *vl *= invscale;
     *vu *= invscale;
-    odscl_(&size, &invscale, W, &IONE);
+    blas::odscl(&size, &invscale, W, &IONE);
   }
 
 }

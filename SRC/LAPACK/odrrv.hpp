@@ -18,6 +18,8 @@
 #include "odr1v.hpp"
 #include "odrrf.hpp"
 #include "odrrb.hpp"
+#include "../BLAS/odcpy.hpp"
+#include "../BLAS/odscl.hpp"
 
 #define imax(a,b) ( (a) > (b) ? (a) : (b) )
 #define imin(a,b) ( (a) < (b) ? (a) : (b) )
@@ -430,7 +432,7 @@ namespace pmrrr { namespace lapack {
 	/*        The eigenvalue approximations will be refined when necessary as */
 	/*        high relative accuracy is required for the computation of the */
 	/*        corresponding eigenvectors. */
-		odcpy_(&im, &w[wbegin], &c__1, &work[wbegin], &c__1);
+		blas::odcpy(&im, &w[wbegin], &c__1, &work[wbegin], &c__1);
 	/*        We store in W the eigenvalue approximations w.r.t. the original */
 	/*        matrix T. */
 		i__2 = im;
@@ -503,10 +505,10 @@ namespace pmrrr { namespace lapack {
 					j = wbegin + oldfst - 1;
 				}
 				}
-				odcpy_(&in, &z__[ibegin + j * z_dim1], &c__1, &d__[ibegin]
+				blas::odcpy(&in, &z__[ibegin + j * z_dim1], &c__1, &d__[ibegin]
 	, &c__1);
 				i__3 = in - 1;
-				odcpy_(&i__3, &z__[ibegin + (j + 1) * z_dim1], &c__1, &l[
+				blas::odcpy(&i__3, &z__[ibegin + (j + 1) * z_dim1], &c__1, &l[
 					ibegin], &c__1);
 				sigma = z__[iend + (j + 1) * z_dim1];
 	/*                 Set the corresponding entries in Z to zero */
@@ -951,7 +953,7 @@ namespace pmrrr { namespace lapack {
 					}
 				}
 				i__4 = zto - zfrom + 1;
-				odscl_(&i__4, &nrminv, &z__[zfrom + windex * z_dim1], 
+				blas::odscl(&i__4, &nrminv, &z__[zfrom + windex * z_dim1], 
 					&c__1);
 	L125:
 	/*                    Update W */
