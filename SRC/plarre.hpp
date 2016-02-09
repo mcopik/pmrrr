@@ -937,10 +937,10 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 				   &W, &Werr, &Windex, &iblock);
 
 		  /* allocate memory */
-		  W_tmp = (double *) malloc( n * sizeof(FloatingType) );
+		  W_tmp = (FloatingType *) malloc( n * sizeof(FloatingType) );
 		  assert(W_tmp != NULL);
 		  
-		  Werr_tmp = (double *) malloc( n * sizeof(FloatingType) );
+		  Werr_tmp = (FloatingType *) malloc( n * sizeof(FloatingType) );
 		  assert(Werr_tmp != NULL);
 		  
 		  Windex_tmp = (int *) malloc( n * sizeof(int) );
@@ -949,7 +949,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 		  iblock_tmp = (int *) malloc( n * sizeof(int) );
 		  assert(iblock_tmp != NULL);
 
-		  work  = (double *) malloc( 4*n * sizeof(FloatingType) );
+		  work  = (FloatingType *) malloc( 4*n * sizeof(FloatingType) );
 		  assert (work != NULL);
 
 		  iwork = (int *) malloc( 3*n * sizeof(int) );

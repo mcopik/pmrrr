@@ -68,49 +68,51 @@ extern "C" task_t *PMR_create_r_task(int begin, int end, double *D,
 			  double bl_spdiam, int tid, sem_t *sem);*/
 namespace pmrrr { namespace detail {
 
-	typedef struct {
+	template<typename FloatingType>
+	struct singleton_t {
 	  int        begin;
 	  int        end;
 	  int        depth;
 	  int        bl_begin;
 	  int        bl_end;
-	  double     bl_spdiam;
-	  double     lgap;
-	  rrr_t<double>      *RRR;
-	} singleton_t;
+	  FloatingType     bl_spdiam;
+	  FloatingType     lgap;
+	  rrr_t<FloatingType>      *RRR;
+	};
 
-	typedef struct {
+	template<typename FloatingType>
+	struct cluster_t {
 	  int        begin;
 	  int        end;
 	  int        depth;
 	  int        bl_begin;   /* In priciple not needed since info */
 	  int        bl_end;     /* also contained in iblock+isplit */
-	  double     bl_spdiam;
-	  double     lgap;
+	  FloatingType     bl_spdiam;
+	  FloatingType     lgap;
 	  int        proc_W_begin;
 	  int        proc_W_end;
 	  int        left_pid;
 	  int        right_pid;
-	  rrr_t<double>      *RRR;
+	  rrr_t<FloatingType>      *RRR;
 	  bool       wait_until_refined;
 	  comm_t     *messages;
-	} cluster_t;
+	};
 
-
-	typedef struct {
+	template<typename FloatingType>
+	struct refine_t{
 	  int        begin;
 	  int        end;
-	  double     *D;
-	  double     *DLL;
+	  FloatingType     *D;
+	  FloatingType     *DLL;
 	  int        p;
 	  int        q;
 	  int        bl_size;
-	  double     bl_spdiam;
+	  FloatingType     bl_spdiam;
 	  int        producer_tid; // not longer needed
 	  sem_t      *sem; /* since semt_t is a handle could also store it
 				  instead of pointer to it, but pointer is all
 		                  that is needed */
-	} refine_t;
+	};
 	
 	template<typename FloatingType>
 	task_t *PMR_create_s_task(int first, int last, int depth,

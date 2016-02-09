@@ -53,12 +53,12 @@ namespace pmrrr { namespace detail {
 				  FloatingType spdiam, FloatingType lgap, rrr_t<FloatingType> *RRR)
 	{
 	  task_t      *t;
-	  singleton_t *s;
+	  singleton_t<FloatingType> *s;
 
 	  t = (task_t *) malloc(sizeof(task_t));
 	  assert(t != NULL);
 	  
-	  s = (singleton_t *) malloc( sizeof(singleton_t) );
+	  s = (singleton_t<FloatingType> *) malloc( sizeof(singleton_t<FloatingType>) );
 	  assert(s != NULL);
 
 	  s->begin        = first;
@@ -86,12 +86,12 @@ namespace pmrrr { namespace detail {
 				  rrr_t<FloatingType> *RRR)
 	{
 	  task_t    *t;
-	  cluster_t *c;
+	  cluster_t<FloatingType> *c;
 
 	  t = (task_t *) malloc(sizeof(task_t));
 	  assert(t != NULL);
 	  
-	  c = (cluster_t *) malloc( sizeof(cluster_t) );
+	  c = (cluster_t<FloatingType> *) malloc( sizeof(cluster_t<FloatingType>) );
 	  assert(c != NULL);
 
 	  c->begin              = first;
@@ -123,12 +123,12 @@ namespace pmrrr { namespace detail {
 				  FloatingType bl_spdiam, int tid, sem_t *sem)
 	{
 	  task_t   *t;
-	  refine_t *r;
+	  refine_t<FloatingType> *r;
 
 	  t = (task_t *) malloc(sizeof(task_t));
 	  assert(t != NULL);
 	  
-	  r = (refine_t *) malloc( sizeof(refine_t) );
+	  r = (refine_t<FloatingType> *) malloc( sizeof(refine_t<FloatingType>) );
 	  assert(r != NULL); 
 
 	  r->begin        = begin;

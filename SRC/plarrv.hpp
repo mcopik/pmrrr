@@ -658,7 +658,7 @@ int plarrv(proc_t *procinfo, in_t<FloatingType> *Dstruct, val_t<FloatingType> *W
 			if ( task != NULL ) {
 			  assert(task->flag == SINGLETON_TASK_FLAG);
 
-			  PMR_process_s_task((singleton_t *) task->data, tid, procinfo,
+			  PMR_process_s_task((singleton_t<FloatingType> *) task->data, tid, procinfo,
 					 Wstruct, Zstruct, tolstruct, num_left, 
 					 work, iwork);
 			  free(task);
@@ -669,7 +669,7 @@ int plarrv(proc_t *procinfo, in_t<FloatingType> *Dstruct, val_t<FloatingType> *W
 			if ( task != NULL ) {
 			  assert(task->flag == CLUSTER_TASK_FLAG);
 
-			  PMR_process_c_task((cluster_t *) task->data, tid, procinfo,
+			  PMR_process_c_task((cluster_t<FloatingType> *) task->data, tid, procinfo,
 					 Wstruct, Zstruct, tolstruct, workQ,
 					 num_left, work, iwork);
 			  free(task);

@@ -87,7 +87,7 @@ namespace pmrrr { namespace detail {
 		if (thread_support != MPI_THREAD_FUNNELED || tid == 0) {
 		  /* if MPI_THREAD_FUNNELED only tid==0 should process 
 		       * these tasks, otherwise any thread can do it */
-		  status = PMR_process_c_task((cluster_t *) task->data,
+		  status = PMR_process_c_task((cluster_t<FloatingType> *) task->data,
 						  tid, procinfo, Wstruct,
 						  Zstruct, tolstruct, workQ,
 						  num_left, work, iwork);
@@ -104,7 +104,7 @@ namespace pmrrr { namespace detail {
 		  } /* end if cluster task */
 
 		  if (task->flag == REFINE_TASK_FLAG) {
-		PMR_process_r_task((refine_t *) task->data, procinfo,
+		PMR_process_r_task((refine_t<FloatingType> *) task->data, procinfo,
 				   Wstruct, tolstruct, work, iwork);
 		free(task);
 		  }
@@ -117,7 +117,7 @@ namespace pmrrr { namespace detail {
 	 * Process the task of refining a subset of eigenvalues.
 	 */
 	template<typename FloatingType>
-	int PMR_process_r_task(refine_t *rf, proc_t *procinfo, 
+	int PMR_process_r_task(refine_t<FloatingType> *rf, proc_t *procinfo, 
 				   val_t<FloatingType> *Wstruct, tol_t<FloatingType> *tolstruct, 
 				   FloatingType *work, int *iwork)
 	{
