@@ -45,6 +45,7 @@
  */
 
 #include <algorithm>
+#include <limits>
 
 #include <cstdlib>
 #include <cstdio>
@@ -329,7 +330,7 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
 
   if (info == 0) {
     /* This case is extremely rare in practice */ 
-    tolstruct->split = DBL_EPSILON;
+    tolstruct->split = std::numeric_limits<FloatingType>::epsilon();
     /* Copy original data needed for refinement later */
     Dcopy  = (FloatingType *) malloc( n * sizeof(FloatingType) );
     assert(Dcopy != NULL);
@@ -339,21 +340,21 @@ int pmrrr(char *jobz, char *range, int *np, FloatingType  *D,
     for (i=0; i<n-1; i++) E2copy[i] = E[i]*E[i];
   } else {
     /* Neg. threshold forces old splitting criterion */
-    tolstruct->split = -DBL_EPSILON; 
+    tolstruct->split = -std::numeric_limits<FloatingType>::epsilon(); 
     *tryracp = 0;
   }
 
   if (!wantZ) {
     /* Compute eigenvalues to full precision */
-    tolstruct->rtol1 = 4.0 * DBL_EPSILON;
-    tolstruct->rtol2 = 4.0 * DBL_EPSILON;
+    tolstruct->rtol1 = 4.0 * std::numeric_limits<FloatingType>::epsilon();
+    tolstruct->rtol2 = 4.0 * std::numeric_limits<FloatingType>::epsilon();
   } else {
     /* Do not compute to full accuracy first, but refine later */
-    tolstruct->rtol1 = sqrt(DBL_EPSILON);
+    tolstruct->rtol1 = sqrt(std::numeric_limits<FloatingType>::epsilon());
     tolstruct->rtol1 = fmin(1e-2*MIN_RELGAP, tolstruct->rtol1);
-    tolstruct->rtol2 = sqrt(DBL_EPSILON)*5.0E-3;
+    tolstruct->rtol2 = sqrt(std::numeric_limits<FloatingType>::epsilon())*5.0E-3;
     tolstruct->rtol2 = fmin(5e-6*MIN_RELGAP, tolstruct->rtol2);
-    tolstruct->rtol2 = fmax(4.0 * DBL_EPSILON, tolstruct->rtol2);
+    tolstruct->rtol2 = fmax(4.0 * std::numeric_limits<FloatingType>::epsilon(), tolstruct->rtol2);
   }
 
   /*  Compute all eigenvalues: sorted by block */
@@ -602,10 +603,10 @@ FloatingType scale_matrix(in_t<FloatingType> *Dstruct, val_t<FloatingType> *Wstr
   int              IONE = 1, itmp;
 
   /* Set some machine dependent constants */
-  smlnum = DBL_MIN / DBL_EPSILON;
+  smlnum = std::numeric_limits<FloatingType>::min() / std::numeric_limits<FloatingType>::epsilon();
   bignum = 1.0 / smlnum;
   rmin   = sqrt(smlnum);
-  rmax   = fmin(sqrt(bignum), 1.0 / sqrt(sqrt(DBL_MIN)));
+  rmax   = fmin(sqrt(bignum), 1.0 / sqrt(sqrt(std::numeric_limits<FloatingType>::min())));
 
   /*  Scale matrix to allowable range */
   T_norm = lapack::odnst("M", &n, D, E);  /* returns max(|T(i,j)|) */
@@ -733,14 +734,14 @@ int sort_eigenpairs_global(proc_t *procinfo, int m, val_t<FloatingType> *Wstruct
   assert(minmax != NULL);
 
   if (m == 0) {
-    MPI_Allgather(&nan_value, 1, MPI_DOUBLE, minW, 1, MPI_DOUBLE, 
+    MPI_Allgather(&nan_value, 1, float_traits<FloatingType>::mpi_type(), minW, 1, float_traits<FloatingType>::mpi_type(), 
 		  procinfo->comm); 
-    MPI_Allgather(&nan_value, 1, MPI_DOUBLE, maxW, 1, MPI_DOUBLE, 
+    MPI_Allgather(&nan_value, 1, float_traits<FloatingType>::mpi_type(), maxW, 1, float_traits<FloatingType>::mpi_type(), 
 		  procinfo->comm); 
   } else {
-    MPI_Allgather(&W[0], 1, MPI_DOUBLE, minW, 1, MPI_DOUBLE, 
+    MPI_Allgather(&W[0], 1, float_traits<FloatingType>::mpi_type(), minW, 1, float_traits<FloatingType>::mpi_type(), 
 		  procinfo->comm); 
-    MPI_Allgather(&W[m-1], 1, MPI_DOUBLE, maxW, 1, MPI_DOUBLE, 
+    MPI_Allgather(&W[m-1], 1, float_traits<FloatingType>::mpi_type(), maxW, 1, float_traits<FloatingType>::mpi_type(), 
 		  procinfo->comm); 
   }
 
@@ -768,15 +769,15 @@ int sort_eigenpairs_global(proc_t *procinfo, int m, val_t<FloatingType> *Wstruct
       if ((pid == lp || pid == p) && minW[p] < maxW[lp]) {
 	if (pid == lp) {
 	  W[m-1] = minW[p];
-          MPI_Sendrecv(&Z[(m-1)*ldz], n, MPI_DOUBLE, p, lp, 
-		       work, n, MPI_DOUBLE, p, p, 
+          MPI_Sendrecv(&Z[(m-1)*ldz], n, float_traits<FloatingType>::mpi_type(), p, lp, 
+		       work, n, float_traits<FloatingType>::mpi_type(), p, p, 
 		       procinfo->comm, &status);
 	  memcpy(&Z[(m-1)*ldz], work, n*sizeof(FloatingType));
 	}
 	if (pid == p) {
 	  W[0]   = maxW[p-1];
-          MPI_Sendrecv(&Z[0], n, MPI_DOUBLE, lp, p, 
-		       work,  n, MPI_DOUBLE, lp, lp, 
+          MPI_Sendrecv(&Z[0], n, float_traits<FloatingType>::mpi_type(), lp, p, 
+		       work,  n, float_traits<FloatingType>::mpi_type(), lp, lp, 
 		       procinfo->comm, &status);
 	  memcpy(&Z[0], work, n*sizeof(FloatingType));
 	}
@@ -807,14 +808,14 @@ int sort_eigenpairs_global(proc_t *procinfo, int m, val_t<FloatingType> *Wstruct
     
     /* check again if globally sorted */
     if (m == 0) {
-      MPI_Allgather(&nan_value, 1, MPI_DOUBLE, minW, 1, MPI_DOUBLE, 
+      MPI_Allgather(&nan_value, 1, float_traits<FloatingType>::mpi_type(), minW, 1, float_traits<FloatingType>::mpi_type(), 
 		    procinfo->comm); 
-      MPI_Allgather(&nan_value, 1, MPI_DOUBLE, maxW, 1, MPI_DOUBLE, 
+      MPI_Allgather(&nan_value, 1, float_traits<FloatingType>::mpi_type(), maxW, 1, float_traits<FloatingType>::mpi_type(), 
 		    procinfo->comm);       
     } else {
-      MPI_Allgather(&W[0], 1, MPI_DOUBLE, minW, 1, MPI_DOUBLE, 
+      MPI_Allgather(&W[0], 1, float_traits<FloatingType>::mpi_type(), minW, 1, float_traits<FloatingType>::mpi_type(), 
 		    procinfo->comm); 
-      MPI_Allgather(&W[m-1], 1, MPI_DOUBLE, maxW, 1, MPI_DOUBLE, 
+      MPI_Allgather(&W[m-1], 1, float_traits<FloatingType>::mpi_type(), maxW, 1, float_traits<FloatingType>::mpi_type(), 
 		    procinfo->comm); 
     }
     
@@ -930,7 +931,7 @@ int refine_to_highrac(proc_t *procinfo, char *jobz, FloatingType *D,
   int    *restrict iblock = Wstruct->iblock;
   int    *restrict iproc  = Wstruct->iproc;
   FloatingType           pivmin = tolstruct->pivmin; 
-  FloatingType           tol    = 4 * DBL_EPSILON; 
+  FloatingType           tol    = 4 * std::numeric_limits<FloatingType>::epsilon(); 
   
   FloatingType *work;
   int    *iwork;
@@ -1028,8 +1029,8 @@ int PMR_comm_eigvals(MPI_Comm comm, int *nz, int *myfirstp, FloatingType *W)
 
   MPI_Allgather(myfirstp, 1, MPI_INT, rdispl, 1, MPI_INT, comm_dup);
   
-  MPI_Allgatherv(work, *nz, MPI_DOUBLE, W, rcount, rdispl,
- 		 MPI_DOUBLE, comm_dup);
+  MPI_Allgatherv(work, *nz, float_traits<FloatingType>::mpi_type(), W, rcount, rdispl,
+ 		 float_traits<FloatingType>::mpi_type(), comm_dup);
 
   MPI_Comm_free(&comm_dup);
   free(rcount);

@@ -6,6 +6,7 @@
 #ifndef __ODR1V_HPP__
 #define __ODR1V_HPP__
 
+#include <limits>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -193,7 +194,7 @@ namespace pmrrr { namespace lapack {
 		--d__;
 
 		/* Function Body */
-		eps = DBL_EPSILON; // eps = odmch_("Precision");
+		eps = std::numeric_limits<FloatingType>::epsilon(); // eps = odmch_("Precision");
 		if (*r__ == 0) {
 		r1 = *b1;
 		r2 = *bn;

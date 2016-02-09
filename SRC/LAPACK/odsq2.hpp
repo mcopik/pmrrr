@@ -3,6 +3,7 @@
 	Based on C code translated by f2c (version 20061008).
 */
 
+#include <limits>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -160,8 +161,8 @@ namespace pmrrr { namespace lapack {
 
 		/* Function Body */
 		*info = 0;
-		eps = DBL_EPSILON; // odmch_("Precision");
-		safmin = DBL_MIN; // odmch_("Safe minimum");
+		eps = std::numeric_limits<FloatingType>::epsilon(); // odmch_("Precision");
+		safmin = std::numeric_limits<FloatingType>::min(); // odmch_("Safe minimum");
 		tol = eps * 100.;
 	/* Computing 2nd power */
 		d__1 = tol;

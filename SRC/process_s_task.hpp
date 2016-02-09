@@ -38,6 +38,7 @@
  *
  */
 
+#include <limits>
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
@@ -102,7 +103,7 @@ namespace pmrrr { namespace detail {
 	  FloatingType           gap, lgap, rgap, gaptol, savedgap, tmp;
 	  int             		 usedBS, usedRQ, needBS, wantNC, step2II;
 	  int              		 r, offset;
-	  FloatingType           twoeps = 2*DBL_EPSILON, RQtol = 2*DBL_EPSILON;
+	  FloatingType           twoeps = 2*std::numeric_limits<FloatingType>::epsilon(), RQtol = 2*std::numeric_limits<FloatingType>::epsilon();
 	  FloatingType           residual, bstres, bstw; 
 	  int              		 i_supmn, i_supmx;
 	  FloatingType           RQcorr;
@@ -114,7 +115,7 @@ namespace pmrrr { namespace detail {
 
 
 	  /* set tolerance parameter */
-	  tol  = 4.0 * log( (FloatingType) bl_size ) * DBL_EPSILON;
+	  tol  = 4.0 * log( (FloatingType) bl_size ) * std::numeric_limits<FloatingType>::epsilon();
 
 	  /* loop over all singletons in the task */
 	  for (i=begin; i<=end; i++) {
@@ -143,14 +144,14 @@ namespace pmrrr { namespace detail {
 		
 		/* compute left and right gap */
 		if (i == bl_begin)
-		  lgap = DBL_EPSILON * fmax( fabs(left), fabs(right) );
+		  lgap = std::numeric_limits<FloatingType>::epsilon() * fmax( fabs(left), fabs(right) );
 		else if (i == begin)
 		  lgap = sng->lgap;
 		else
 		  lgap = Wgap[i-1];
 
 		if (i == bl_end) {
-		  rgap = DBL_EPSILON * fmax( fabs(left), fabs(right) );
+		  rgap = std::numeric_limits<FloatingType>::epsilon() * fmax( fabs(left), fabs(right) );
 		} else {
 		  rgap = Wgap[i];
 		}
@@ -160,7 +161,7 @@ namespace pmrrr { namespace detail {
 		if ( i == bl_begin || i == bl_end ) {
 		  gaptol = 0.0;
 		} else {
-		  gaptol = gap * DBL_EPSILON;
+		  gaptol = gap * std::numeric_limits<FloatingType>::epsilon();
 		}
 
 		/* initialize lower and upper value of support */

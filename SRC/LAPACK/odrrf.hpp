@@ -6,6 +6,7 @@
 #ifndef __ODRRF_HPP__
 #define __ODRRF_HPP__
 
+#include <limits>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -174,7 +175,7 @@ namespace pmrrr { namespace lapack {
 		/* Function Body */
 		*info = 0;
 		fact = 2.;
-		eps = DBL_EPSILON; // eps = odmch_("Precision");
+		eps = std::numeric_limits<FloatingType>::epsilon(); // eps = odmch_("Precision");
 		shift = 0;
 		forcer = FALSE_;
 	/*     Note that we cannot guarantee that for any of the shifts tried, */
@@ -217,8 +218,8 @@ namespace pmrrr { namespace lapack {
 
 	/*     Initialize the record of the best representation found */
 
-		// s = DBL_MIN; // s = odmch_("S");
-		smlgrowth = DBL_MAX;
+		// s = std::numeric_limits<FloatingType>::min(); // s = odmch_("S");
+		smlgrowth = std::numeric_limits<FloatingType>::max();
 		fail = (FloatingType) (*n - 1) * mingap / (*spdiam * eps);
 		fail2 = (FloatingType) (*n - 1) * mingap / (*spdiam * sqrt(eps));
 		bestshift = lsigma;

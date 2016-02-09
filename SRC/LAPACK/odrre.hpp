@@ -6,6 +6,7 @@
 #ifndef __ODRRE_HPP__
 #define __ODRRE_HPP__
 
+#include <limits>
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
@@ -300,8 +301,8 @@ namespace pmrrr { namespace lapack {
 		}
 		*m = 0;
 	/*     Get machine constants */
-		safmin = DBL_MIN; // odmch_("S");
-		eps = DBL_EPSILON; // odmch_("P");
+		safmin = std::numeric_limits<FloatingType>::min(); // odmch_("S");
+		eps = std::numeric_limits<FloatingType>::epsilon(); // odmch_("P");
 	/*     Set parameters */
 		rtl = sqrt(eps);
 		bsrtol = sqrt(eps);

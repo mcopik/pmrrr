@@ -3,6 +3,7 @@
 	Based on C code translated by f2c (version 20061008).
 */
 
+#include <limits>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -105,7 +106,7 @@ namespace pmrrr { namespace lapack {
 		return 0;
 		}
 
-		safmin = DBL_MIN; // odmch_("Safe minimum");
+		safmin = std::numeric_limits<FloatingType>::min(); // odmch_("Safe minimum");
 		j4 = (*i0 << 2) + *pp - 3;
 		emin = z__[j4 + 4];
 		d__ = z__[j4];

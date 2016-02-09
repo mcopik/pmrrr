@@ -42,6 +42,7 @@
  *
  */
 
+#include <limits>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -237,7 +238,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
     eold = eabs;
   }
   /* min. pivot allowed in the Sturm sequence of T */
-  tolstruct->pivmin = DBL_MIN * fmax(1.0, emax*emax);
+  tolstruct->pivmin = std::numeric_limits<FloatingType>::min() * fmax(1.0, emax*emax);
   /* estimate of spectral diameter */
   Dstruct->spdiam = gu - gl;
 
@@ -357,12 +358,12 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
     }
     
     memcpy(work, &W[bl_begin], isize * sizeof(FloatingType) );
-    MPI_Allgatherv(work, isize, MPI_DOUBLE, &W[bl_begin], rcount, rdispl,
-		   MPI_DOUBLE, procinfo->comm);
+    MPI_Allgatherv(work, isize, float_traits<FloatingType>::mpi_type(), &W[bl_begin], rcount, rdispl,
+		   float_traits<FloatingType>::mpi_type(), procinfo->comm);
     
     memcpy(work, &Werr[bl_begin], isize * sizeof(FloatingType) );
-    MPI_Allgatherv(work, isize, MPI_DOUBLE, &Werr[bl_begin], rcount, rdispl,
-		   MPI_DOUBLE, procinfo->comm);
+    MPI_Allgatherv(work, isize, float_traits<FloatingType>::mpi_type(), &Werr[bl_begin], rcount, rdispl,
+		   float_traits<FloatingType>::mpi_type(), procinfo->comm);
     
     memcpy(iwork, &Windex[bl_begin], isize * sizeof(int) );
     MPI_Allgatherv(iwork, isize, MPI_INT, &Windex[bl_begin], rcount, rdispl,
@@ -480,7 +481,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 		  }
 
 		  /* Set tolerance parameters */
-		  bsrtol = sqrt(DBL_EPSILON);    
+		  bsrtol = sqrt(std::numeric_limits<FloatingType>::epsilon());    
 
 
 		  /* APPROXIMATE EIGENVALUES */
@@ -551,6 +552,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 			lapack::odrrd("I", "B", &n, &dummy, &dummy, &ifirst, &ilast, gersch,
 		  	    &bsrtol, D, E, E2, &pivmin, &nsplit, isplit, &m, W, Werr,
 		  	    &wl, &wu, iblock, Windex, work, iwork, &info);
+			std::cout << info << std::endl;
 			assert(info == 0);
 			assert(m == ilast-ifirst+1);
 		  }
@@ -601,7 +603,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 		  FloatingType gl, gu;
 
 		  /* Set tolerance parameters (need to be same as in refine function) */
-		  rtl    = sqrt(DBL_EPSILON);
+		  rtl    = sqrt(std::numeric_limits<FloatingType>::epsilon());
 		  
 		  /* Allocate workspace */
 		  randvec = (FloatingType *) malloc( 2*n * sizeof(FloatingType) );
@@ -629,13 +631,13 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 			  &pivmin, &rtl, &tmp1, &tmp2, &info);
 		  assert(info == 0);  /* if info=-1 => eigenvalue did not converge */
 		
-		  isleft = fmax(gl, tmp1-tmp2 - HUNDRED*DBL_EPSILON*fabs(tmp1-tmp2) );
+		  isleft = fmax(gl, tmp1-tmp2 - HUNDRED*std::numeric_limits<FloatingType>::epsilon()*fabs(tmp1-tmp2) );
 		
 		  lapack::odrrk(&n, &n, &gl, &gu, D, E2,
 		  	    &pivmin, &rtl, &tmp1, &tmp2, &info);
 		  assert(info == 0);  /* if info=-1 => eigenvalue did not converge */
 		
-		  isright = fmin(gu, tmp1+tmp2 + HUNDRED*DBL_EPSILON*fabs(tmp1+tmp2) );
+		  isright = fmin(gu, tmp1+tmp2 + HUNDRED*std::numeric_limits<FloatingType>::epsilon()*fabs(tmp1+tmp2) );
 		  
 		  spdiam = isright - isleft;
 		  
@@ -665,7 +667,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 
 		  /* define increment to perturb initial shift to find RRR
 		   * with not too much element growth */
-		  tau = spdiam*DBL_EPSILON*n + 2.0*pivmin;
+		  tau = spdiam*std::numeric_limits<FloatingType>::epsilon()*n + 2.0*pivmin;
 
 
 		  /* try to find initial RRR of block:
@@ -707,10 +709,10 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 			   * so we should not end here */
 			  if (jtry == MAX_TRY_RRR-2) {
 			if (sgndef == ONE) { /* floating point comparison okay here */
-			  sigma = gl - FUDGE_FACTOR*spdiam*DBL_EPSILON*n
+			  sigma = gl - FUDGE_FACTOR*spdiam*std::numeric_limits<FloatingType>::epsilon()*n
 				- FUDGE_FACTOR*2.0*pivmin;
 			} else {
-			  sigma = gu + FUDGE_FACTOR*spdiam*DBL_EPSILON*n
+			  sigma = gu + FUDGE_FACTOR*spdiam*std::numeric_limits<FloatingType>::epsilon()*n
 				+ FUDGE_FACTOR*2.0*pivmin;
 			}
 			  } else if (jtry == MAX_TRY_RRR-1) {
@@ -742,10 +744,10 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 			randvec[n-1]   *= 2.0;
 
 		  for (i=0; i<n-1; i++) {
-			D[i] *= 1.0 + DBL_EPSILON*RAND_FACTOR*randvec[i];
-			E[i] *= 1.0 + DBL_EPSILON*RAND_FACTOR*randvec[i+n];
+			D[i] *= 1.0 + std::numeric_limits<FloatingType>::epsilon()*RAND_FACTOR*randvec[i];
+			E[i] *= 1.0 + std::numeric_limits<FloatingType>::epsilon()*RAND_FACTOR*randvec[i+n];
 		  }
-		  D[n-1] *= 1.0 + DBL_EPSILON*RAND_FACTOR*randvec[n-1];
+		  D[n-1] *= 1.0 + std::numeric_limits<FloatingType>::epsilon()*RAND_FACTOR*randvec[n-1];
 
 		  /* clean up */
 		  free(randvec);
@@ -830,7 +832,7 @@ int plarre(proc_t *procinfo, char *jobz, char *range, in_t<FloatingType> *Dstruc
 		   * and compute eigenvalues of SHIFTED matrix */
 		  for (i=0; i<isize; i++) {
 			W[i]    -= sigma;
-			Werr[i] += fabs(W[i])*DBL_EPSILON;
+			Werr[i] += fabs(W[i])*std::numeric_limits<FloatingType>::epsilon();
 		  }
 
 		  /* work  for sequential odrrb = work[0:2*n-1]

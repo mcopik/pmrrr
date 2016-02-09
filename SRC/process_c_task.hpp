@@ -38,6 +38,7 @@
  *
  */
 
+#include <limits>
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
@@ -203,7 +204,7 @@ namespace pmrrr { namespace detail {
 		  FloatingType           *DL_parent,          *DLL_parent;
 		  FloatingType           left_gap, right_gap, tau, fudge;
 		  rrr_t<FloatingType>            		 *RRR;
-		  FloatingType           RQtol = 2*DBL_EPSILON;
+		  FloatingType           RQtol = 2*std::numeric_limits<FloatingType>::epsilon();
 		  FloatingType           savegap;
 
 		  /* Others */
@@ -294,9 +295,9 @@ namespace pmrrr { namespace detail {
 		  
 		  /* Update shifted eigenvalues */
 		  for (k=cl_begin; k<=cl_end; k++) {
-			fudge  = THREE * DBL_EPSILON * fabs( Wshifted[k] );
+			fudge  = THREE * std::numeric_limits<FloatingType>::epsilon() * fabs( Wshifted[k] );
 			Wshifted[k] -= tau;
-			fudge += FOUR * DBL_EPSILON * fabs( Wshifted[k] );
+			fudge += FOUR * std::numeric_limits<FloatingType>::epsilon() * fabs( Wshifted[k] );
 			Werr[k] += fudge;
 		  }
 
@@ -539,10 +540,10 @@ namespace pmrrr { namespace detail {
 			if (p != pid && proc_involved == true) {
 
 			  /* send message to process p (non-blocking) */
-			  MPI_Isend(&Wshifted[my_begin], my_size, MPI_DOUBLE, p,
+			  MPI_Isend(&Wshifted[my_begin], my_size, float_traits<FloatingType>::mpi_type(), p,
 				my_begin, procinfo->comm, &requests[4*i_msg]);
 
-			  MPI_Isend(&Werr[my_begin], my_size, MPI_DOUBLE, p,
+			  MPI_Isend(&Werr[my_begin], my_size, float_traits<FloatingType>::mpi_type(), p,
 				my_begin, procinfo->comm, &requests[4*i_msg+1]);
 
 			  /* Find eigenvalues in of process p */
@@ -578,10 +579,10 @@ namespace pmrrr { namespace detail {
 			  }
 
 			  /* receive message from process p (non-blocking) */
-			  MPI_Irecv(&Wshifted[other_begin], other_size, MPI_DOUBLE,	p,
+			  MPI_Irecv(&Wshifted[other_begin], other_size, float_traits<FloatingType>::mpi_type(),	p,
 				other_begin, procinfo->comm, &requests[4*i_msg+2]);
 
-			  MPI_Irecv(&Werr[other_begin], other_size, MPI_DOUBLE, p,
+			  MPI_Irecv(&Werr[other_begin], other_size, float_traits<FloatingType>::mpi_type(), p,
 				other_begin, procinfo->comm, &requests[4*i_msg+3]);
 			 
 			  i_msg++;

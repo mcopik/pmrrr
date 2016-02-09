@@ -6,6 +6,7 @@
 #ifndef __ODRRR_HPP__
 #define __ODRRR_HPP__
 
+#include <limits>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -104,8 +105,8 @@ namespace pmrrr { namespace lapack {
 
 		/* Function Body */
 		*info = 1;
-		safmin = DBL_MIN; // safmin = odmch_("Safe minimum");
-		eps = DBL_EPSILON; // eps = odmch_("Precision");
+		safmin = std::numeric_limits<FloatingType>::min(); // safmin = odmch_("Safe minimum");
+		eps = std::numeric_limits<FloatingType>::epsilon(); // eps = odmch_("Precision");
 		smlnum = safmin / eps;
 		rmin = sqrt(smlnum);
 	/*     Tests for relative accuracy */

@@ -6,6 +6,7 @@
 #ifndef __ODRRD_HPP__
 #define __ODRRD_HPP__
 
+#include <limits>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -344,8 +345,8 @@ namespace pmrrr { namespace lapack {
 		irange = 1;
 		}
 	/*     Get machine constants */
-		eps = DBL_EPSILON; // odmch_("P");
-		uflow = DBL_MIN;  // odmch_("U");
+		eps = std::numeric_limits<FloatingType>::epsilon(); // odmch_("P");
+		uflow = std::numeric_limits<FloatingType>::min();  // odmch_("U");
 	/*     Special Case when N=1 */
 	/*     Treat case of 1x1 matrix for quick return */
 		if (*n == 1) {

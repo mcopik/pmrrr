@@ -3,6 +3,7 @@
 	Based on C code translated by f2c (version 20061008).
 */
 
+#include <limits>
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
@@ -411,8 +412,8 @@ namespace pmrrr { namespace lapack {
 
 	/*     Get machine constants. */
 
-		safmin = DBL_MIN; // safmin = odmch_("Safe minimum");
-		eps = DBL_EPSILON; // eps = odmch_("Precision");
+		safmin = std::numeric_limits<FloatingType>::min(); // safmin = odmch_("Safe minimum");
+		eps = std::numeric_limits<FloatingType>::epsilon(); // eps = odmch_("Precision");
 		smlnum = safmin / eps;
 		bignum = 1. / smlnum;
 		rmin = sqrt(smlnum);

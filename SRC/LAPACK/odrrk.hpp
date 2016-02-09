@@ -6,6 +6,7 @@
 #ifndef __ODRRK_HPP__
 #define __ODRRK_HPP__
 
+#include <limits>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -125,7 +126,7 @@ namespace pmrrr { namespace lapack {
 		--d__;
 
 		/* Function Body */
-		eps = DBL_EPSILON; // odmch_("P");
+		eps = std::numeric_limits<FloatingType>::epsilon(); // odmch_("P");
 	/* Computing MAX */
 		d__1 = fabs(*gl), d__2 = fabs(*gu);
 		tnorm = fmax(d__1,d__2);

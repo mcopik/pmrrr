@@ -6,6 +6,7 @@
 #ifndef __ODRRV_HPP__
 #define __ODRRV_HPP__
 
+#include <limits>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -350,7 +351,7 @@ namespace pmrrr { namespace lapack {
 	/*     The width of the part of Z that is used */
 		zusedw = zusedu - zusedl + 1;
 		odset("Full", n, &zusedw, &c_b5, &c_b5, &z__[zusedl * z_dim1 + 1], ldz);
-		eps = DBL_EPSILON; // eps = odmch_("Precision");
+		eps = std::numeric_limits<FloatingType>::epsilon(); // eps = odmch_("Precision");
 		rqtol = eps * 2.;
 
 	/*     Set expert flags for standard code. */
