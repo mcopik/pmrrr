@@ -88,8 +88,22 @@ int pmrrr(char *jobz, char *range, int *np, double  *D,
 	  double *E, double *vl, double *vu, int *il,
 	  int *iu, int *tryracp, MPI_Comm comm, int *nzp,
 	  int *offsetp, double *W, double *Z, int *ldz,
-	  int *Zsupp)
+	  int *Zsupp,
+        char* matrix)
 {
+    //Create file handles, for matrix property output
+    char filename_cluster[100] = "";
+    char suffix_cluster[20] = "_cluster.dat";
+    strcat(filename_cluster, matrix);
+    strcat(filename_cluster, suffix_cluster);
+    file_cluster = fopen(filename_cluster, "w");
+    
+    char filename_singleton[100] = "";
+    char suffix_singleton[20] = "_singleton.dat";
+    strcat(filename_singleton, matrix);
+    strcat(filename_singleton, suffix_singleton);
+    file_singleton = fopen(filename_singleton, "w");
+    
   /* Input parameter */
   int         n      = *np;
   bool        onlyW  = (jobz[0]  == 'N' || jobz[0]  == 'n');
@@ -384,7 +398,9 @@ int pmrrr(char *jobz, char *range, int *np, double  *D,
     free(Dcopy);
     free(E2copy);
   }
-
+  
+  fclose(file_singleton);
+  fclose(file_cluster);
   return(0);
 } /* end pmrrr */
 
@@ -1005,7 +1021,7 @@ void pmrrr_(char *jobz, char *range, int *n, double  *D,
   MPI_Comm c_comm = MPI_Comm_f2c(*comm);
 
   *info = pmrrr(jobz, range, n, D, E, vl, vu, il, iu, tryracp, 
-		c_comm, nz, myfirst, W, Z, ldz, Zsupp);
+		c_comm, nz, myfirst, W, Z, ldz, Zsupp, "");
 }
 
 void pmr_comm_eigvals_(MPI_Fint *comm, int *nz, int *myfirstp, 

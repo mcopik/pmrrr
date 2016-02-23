@@ -54,11 +54,11 @@
  * LAPACK's routine 'dstemr'.
  *
  * Function prototype: */
-
 int pmrrr(char *jobz, char *range, int *n, double  *D,
 	  double *E, double *vl, double *vu, int *il, int *iu,
 	  int *tryrac, MPI_Comm comm, int *nz, int *offset,
-	  double *W, double *Z, int *ldz, int *Zsupp);
+	  double *W, double *Z, int *ldz, int *Zsupp,
+          char* matrix);
 
 /* Arguments:
  * ----------

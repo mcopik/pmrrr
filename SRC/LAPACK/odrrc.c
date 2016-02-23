@@ -13,6 +13,7 @@ int odrrc_(char *jobt, int *n, double *vl,
 	double *vu, double *d__, double *e, double *pivmin, 
 	int *eigcnt, int *lcnt, int *rcnt, int *info)
 {
+    //printf("odrrc\n");
     /* System generated locals */
     int i__1;
     double d__1;

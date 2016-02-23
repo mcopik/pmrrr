@@ -43,14 +43,15 @@ int main(int argc, char **argv)
 
   /* Read in data from file, space for D and E will
    * be allocated and needs to be freed at the end */
-  n = read_tri_mat("./Wilkinson21.data", &D, &E);
+  //  n = read_tri_mat("./matrices/Legendre15001", &D, &E);
+  n = read_tri_mat(argv[1], &D, &E);
 
   /* Print input */
   if (pid == 0) {
     printf("\n%% Input matrix:\n\n");
     printf("n = %d;\n", n);
-    print_vector("D=[", D, "];", n  );
-    print_vector("E=[", E, "];", n-1);
+  //  print_vector("D=[", D, "];", n  );
+  //  print_vector("E=[", E, "];", n-1);
   }
 
   /* Allocate memory */
@@ -65,24 +66,25 @@ int main(int argc, char **argv)
   /* Use MRRR to compute eigenvalues and -vectors */
   info = pmrrr("Vectors", "All", &n, D, E, &vl, &vu, &il,
 	       &iu, &tryRAC, MPI_COMM_WORLD, &nz, &offset, 
-	       W, Z, &ldz, Zsupp);
+	       W, Z, &ldz, Zsupp, argv[1]);
   assert(info == 0);
 
   /* Possibly communicate eigenvalues */
   /* PMR_comm_eigvals(MPI_COMM_WORLD, &nz, &offset, W); */
 
   /* Print results */
+  
   for (i=0; i<nproc; i++) {
     MPI_Barrier(MPI_COMM_WORLD);
     if (i == pid) {
       printf("\n\n%% Results of process %d:\n", pid);
       if (i == 0) printf("W = [];");
-      print_vector("W = [W;", W, "];", nz);
-      print_matrix("Z", Z, n, nz, offset);
+      //print_vector("W = [W;", W, "];", nz);
+      //print_matrix("Z", Z, n, nz, offset);
       fflush(stdout);
     }
   }
-
+  
   /* Free allocated memory */
   free(D);
   free(E);

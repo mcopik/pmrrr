@@ -18,6 +18,7 @@ int odebz_(int *ijob, int *nitmax, int *n,
 	int *mout, int *nab, double *work, int *iwork, 
 	int *info)
 {
+    //printf("odebz  %d\n", *ijob);
     /* System generated locals */
     int nab_dim1, nab_offset, ab_dim1, ab_offset, i__1, i__2, i__3, i__4, 
 	    i__5, i__6;
@@ -271,7 +272,7 @@ int odebz_(int *ijob, int *nitmax, int *n,
     *info = 0;
     if (*ijob < 1 || *ijob > 3) {
 	*info = -1;
-	return 0;
+	goto L200;
     }
 
 /*     Initialize NAB */
@@ -309,7 +310,7 @@ int odebz_(int *ijob, int *nitmax, int *n,
 	    *mout = *mout + nab[ji + (nab_dim1 << 1)] - nab[ji + nab_dim1];
 /* L30: */
 	}
-	return 0;
+	goto L200;
     }
 
 /*     Initialize for loop */
@@ -425,7 +426,7 @@ int odebz_(int *ijob, int *nitmax, int *n,
 /* L70: */
 		}
 		if (*info != 0) {
-		    return 0;
+		    goto L200;
 		}
 		kl = klnew;
 	    } else {
@@ -523,7 +524,7 @@ int odebz_(int *ijob, int *nitmax, int *n,
 			nab[ji + (nab_dim1 << 1)] = itmp1;
 		    } else {
 			*info = *mmax + 1;
-			return 0;
+			goto L200;
 		    }
 		} else {
 
@@ -614,6 +615,19 @@ L140:
     i__1 = kl + 1 - kf;
     *info = imax(i__1,0);
     *mout = kl;
+
+L200:
+//    printf("mmax = %d\tmout = %d\n", *mmax, *mout);
+//    int itmp, jtmp;
+//    for (itmp=1; itmp<=*mout; itmp++){
+//        printf("%d: ", itmp);
+//        for (jtmp = 1; jtmp<= 2; ++jtmp) {
+//        //int tmp = ab[itmp];
+//            printf("%d ", nab[itmp + jtmp * nab_dim1]);
+////            printf("%f ", ab[ji + jp * ab_dim1]);
+//        }
+//        printf("\n");
+//    }
 
     return 0;
 

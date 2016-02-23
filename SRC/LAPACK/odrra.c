@@ -12,6 +12,7 @@ int odrra_(int *n, double *d__, double *e,
 	double *e2, double *spltol, double *tnrm, int *nsplit, 
 	 int *isplit, int *info)
 {
+    //printf("odrra\n");
     /* System generated locals */
     int i__1;
     double d__1, d__2;

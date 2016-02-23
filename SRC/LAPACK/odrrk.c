@@ -12,6 +12,7 @@ int odrrk_(int *n, int *iw, double *gl,
 	double *gu, double *d__, double *e2, double *pivmin, 
 	double *reltol, double *w, double *werr, int *info)
 {
+//    printf("odrrk\n");
     /* System generated locals */
     int i__1;
     double d__1, d__2;

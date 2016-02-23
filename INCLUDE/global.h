@@ -41,6 +41,10 @@
 #ifndef GGLOBAL_H
 #define GGLOBAL_H
 
+#include <stdio.h>
+FILE* file_cluster;
+FILE* file_singleton;
+
 #ifdef __STDC__
  /* Some version of Standard C */
 #if defined (__STDC_VERSION__) && __STDC_VERSION__>=199901L
