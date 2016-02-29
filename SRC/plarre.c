@@ -525,15 +525,10 @@ int eigval_approx_proc(proc_t *procinfo, int ifirst, int ilast,
 
     } else {
         /* no multithreaded computation */
-        odrrd_("I", "B", &n, &dummy, &dummy, &ifirst, &ilast, gersch,
+        odrrd_("A", "B", &n, &dummy, &dummy, &ifirst, &ilast, gersch,
                 &bsrtol, D, E, E2, &pivmin, &nsplit, isplit, &m, W, Werr,
                 &wl, &wu, iblock, Windex, work, iwork, &info);
-        // Cluster output
-//        int itmp;
-//        printf("nsplit = %d\n", nsplit);
-//        for (itmp=0; itmp< nsplit; ++itmp){
-//            printf("%d: %d\n", itmp, isplit[itmp]);
-//        }
+        printf("info odrrd_: %d\n", info);
         assert(info == 0);
         assert(m == ilast - ifirst + 1);
     }
